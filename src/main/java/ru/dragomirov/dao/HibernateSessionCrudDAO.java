@@ -1,5 +1,6 @@
 package ru.dragomirov.dao;
 
+import org.hibernate.Hibernate;
 import ru.dragomirov.entities.Session;
 import ru.dragomirov.utils.HibernateSessionManagerUtil;
 
@@ -35,7 +36,9 @@ public class HibernateSessionCrudDAO implements CrudDAO<Session, String> {
 
     @Override
     public void delete(String id) {
+        Session sessionToDelete = findById(id).orElseThrow(() ->
+                new IllegalArgumentException ("Session c id " + id + " не найдено"));
         HibernateSessionManagerUtil.performTransaction(session ->
-                session.delete(id));
+                session.delete(sessionToDelete));
     }
 }
