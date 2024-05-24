@@ -1,6 +1,5 @@
 package ru.dragomirov.dao;
 
-import org.hibernate.Hibernate;
 import ru.dragomirov.entities.Session;
 import ru.dragomirov.utils.HibernateSessionManagerUtil;
 
