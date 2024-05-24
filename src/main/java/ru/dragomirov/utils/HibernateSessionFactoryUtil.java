@@ -22,7 +22,7 @@ public class HibernateSessionFactoryUtil {
 
         // Создание конфигурации Hibernate
         Configuration configuration = new Configuration();
-        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.SQLiteDialect");
+        configuration.setProperty("hibernate.dialect", "org.sqlite.hibernate.dialect.SQLiteDialect");
         configuration.setProperty("hibernate.show_sql", "true");
         configuration.addAnnotatedClass(Users.class);
         configuration.addAnnotatedClass(Session.class);
