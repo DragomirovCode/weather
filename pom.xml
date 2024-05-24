@@ -18,6 +18,7 @@
         <junit.version>5.8.2</junit.version>
         <sqlite-jdbc.version>3.36.0.3</sqlite-jdbc.version>
         <sqlite-dialect.version>0.1.2</sqlite-dialect.version>
+        <lombok.version>1.18.30</lombok.version>
     </properties>
 
     <dependencies>
@@ -51,6 +52,12 @@
             <groupId>com.github.gwenn</groupId>
             <artifactId>sqlite-dialect</artifactId>
             <version>${sqlite-dialect.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
