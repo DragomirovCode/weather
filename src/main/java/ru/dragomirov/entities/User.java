@@ -3,8 +3,8 @@ package ru.dragomirov.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Users")
-public class Users {
+@Table(name = "User")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -13,9 +13,9 @@ public class Users {
     @Column(name = "password")
     private String password;
 
-    public Users() {}
+    public User() {}
 
-    public Users(String login, String password) {
+    public User(String login, String password) {
         this.login = login;
         this.password = password;
     }

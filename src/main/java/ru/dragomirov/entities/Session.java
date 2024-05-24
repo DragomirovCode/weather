@@ -7,8 +7,8 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Sessions")
-public class Sessions {
+@Table(name = "Session")
+public class Session {
     @Id
     private String id;
     @Column(name = "user_id")

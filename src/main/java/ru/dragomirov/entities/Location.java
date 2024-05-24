@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "Locations")
-public class Locations {
+@Table(name = "Location")
+public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -18,9 +18,9 @@ public class Locations {
     @Column(name = "longitude")
     private BigDecimal longitude;
 
-    public Locations() {}
+    public Location() {}
 
-    public Locations(String name, BigDecimal latitude, BigDecimal longitude) {
+    public Location(String name, BigDecimal latitude, BigDecimal longitude) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
