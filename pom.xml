@@ -15,6 +15,7 @@
         <HikariCP.version>4.0.3</HikariCP.version>
         <hibernate.version>5.4.10.Final</hibernate.version>
         <postgresql.version>42.6.0</postgresql.version>
+        <junit.version>5.8.2</junit.version>
     </properties>
 
     <dependencies>
@@ -32,6 +33,12 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
