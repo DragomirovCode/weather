@@ -1,4 +1,12 @@
 package ru.dragomirov.dao;
 
-public interface CrudDAO {
+import java.util.List;
+import java.util.Optional;
+
+public interface CrudDAO<T, ID> {
+    void create(T entity);
+    List<T> findAll();
+    Optional<T> findById(ID id);
+    Optional<T> update(T entity);
+    void delete(ID id);
 }
