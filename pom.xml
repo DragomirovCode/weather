@@ -19,6 +19,7 @@
         <sqlite-jdbc.version>3.36.0.3</sqlite-jdbc.version>
         <sqlite-dialect.version>0.1.2</sqlite-dialect.version>
         <lombok.version>1.18.30</lombok.version>
+        <servlet.version>6.0.0</servlet.version>
     </properties>
 
     <dependencies>
@@ -57,6 +58,12 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${servlet.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
