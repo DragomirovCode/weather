@@ -16,6 +16,7 @@
         <hibernate.version>5.4.10.Final</hibernate.version>
         <postgresql.version>42.6.0</postgresql.version>
         <junit.version>5.8.2</junit.version>
+        <sqlite-jdbc.version>3.36.0.3</sqlite-jdbc.version>
     </properties>
 
     <dependencies>
@@ -39,6 +40,11 @@
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>${sqlite-jdbc.version}</version>
         </dependency>
     </dependencies>
 </project>
