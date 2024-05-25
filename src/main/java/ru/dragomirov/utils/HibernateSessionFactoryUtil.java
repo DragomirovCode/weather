@@ -24,6 +24,7 @@ public class HibernateSessionFactoryUtil {
         Configuration configuration = new Configuration();
         configuration.setProperty("hibernate.dialect", "org.sqlite.hibernate.dialect.SQLiteDialect");
         configuration.setProperty("hibernate.show_sql", "true");
+        configuration.setProperty("hibernate.hbm2ddl.auto", "create-drop");
         configuration.addAnnotatedClass(User.class);
         configuration.addAnnotatedClass(Session.class);
         configuration.addAnnotatedClass(Location.class);
