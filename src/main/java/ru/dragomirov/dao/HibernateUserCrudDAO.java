@@ -6,7 +6,7 @@ import ru.dragomirov.utils.HibernateSessionManagerUtil;
 import java.util.List;
 import java.util.Optional;
 
-public class HibernateUserCrudDAO implements CrudDAO<User, Integer> {
+public class HibernateUserCrudDAO implements UserDAO {
     @Override
     public void create(User entity) {
         HibernateSessionManagerUtil.performTransaction(session ->
@@ -37,5 +37,16 @@ public class HibernateUserCrudDAO implements CrudDAO<User, Integer> {
     public void delete(Integer id) {
         HibernateSessionManagerUtil.performTransaction(session ->
                 session.delete(id));
+    }
+
+    @Override
+    public Optional<User> findByLogin(String  login) {
+        return Optional.ofNullable((User) HibernateSessionManagerUtil.performSessionQuery(session ->
+                session.createQuery(
+                        "FROM User WHERE login = :login")
+                        .setParameter("login", login)
+                        .uniqueResult(),
+                "Произошла ошибка при выполнении метода 'findByLogin'(HibernateUserCrudDAO)")
+        );
     }
 }
