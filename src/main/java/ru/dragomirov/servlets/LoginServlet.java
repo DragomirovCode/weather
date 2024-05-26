@@ -35,6 +35,8 @@ public class LoginServlet extends HttpServlet {
         try {
             String login = req.getParameter("login");
             String password = req.getParameter("password");
+            String button = req.getParameter("button");
+
 
             if (login.isEmpty() || password.isEmpty()) {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -42,15 +44,22 @@ public class LoginServlet extends HttpServlet {
                 return;
             }
 
-            Optional<User> user = hibernateUserCrudDAO.findByLoginAndPassword(login, password);
+            switch (button) {
+                case "login":
+                    Optional<User> user = hibernateUserCrudDAO.findByLoginAndPassword(login, password);
 
-            if (user.isPresent()) {
-                HttpSession session = req.getSession();
-                session.setAttribute("user", login);
-                resp.sendRedirect("/");
-            } else {
-                resp.setStatus(HttpServletResponse.SC_CONFLICT);
-                resp.getWriter().write("Ошибка: пользователя с таким логином или паролем не существует");
+                    if (user.isPresent()) {
+                        HttpSession session = req.getSession();
+                        session.setAttribute("user", login);
+                        resp.sendRedirect("/");
+                    } else {
+                        resp.setStatus(HttpServletResponse.SC_CONFLICT);
+                        resp.getWriter().write("Ошибка: пользователя с таким логином или паролем не существует");
+                    }
+                    break;
+                case "registration":
+                    resp.sendRedirect("/registration");
+                    break;
             }
         } catch (Exception e) {
             System.err.println("Произошла ошибка: " + e.getMessage());
