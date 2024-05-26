@@ -23,12 +23,16 @@ public class MainServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String button = req.getParameter("exit");
+        try {
+            String button = req.getParameter("exit");
 
-        switch (button) {
-            case "exit":
-                resp.sendRedirect("/login");
-                break;
+            switch (button) {
+                case "exit":
+                    resp.sendRedirect("/login");
+                    break;
+            }
+        } catch (Exception e) {
+            e.getMessage();
         }
     }
 }
