@@ -29,11 +29,13 @@ public class RegistrationServlet extends HttpServlet {
         }
     }
 
+    //TODO: Не может перейти пока не заполнишь данные
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp){
         try {
             String login = req.getParameter("login");
             String password = req.getParameter("password");
+            String button = req.getParameter("button");
 
             if (login.isEmpty() || password.isEmpty()) {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -41,16 +43,23 @@ public class RegistrationServlet extends HttpServlet {
                 return;
             }
 
-            Optional<User> user = hibernateUserCrudDAO.findByLogin(login);
+            switch (button) {
+                case "registration":
+                    Optional<User> user = hibernateUserCrudDAO.findByLogin(login);
 
-            if (user.isPresent()) {
-                resp.setStatus(HttpServletResponse.SC_CONFLICT);
-                resp.getWriter().write("Ошибка: пользователь с таким логином уже существует");
+                    if (user.isPresent()) {
+                        resp.setStatus(HttpServletResponse.SC_CONFLICT);
+                        resp.getWriter().write("Ошибка: пользователь с таким логином уже существует");
+                    }
+
+                    User newUser = new User(login, password);
+                    hibernateUserCrudDAO.create(newUser);
+                    resp.sendRedirect("/login");
+                    break;
+                case "login":
+                    resp.sendRedirect("/login");
+                    break;
             }
-
-            User newUser = new User(login, password);
-            hibernateUserCrudDAO.create(newUser);
-            resp.sendRedirect("/login");
         } catch (Exception e){
             System.err.println("Произошла ошибка: " + e.getMessage());
             e.printStackTrace();
