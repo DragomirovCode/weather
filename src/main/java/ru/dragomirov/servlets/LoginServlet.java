@@ -29,6 +29,7 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
+    //TODO: Не правильная проверка. Должна быть по логину и паролю
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
@@ -41,7 +42,7 @@ public class LoginServlet extends HttpServlet {
                 return;
             }
 
-            Optional<User> user = hibernateUserCrudDAO.findByLogin(login);
+            Optional<User> user = hibernateUserCrudDAO.findByLoginAndPassword(login, password);
 
             if (user.isPresent()) {
                 req.getRequestDispatcher("/").forward(req, resp);
