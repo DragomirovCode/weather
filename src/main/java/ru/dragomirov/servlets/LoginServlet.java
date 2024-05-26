@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
                 req.getRequestDispatcher("/").forward(req, resp);
             } else {
                 resp.setStatus(HttpServletResponse.SC_CONFLICT);
-                resp.getWriter().write("Ошибка: пользователя с таким логином не существует");
+                resp.getWriter().write("Ошибка: пользователя с таким логином или паролем не существует");
             }
         } catch (Exception e) {
             System.err.println("Произошла ошибка: " + e.getMessage());
