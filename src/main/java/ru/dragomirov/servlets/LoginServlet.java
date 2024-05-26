@@ -29,7 +29,6 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    //TODO: Не правильная проверка. Должна быть по логину и паролю
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
