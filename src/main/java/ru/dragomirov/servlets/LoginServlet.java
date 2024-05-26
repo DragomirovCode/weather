@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
 import ru.dragomirov.entities.User;
 
@@ -44,6 +45,8 @@ public class LoginServlet extends HttpServlet {
             Optional<User> user = hibernateUserCrudDAO.findByLoginAndPassword(login, password);
 
             if (user.isPresent()) {
+                HttpSession session = req.getSession();
+                session.setAttribute("user", login);
                 resp.sendRedirect("/");
             } else {
                 resp.setStatus(HttpServletResponse.SC_CONFLICT);
