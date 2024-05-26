@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "MainServlet", urlPatterns = "/")
+@WebServlet(name = "MainServlet", urlPatterns = "")
 public class MainServlet extends HttpServlet {
     @Override
     public void init(){}
