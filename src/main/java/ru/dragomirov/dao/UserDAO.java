@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface UserDAO extends CrudDAO<User, Integer> {
     Optional<User> findByLogin(String login);
+    Optional<User> findByLoginAndPassword(String login, String password);
 }
