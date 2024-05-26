@@ -5,6 +5,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+
 @WebServlet(name = "MainServlet", urlPatterns = "")
 public class MainServlet extends HttpServlet {
     @Override
@@ -16,6 +18,17 @@ public class MainServlet extends HttpServlet {
             req.getRequestDispatcher("/main.html").forward(req, resp);
         } catch (Exception e) {
             e.getMessage();
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String button = req.getParameter("exit");
+
+        switch (button) {
+            case "exit":
+                resp.sendRedirect("/login");
+                break;
         }
     }
 }
