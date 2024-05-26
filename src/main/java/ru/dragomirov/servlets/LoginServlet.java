@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
             Optional<User> user = hibernateUserCrudDAO.findByLoginAndPassword(login, password);
 
             if (user.isPresent()) {
-                req.getRequestDispatcher("/").forward(req, resp);
+                resp.sendRedirect("/");
             } else {
                 resp.setStatus(HttpServletResponse.SC_CONFLICT);
                 resp.getWriter().write("Ошибка: пользователя с таким логином или паролем не существует");

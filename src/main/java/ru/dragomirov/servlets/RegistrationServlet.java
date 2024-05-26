@@ -50,7 +50,7 @@ public class RegistrationServlet extends HttpServlet {
 
             User newUser = new User(login, password);
             hibernateUserCrudDAO.create(newUser);
-            req.getRequestDispatcher("/login.html").forward(req, resp);
+            resp.sendRedirect("/login");
         } catch (Exception e){
             System.err.println("Произошла ошибка: " + e.getMessage());
             e.printStackTrace();
