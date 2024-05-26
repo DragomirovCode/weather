@@ -49,4 +49,16 @@ public class HibernateUserCrudDAO implements UserDAO {
                 "Произошла ошибка при выполнении метода 'findByLogin'(HibernateUserCrudDAO)")
         );
     }
+
+    @Override
+    public Optional<User> findByLoginAndPassword(String login, String password) {
+        return Optional.ofNullable((User) HibernateSessionManagerUtil.performSessionQuery(session ->
+                session.createQuery(
+                        "FROM User WHERE login = :login AND password = :password")
+                        .setParameter("login", login)
+                        .setParameter("password", password)
+                        .uniqueResult(),
+                "Произошла ошибка при выполнении метода 'findByLoginAndPassword'(HibernateUserCrudDAO)"
+                ));
+    }
 }
