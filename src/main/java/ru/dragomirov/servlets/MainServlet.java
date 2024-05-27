@@ -4,6 +4,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -29,6 +30,8 @@ public class MainServlet extends HttpServlet {
             switch (button) {
                 case "exit":
                     resp.sendRedirect("/login");
+                    HttpSession exitSession = req.getSession(false);
+                    exitSession.removeAttribute("user");
                     break;
             }
         } catch (Exception e) {
