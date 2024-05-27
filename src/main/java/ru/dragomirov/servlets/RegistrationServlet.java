@@ -5,18 +5,24 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
+import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @WebServlet(name = "RegistrationServlet", urlPatterns = "/registration")
 public class RegistrationServlet extends HttpServlet {
     private HibernateUserCrudDAO hibernateUserCrudDAO;
+    private HibernateSessionCrudDAO hibernateSessionCrudDAO;
     @Override
     public void init(){
         this.hibernateUserCrudDAO = new HibernateUserCrudDAO();
+        this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
     }
 
     @Override
@@ -54,6 +60,12 @@ public class RegistrationServlet extends HttpServlet {
 
                     User newUser = new User(login, password);
                     hibernateUserCrudDAO.create(newUser);
+
+                    LocalDateTime nowTime = LocalDateTime.now();
+                    LocalDateTime futureTime = nowTime.plusSeconds(30);
+                    UUID sessionId = UUID.randomUUID();
+                    Session session = new Session(sessionId.toString() ,newUser.getId(), futureTime);
+                    hibernateSessionCrudDAO.create(session);
                     resp.sendRedirect("/login");
                     break;
                 case "login":
