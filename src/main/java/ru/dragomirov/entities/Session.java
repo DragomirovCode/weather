@@ -20,4 +20,12 @@ public class Session {
     private int userId;
     @Column(name = "expires_at")
     private LocalDateTime expiresAt;
+
+    public Session() {}
+
+    public Session(String id, int userId, LocalDateTime expiresAt) {
+        this.id = id;
+        this.userId = userId;
+        this.expiresAt = expiresAt;
+    }
 }
