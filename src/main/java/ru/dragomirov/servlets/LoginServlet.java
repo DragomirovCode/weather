@@ -2,10 +2,7 @@ package ru.dragomirov.servlets;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
 import ru.dragomirov.entities.Session;
@@ -57,10 +54,13 @@ public class LoginServlet extends HttpServlet {
                         LocalDateTime futureTime = nowTime.plusSeconds(30);
                         Optional<Session> uuid = hibernateSessionCrudDAO.findByUserId(user.get().getId());
                         HttpSession session = req.getSession();
-                        session.setAttribute("user", login);
+                        session.setAttribute("user",uuid.get().getUserId());
 
                         Session sessionUpdateTime = new Session(uuid.get().getId(), user.get().getId(), futureTime);
                         hibernateSessionCrudDAO.update(sessionUpdateTime);
+
+                        Cookie cookie = new Cookie("uuid", uuid.get().getId());
+                        cookie.setMaxAge(40);
 
                         resp.sendRedirect("/?uuid=" + uuid.get().getId());
                     } else {
