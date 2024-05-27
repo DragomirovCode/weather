@@ -6,18 +6,23 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
+import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
     private HibernateUserCrudDAO hibernateUserCrudDAO;
+    private HibernateSessionCrudDAO hibernateSessionCrudDAO;
     @Override
     public void init(){
         this.hibernateUserCrudDAO = new HibernateUserCrudDAO();
+        this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
     }
 
     @Override
@@ -47,11 +52,11 @@ public class LoginServlet extends HttpServlet {
             switch (button) {
                 case "login":
                     Optional<User> user = hibernateUserCrudDAO.findByLoginAndPassword(login, password);
-
                     if (user.isPresent()) {
+                        Optional<Session> uuid = hibernateSessionCrudDAO.findByUserId(user.get().getId());
                         HttpSession session = req.getSession();
                         session.setAttribute("user", login);
-                        resp.sendRedirect("/");
+                        resp.sendRedirect("/?uuid=" + uuid.get().getId());
                     } else {
                         resp.setStatus(HttpServletResponse.SC_CONFLICT);
                         resp.getWriter().write("Ошибка: пользователя с таким логином или паролем не существует");
