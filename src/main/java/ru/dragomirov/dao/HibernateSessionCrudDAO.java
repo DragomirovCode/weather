@@ -6,7 +6,7 @@ import ru.dragomirov.utils.HibernateSessionManagerUtil;
 import java.util.List;
 import java.util.Optional;
 
-public class HibernateSessionCrudDAO implements CrudDAO<Session, String> {
+public class HibernateSessionCrudDAO implements SessionDAO {
     @Override
     public void create(Session entity) {
         HibernateSessionManagerUtil.performTransaction(session ->
@@ -39,5 +39,16 @@ public class HibernateSessionCrudDAO implements CrudDAO<Session, String> {
                 new IllegalArgumentException ("Session c id " + id + " не найдено"));
         HibernateSessionManagerUtil.performTransaction(session ->
                 session.delete(sessionToDelete));
+    }
+
+    @Override
+    public Optional<Session> findByUserId(int userId) {
+        return Optional.ofNullable((Session) HibernateSessionManagerUtil.performSessionQuery(session ->
+                session.createQuery(
+                        "FROM Session WHERE userId = :userId")
+                        .setParameter("userId", userId)
+                        .uniqueResult(),
+                "Произошла ошибка при выполнении метода 'findByUserId'(HibernateSessionCrudDAO)"
+        ));
     }
 }
