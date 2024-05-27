@@ -51,7 +51,7 @@ public class LoginServlet extends HttpServlet {
                     Optional<User> user = hibernateUserCrudDAO.findByLoginAndPassword(login, password);
                     if (user.isPresent()) {
                         LocalDateTime nowTime = LocalDateTime.now();
-                        LocalDateTime futureTime = nowTime.plusSeconds(30);
+                        LocalDateTime futureTime = nowTime.plusHours(1);
                         Optional<Session> uuid = hibernateSessionCrudDAO.findByUserId(user.get().getId());
                         HttpSession session = req.getSession();
                         session.setAttribute("user",uuid.get().getUserId());

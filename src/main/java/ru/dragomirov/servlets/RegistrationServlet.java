@@ -62,7 +62,7 @@ public class RegistrationServlet extends HttpServlet {
                     hibernateUserCrudDAO.create(newUser);
 
                     LocalDateTime nowTime = LocalDateTime.now();
-                    LocalDateTime futureTime = nowTime.plusSeconds(30);
+                    LocalDateTime futureTime = nowTime.plusHours(1);
                     UUID sessionId = UUID.randomUUID();
                     Session session = new Session(sessionId.toString() ,newUser.getId(), futureTime);
                     hibernateSessionCrudDAO.create(session);
