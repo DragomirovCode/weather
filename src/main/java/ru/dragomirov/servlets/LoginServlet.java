@@ -12,8 +12,8 @@ import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.UUID;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
@@ -53,9 +53,15 @@ public class LoginServlet extends HttpServlet {
                 case "login":
                     Optional<User> user = hibernateUserCrudDAO.findByLoginAndPassword(login, password);
                     if (user.isPresent()) {
+                        LocalDateTime nowTime = LocalDateTime.now();
+                        LocalDateTime futureTime = nowTime.plusSeconds(30);
                         Optional<Session> uuid = hibernateSessionCrudDAO.findByUserId(user.get().getId());
                         HttpSession session = req.getSession();
                         session.setAttribute("user", login);
+
+                        Session sessionUpdateTime = new Session(uuid.get().getId(), user.get().getId(), futureTime);
+                        hibernateSessionCrudDAO.update(sessionUpdateTime);
+
                         resp.sendRedirect("/?uuid=" + uuid.get().getId());
                     } else {
                         resp.setStatus(HttpServletResponse.SC_CONFLICT);
