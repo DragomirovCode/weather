@@ -61,6 +61,7 @@ public class LoginServlet extends HttpServlet {
 
                         Cookie cookie = new Cookie("uuid", uuid.get().getId());
                         cookie.setMaxAge(40);
+                        resp.addCookie(cookie);
 
                         resp.sendRedirect("/?uuid=" + uuid.get().getId());
                     } else {
