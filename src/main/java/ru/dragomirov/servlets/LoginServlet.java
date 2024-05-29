@@ -2,21 +2,24 @@ package ru.dragomirov.servlets;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
+import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
+import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
     private HibernateUserCrudDAO hibernateUserCrudDAO;
+    private HibernateSessionCrudDAO hibernateSessionCrudDAO;
     @Override
     public void init(){
         this.hibernateUserCrudDAO = new HibernateUserCrudDAO();
+        this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
     }
 
     @Override
@@ -34,6 +37,8 @@ public class LoginServlet extends HttpServlet {
         try {
             String login = req.getParameter("login");
             String password = req.getParameter("password");
+            String button = req.getParameter("button");
+
 
             if (login.isEmpty() || password.isEmpty()) {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -41,13 +46,32 @@ public class LoginServlet extends HttpServlet {
                 return;
             }
 
-            Optional<User> user = hibernateUserCrudDAO.findByLoginAndPassword(login, password);
+            switch (button) {
+                case "login":
+                    Optional<User> user = hibernateUserCrudDAO.findByLoginAndPassword(login, password);
+                    if (user.isPresent()) {
+                        LocalDateTime nowTime = LocalDateTime.now();
+                        LocalDateTime futureTime = nowTime.plusHours(1);
+                        Optional<Session> uuid = hibernateSessionCrudDAO.findByUserId(user.get().getId());
+                        HttpSession session = req.getSession();
+                        session.setAttribute("user",uuid.get().getUserId());
 
-            if (user.isPresent()) {
-                resp.sendRedirect("/");
-            } else {
-                resp.setStatus(HttpServletResponse.SC_CONFLICT);
-                resp.getWriter().write("Ошибка: пользователя с таким логином или паролем не существует");
+                        Session sessionUpdateTime = new Session(uuid.get().getId(), user.get().getId(), futureTime);
+                        hibernateSessionCrudDAO.update(sessionUpdateTime);
+
+                        Cookie cookie = new Cookie("uuid", uuid.get().getId());
+                        cookie.setMaxAge(40);
+                        resp.addCookie(cookie);
+
+                        resp.sendRedirect("/?uuid=" + uuid.get().getId());
+                    } else {
+                        resp.setStatus(HttpServletResponse.SC_CONFLICT);
+                        resp.getWriter().write("Ошибка: пользователя с таким логином или паролем не существует");
+                    }
+                    break;
+                case "registration":
+                    resp.sendRedirect("/registration");
+                    break;
             }
         } catch (Exception e) {
             System.err.println("Произошла ошибка: " + e.getMessage());

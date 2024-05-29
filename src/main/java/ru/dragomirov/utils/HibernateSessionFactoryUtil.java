@@ -2,10 +2,10 @@ package ru.dragomirov.utils;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import ru.dragomirov.entities.Location;
+import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
 
 public class HibernateSessionFactoryUtil {
