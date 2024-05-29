@@ -1,1 +1,2 @@
+### http200 - Успех
 GET https://api.openweathermap.org/data/2.5/weather?q=Kurganinsk&appid=66b4f9f34b5073497f497f4d4f2be438
