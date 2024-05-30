@@ -1,4 +1,4 @@
-package ru.dragomirov.dto.responce;
+package ru.dragomirov.dto.response;
 
 public class LocationResponseDTO {
 }
