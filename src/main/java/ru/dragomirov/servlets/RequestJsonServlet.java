@@ -31,11 +31,13 @@ public class RequestJsonServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
+            String cityName = req.getParameter("city");
+            String apiKey =  "66b4f9f34b5073497f497f4d4f2be438";
+            String apiUrl = buildApiUrl(cityName, apiKey);
+
             CloseableHttpClient httpClient = HttpClients.createDefault();
             // Создание объекта запроса
-            String requestURL =
-                    "https://api.openweathermap.org/data/2.5/weather?q=Kurganinsk&appid=66b4f9f34b5073497f497f4d4f2be438";
-            HttpGet request = new HttpGet(requestURL);
+            HttpGet request = new HttpGet(apiUrl);
             // Выполнение запроса
             HttpResponse response = httpClient.execute(request);
             // Преобразование тела ответа в строку
@@ -57,5 +59,9 @@ public class RequestJsonServlet extends HttpServlet {
         } catch (Exception e) {
             e.getMessage();
         }
+    }
+
+    private String buildApiUrl(String city, String key) {
+        return "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + key;
     }
 }
