@@ -1,4 +1,5 @@
 package ru.dragomirov.dto.request;
 
-public class UserRequestDTO {
+public class LocationRequestDTO {
+
 }
