@@ -1,5 +1,10 @@
 package ru.dragomirov.dto.request;
 
-public class LocationRequestDTO {
+import java.math.BigDecimal;
 
+public class LocationRequestDTO {
+    public int id;
+    public String name;
+    public BigDecimal latitude;
+    public BigDecimal longitude;
 }
