@@ -7,7 +7,7 @@ import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
 import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
-import ru.dragomirov.utils.requests.LoginRequest;
+import ru.dragomirov.utils.requests.AuthenticationRequest;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -31,17 +31,17 @@ public class LoginServlet extends BaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        LoginRequest loginRequest = new LoginRequest(req);
+        AuthenticationRequest authenticationRequest = new AuthenticationRequest(req);
 
-        if (!loginRequest.isValid()) {
+        if (!authenticationRequest.isValid()) {
             HttpErrorHandlingServlet.handleError(400, resp,
                     "Ошибка: логин и пароль должны быть указаны");
             return;
         }
 
-        switch (loginRequest.getButton()) {
+        switch (authenticationRequest.getButton()) {
             case "login":
-                Optional<User> user = hibernateUserCrudDAO.findByLoginAndPassword(loginRequest.getLogin(), loginRequest.getPassword());
+                Optional<User> user = hibernateUserCrudDAO.findByLoginAndPassword(authenticationRequest.getLogin(), authenticationRequest.getPassword());
                 if (user.isPresent()) {
                     LocalDateTime nowTime = LocalDateTime.now();
                     LocalDateTime futureTime = nowTime.plusHours(1);
