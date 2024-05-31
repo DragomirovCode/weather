@@ -35,10 +35,21 @@ public class HibernateSessionManagerUtil {
     }
 
     public static void performTransaction(TransactionOperation transactionOperation) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        transactionOperation.execute(session);
-        session.getTransaction().commit();
-        session.close();
+        Session session = null;
+        try {
+            session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            transactionOperation.execute(session);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            if (session != null && session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            throw new RuntimeException(e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }
