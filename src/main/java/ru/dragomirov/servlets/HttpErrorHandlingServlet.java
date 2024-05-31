@@ -11,15 +11,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HttpErrorHandlingServlet {
-    private final Map<Integer, ErrorHandler> errorHandlers = new HashMap<>();
+    private static final Map<Integer, ErrorHandler> errorHandlers = new HashMap<>();
 
-    {
+    static {
         errorHandlers.put(400, new Http400ErrorHandler());
         errorHandlers.put(404, new Http404ErrorHandler());
         errorHandlers.put(409, new Http409ErrorHandler());
     }
 
-    public void handleError(int errorCode, HttpServletResponse resp, String errorMessage) throws IOException {
+    public static void handleError(int errorCode, HttpServletResponse resp, String errorMessage) throws IOException {
         ErrorHandler errorHandler = errorHandlers.get(errorCode);
         if (errorHandler != null){
             errorHandler.httpErrors(resp, errorMessage);
