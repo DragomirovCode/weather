@@ -45,18 +45,18 @@ public class LoginServlet extends BaseServlet {
                 if (user.isPresent()) {
                     LocalDateTime nowTime = LocalDateTime.now();
                     LocalDateTime futureTime = nowTime.plusHours(1);
-                    Optional<Session> uuid = hibernateSessionCrudDAO.findByUserId(user.get().getId());
+                    Optional<Session> sessionId = hibernateSessionCrudDAO.findByUserId(user.get().getId());
                     HttpSession session = req.getSession();
-                    session.setAttribute("user", uuid.get().getUserId());
+                    session.setAttribute("user", sessionId.get().getUserId());
 
-                    Session sessionUpdateTime = new Session(uuid.get().getId(), user.get().getId(), futureTime);
+                    Session sessionUpdateTime = new Session(sessionId.get().getId(), user.get().getId(), futureTime);
                     hibernateSessionCrudDAO.update(sessionUpdateTime);
 
-                    Cookie cookie = new Cookie("uuid", uuid.get().getId());
+                    Cookie cookie = new Cookie("uuid", sessionId.get().getId());
                     cookie.setMaxAge(40);
                     resp.addCookie(cookie);
 
-                    resp.sendRedirect("/?uuid=" + uuid.get().getId());
+                    resp.sendRedirect("/?uuid=" + sessionId.get().getId());
                 } else {
                     HttpErrorHandlingServlet.handleError(401, resp,
                             "Ошибка: пользователя с таким логином или паролем не существует");
