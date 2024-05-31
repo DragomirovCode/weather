@@ -35,8 +35,8 @@ public class LoginServlet extends BaseServlet {
         String button = req.getParameter("button");
 
         if (login.isEmpty() || password.isEmpty()) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getWriter().write("Ошибка: логин и пароль должны быть указаны");
+            HttpErrorHandlingServlet.handleError(400, resp,
+                    "Ошибка: логин и пароль должны быть указаны");
             return;
         }
         switch (button) {
@@ -58,8 +58,8 @@ public class LoginServlet extends BaseServlet {
 
                     resp.sendRedirect("/?uuid=" + uuid.get().getId());
                 } else {
-                    resp.setStatus(HttpServletResponse.SC_CONFLICT);
-                    resp.getWriter().write("Ошибка: пользователя с таким логином или паролем не существует");
+                    HttpErrorHandlingServlet.handleError(401, resp,
+                            "Ошибка: пользователя с таким логином или паролем не существует");
                 }
                 break;
             case "registration":
