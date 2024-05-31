@@ -8,6 +8,7 @@ import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
 import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
+import ru.dragomirov.utils.requests.AuthenticationRequest;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -31,24 +32,23 @@ public class RegistrationServlet extends BaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String login = req.getParameter("login");
-        String password = req.getParameter("password");
-        String button = req.getParameter("button");
+        AuthenticationRequest authenticationRequest = new AuthenticationRequest(req);
 
-        if (login.isEmpty() || password.isEmpty()) {
+        if (!authenticationRequest.isValid()) {
             HttpErrorHandlingServlet.handleError(400, resp,
                     "Ошибка: логин и пароль должны быть указаны");
             return;
         }
-        switch (button) {
+
+        switch (authenticationRequest.getButton()) {
             case "registration":
-                Optional<User> user = hibernateUserCrudDAO.findByLogin(login);
+                Optional<User> user = hibernateUserCrudDAO.findByLogin(authenticationRequest.getLogin());
 
                 if (user.isPresent()) {
                     HttpErrorHandlingServlet.handleError(409, resp,
                             "Ошибка: пользователь с таким логином уже существует");
                 }
-                User newUser = new User(login, password);
+                User newUser = new User(authenticationRequest.getLogin(), authenticationRequest.getPassword());
                 hibernateUserCrudDAO.create(newUser);
 
                 LocalDateTime nowTime = LocalDateTime.now();
