@@ -12,4 +12,8 @@ public class LoginRequest {
         this.password = req.getParameter("password");
         this.button = req.getParameter("button");
     }
+
+    public boolean isValid() {
+        return login != null && !login.isEmpty() && password != null && !password.isEmpty();
+    }
 }
