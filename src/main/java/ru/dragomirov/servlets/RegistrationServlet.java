@@ -8,6 +8,7 @@ import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
 import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
+import ru.dragomirov.utils.constants.WebPageConstants;
 import ru.dragomirov.utils.request.AuthenticationRequest;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class RegistrationServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/registration.html").forward(req, resp);
+        req.getRequestDispatcher(WebPageConstants.REGISTRATION_PAGE.getValue()).forward(req, resp);
     }
 
     @Override
@@ -56,10 +57,10 @@ public class RegistrationServlet extends BaseServlet {
                 UUID sessionId = UUID.randomUUID();
                 Session session = new Session(sessionId.toString(), newUser.getId(), futureTime);
                 hibernateSessionCrudDAO.create(session);
-                resp.sendRedirect("/login");
+                resp.sendRedirect(WebPageConstants.LOGIN_PAGE_X.getValue());
                 break;
             case "login":
-                resp.sendRedirect("/login");
+                resp.sendRedirect(WebPageConstants.LOGIN_PAGE_X.getValue());
                 break;
         }
     }
