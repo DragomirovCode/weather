@@ -36,8 +36,8 @@ public class RegistrationServlet extends BaseServlet {
         String button = req.getParameter("button");
 
         if (login.isEmpty() || password.isEmpty()) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getWriter().write("Ошибка: логин и пароль должны быть указаны");
+            HttpErrorHandlingServlet.handleError(400, resp,
+                    "Ошибка: логин и пароль должны быть указаны");
             return;
         }
         switch (button) {
@@ -45,8 +45,8 @@ public class RegistrationServlet extends BaseServlet {
                 Optional<User> user = hibernateUserCrudDAO.findByLogin(login);
 
                 if (user.isPresent()) {
-                    resp.setStatus(HttpServletResponse.SC_CONFLICT);
-                    resp.getWriter().write("Ошибка: пользователь с таким логином уже существует");
+                    HttpErrorHandlingServlet.handleError(409, resp,
+                            "Ошибка: пользователь с таким логином уже существует");
                 }
                 User newUser = new User(login, password);
                 hibernateUserCrudDAO.create(newUser);
