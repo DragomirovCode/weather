@@ -12,6 +12,7 @@ public class HttpErrorHandlingServlet {
 
     static {
         errorHandlers.put(400, new Http400ErrorHandler());
+        errorHandlers.put(401, new Http401ErrorHandler());
         errorHandlers.put(404, new Http404ErrorHandler());
         errorHandlers.put(409, new Http409ErrorHandler());
         errorHandlers.put(500, new Http500ErrorHandler());
