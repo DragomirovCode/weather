@@ -1,7 +1,11 @@
 package ru.dragomirov.utils.requests;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class LoginRequest {
     private String login;
     private String password;
