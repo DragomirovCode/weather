@@ -39,7 +39,7 @@ public class RegistrationServlet extends BaseServlet {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resp.getWriter().write("Ошибка: логин и пароль должны быть указаны");
             return;
-            }
+        }
         switch (button) {
             case "registration":
                 Optional<User> user = hibernateUserCrudDAO.findByLogin(login);
