@@ -1,10 +1,7 @@
 package ru.dragomirov.servlets;
 
 import jakarta.servlet.http.HttpServletResponse;
-import ru.dragomirov.errorhandling.ErrorHandler;
-import ru.dragomirov.errorhandling.Http400ErrorHandler;
-import ru.dragomirov.errorhandling.Http404ErrorHandler;
-import ru.dragomirov.errorhandling.Http409ErrorHandler;
+import ru.dragomirov.errorhandling.*;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -17,6 +14,7 @@ public class HttpErrorHandlingServlet {
         errorHandlers.put(400, new Http400ErrorHandler());
         errorHandlers.put(404, new Http404ErrorHandler());
         errorHandlers.put(409, new Http409ErrorHandler());
+        errorHandlers.put(500, new Http500ErrorHandler());
     }
 
     public static void handleError(int errorCode, HttpServletResponse resp, String errorMessage) throws IOException {
