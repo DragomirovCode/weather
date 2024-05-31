@@ -1,12 +1,10 @@
 package ru.dragomirov.utils.constants;
 
-public enum WebConstants {
-    LOGIN_PAGE("/login.html"),
-    USER_ATTRIBUTE("user"),
-    UUID_COOKIE_NAME("uuid");
+public enum WebPageConstants {
+    LOGIN_PAGE("/login.html");
     private final String value;
 
-    WebConstants(String value) {
+    WebPageConstants(String value) {
         this.value = value;
     }
 
