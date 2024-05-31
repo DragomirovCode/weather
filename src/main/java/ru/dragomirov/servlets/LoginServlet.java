@@ -7,7 +7,7 @@ import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
 import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
-import ru.dragomirov.utils.requests.AuthenticationRequest;
+import ru.dragomirov.utils.request.AuthenticationRequest;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
