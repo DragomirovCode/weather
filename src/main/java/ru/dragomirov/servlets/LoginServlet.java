@@ -64,7 +64,7 @@ public class LoginServlet extends BaseServlet {
                 }
                 break;
             case "registration":
-                resp.sendRedirect(WebPageConstants.REGISTRATION_PAGE.getValue());
+                resp.sendRedirect(WebPageConstants.REGISTRATION_PAGE_X.getValue());
                 break;
         }
     }
