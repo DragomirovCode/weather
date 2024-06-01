@@ -1,6 +1,8 @@
 package ru.dragomirov.utils.constants;
 
 public enum WebPageConstants {
+    MAIN_PAGE("/main.html"),
+    MAIN_PAGE_X("/main"),
     LOGIN_PAGE("/login.html"),
     LOGIN_PAGE_X("/login"),
     REGISTRATION_PAGE("/registration.html"),
