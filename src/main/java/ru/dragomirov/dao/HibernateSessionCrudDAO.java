@@ -10,7 +10,8 @@ public class HibernateSessionCrudDAO implements SessionDAO {
     @Override
     public void create(Session entity) {
         HibernateSessionManagerUtil.performTransaction(session ->
-                session.save(entity));
+                session.save(entity),
+                "Произошла ошибка при выполнении метода 'create'(HibernateSessionCrudDAO)");
     }
 
     @Override
@@ -30,7 +31,8 @@ public class HibernateSessionCrudDAO implements SessionDAO {
     @Override
     public void update(Session entity) {
         HibernateSessionManagerUtil.performTransaction(session ->
-                session.update(entity));
+                session.update(entity),
+                "Произошла ошибка при выполнении метода 'update'(HibernateSessionCrudDAO)");
     }
 
     @Override
@@ -38,7 +40,8 @@ public class HibernateSessionCrudDAO implements SessionDAO {
         Session sessionToDelete = findById(id).orElseThrow(() ->
                 new IllegalArgumentException ("Session c id " + id + " не найдено"));
         HibernateSessionManagerUtil.performTransaction(session ->
-                session.delete(sessionToDelete));
+                session.delete(sessionToDelete),
+                "Произошла ошибка при выполнении метода 'delete'(HibernateSessionCrudDAO)");
     }
 
     @Override

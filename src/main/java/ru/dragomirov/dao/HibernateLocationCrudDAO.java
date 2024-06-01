@@ -10,7 +10,8 @@ public class HibernateLocationCrudDAO implements CrudDAO<Location, Integer>{
     @Override
     public void create(Location entity) {
         HibernateSessionManagerUtil.performTransaction(session ->
-                session.save(entity));
+                session.save(entity),
+                "Произошла ошибка при выполнении метода 'create'(HibernateLocationCrudDAO)");
     }
 
     @Override
@@ -30,12 +31,14 @@ public class HibernateLocationCrudDAO implements CrudDAO<Location, Integer>{
     @Override
     public void update(Location entity) {
         HibernateSessionManagerUtil.performTransaction(session ->
-                session.update(entity));
+                session.update(entity),
+                "Произошла ошибка при выполнении метода 'update'(HibernateLocationCrudDAO)");
     }
 
     @Override
     public void delete(Integer id) {
         HibernateSessionManagerUtil.performTransaction(session ->
-                session.delete(id));
+                session.delete(id),
+                "Произошла ошибка при выполнении метода 'delete'(HibernateLocationCrudDAO)");
     }
 }

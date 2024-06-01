@@ -34,7 +34,7 @@ public class HibernateSessionManagerUtil {
         }
     }
 
-    public static void performTransaction(TransactionOperation transactionOperation) {
+    public static void performTransaction(TransactionOperation transactionOperation, String errorMessage) {
         Session session = null;
         try {
             session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
@@ -45,7 +45,7 @@ public class HibernateSessionManagerUtil {
             if (session != null && session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
-            throw new RuntimeException(e);
+            throw new RuntimeException(errorMessage, e);
         } finally {
             if (session != null) {
                 session.close();

@@ -10,7 +10,8 @@ public class HibernateUserCrudDAO implements UserDAO {
     @Override
     public void create(User entity) {
         HibernateSessionManagerUtil.performTransaction(session ->
-                session.save(entity));
+                session.save(entity),
+                "Произошла ошибка при выполнении метода 'create'(HibernateUserCrudDAO)");
     }
 
     @Override
@@ -30,13 +31,15 @@ public class HibernateUserCrudDAO implements UserDAO {
     @Override
     public void update(User entity) {
         HibernateSessionManagerUtil.performTransaction(session ->
-                session.update(entity));
+                session.update(entity),
+                "Произошла ошибка при выполнении метода 'update'(HibernateUserCrudDAO)");
     }
 
     @Override
     public void delete(Integer id) {
         HibernateSessionManagerUtil.performTransaction(session ->
-                session.delete(id));
+                session.delete(id),
+                "Произошла ошибка при выполнении метода 'delete'(HibernateUserCrudDAO)");
     }
 
     @Override
