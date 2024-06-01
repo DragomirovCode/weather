@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.entities.Session;
+import ru.dragomirov.utils.constants.WebPageConstants;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -28,12 +29,12 @@ public class MainServlet extends BaseServlet {
         Optional<Session> session = hibernateSessionCrudDAO.findById(uuid);
 
         if (session.get().getExpiresAt().isBefore(now)) {
-            resp.sendRedirect("/login");
+            resp.sendRedirect(WebPageConstants.LOGIN_PAGE_X.getValue());
             HttpSession exitSession = req.getSession(false);
             exitSession.removeAttribute("user");
             return;
             }
-        req.getRequestDispatcher("/main.html").forward(req, resp);
+        req.getRequestDispatcher(WebPageConstants.MAIN_PAGE.getValue()).forward(req, resp);
     }
 
     @Override
@@ -41,7 +42,7 @@ public class MainServlet extends BaseServlet {
         String button = req.getParameter("exit");
         switch (button) {
             case "exit":
-                resp.sendRedirect("/login");
+                resp.sendRedirect(WebPageConstants.LOGIN_PAGE_X.getValue());
                 HttpSession exitSession = req.getSession(false);
                 exitSession.removeAttribute("user");
                 break;
