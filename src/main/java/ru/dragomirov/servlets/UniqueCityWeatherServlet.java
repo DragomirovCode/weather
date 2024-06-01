@@ -16,6 +16,7 @@ import ru.dragomirov.dto.request.LocationRequestDTO;
 import ru.dragomirov.dto.response.LocationResponseDTO;
 import ru.dragomirov.entities.Location;
 import ru.dragomirov.utils.MappingUtil;
+import ru.dragomirov.utils.constants.ApiKeyConstant;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +33,7 @@ public class UniqueCityWeatherServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
             String cityName = req.getParameter("city");
-            String apiKey =  "66b4f9f34b5073497f497f4d4f2be438";
+            String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
             String apiUrl = buildApiUrl(cityName, apiKey);
 
             CloseableHttpClient httpClient = HttpClients.createDefault();
