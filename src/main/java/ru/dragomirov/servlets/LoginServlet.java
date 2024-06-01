@@ -54,7 +54,7 @@ public class LoginServlet extends BaseServlet {
                     hibernateSessionCrudDAO.update(sessionUpdateTime);
 
                     Cookie cookie = new Cookie("uuid", sessionId.get().getId());
-                    cookie.setMaxAge(40);
+                    cookie.setMaxAge(3600);
                     resp.addCookie(cookie);
 
                     resp.sendRedirect("/?uuid=" + sessionId.get().getId());
