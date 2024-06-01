@@ -20,8 +20,8 @@ import ru.dragomirov.utils.MappingUtil;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "RequestJsonServlet", urlPatterns = "/search-by-name")
-public class RequestJsonServlet extends HttpServlet {
+@WebServlet(name = "UniqueCityWeatherServlet", urlPatterns = "/search-by-name")
+public class UniqueCityWeatherServlet extends HttpServlet {
     private HibernateLocationCrudDAO hibernateLocationCrudDAO;
     @Override
     public void init(){
