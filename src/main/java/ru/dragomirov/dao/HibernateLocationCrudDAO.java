@@ -37,8 +37,10 @@ public class HibernateLocationCrudDAO implements CrudDAO<Location, Integer>{
 
     @Override
     public void delete(Integer id) {
+        Location locationToDelete = findById(id).orElseThrow(() ->
+                new IllegalArgumentException ("Location c id " + id + " не найдено"));
         HibernateSessionManagerUtil.performTransaction(session ->
-                session.delete(id),
+                session.delete(locationToDelete),
                 "Произошла ошибка при выполнении метода 'delete'(HibernateLocationCrudDAO)");
     }
 }

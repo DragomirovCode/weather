@@ -37,8 +37,10 @@ public class HibernateUserCrudDAO implements UserDAO {
 
     @Override
     public void delete(Integer id) {
+        User userToDelete = findById(id).orElseThrow(() ->
+                new IllegalArgumentException ("User c id " + id + " не найдено"));
         HibernateSessionManagerUtil.performTransaction(session ->
-                session.delete(id),
+                session.delete(userToDelete),
                 "Произошла ошибка при выполнении метода 'delete'(HibernateUserCrudDAO)");
     }
 
