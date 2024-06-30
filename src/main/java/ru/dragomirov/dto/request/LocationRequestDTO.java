@@ -1,5 +1,6 @@
 package ru.dragomirov.dto.request;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,13 @@ import java.math.BigDecimal;
 public class LocationRequestDTO {
     public int id;
     public String name;
-    public BigDecimal latitude;
-    public BigDecimal longitude;
+    @SerializedName("coord")
+    public Coordinates coordinates;
+
+    public static class Coordinates {
+        @SerializedName("lat")
+        public BigDecimal latitude;
+        @SerializedName("lon")
+        public BigDecimal longitude;
+    }
 }
