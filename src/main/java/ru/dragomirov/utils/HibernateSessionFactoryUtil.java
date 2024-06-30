@@ -14,15 +14,15 @@ public class HibernateSessionFactoryUtil {
 
     static {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:sqlite::resource:db/database.db");
-        config.setDriverClassName("org.sqlite.JDBC");
-        config.setUsername("");
-        config.setPassword("");
+        config.setJdbcUrl("jdbc:postgresql://localhost:5433/weather");
+        config.setDriverClassName("org.postgresql.Driver");
+        config.setUsername("postgres");
+        config.setPassword("Sdsafcxvre2341");
         HIKARI_DATA_SOURCE = new HikariDataSource(config);
 
         // Создание конфигурации Hibernate
         Configuration configuration = new Configuration();
-        configuration.setProperty("hibernate.dialect", "org.sqlite.hibernate.dialect.SQLiteDialect");
+        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         configuration.setProperty("hibernate.show_sql", "true");
         configuration.addAnnotatedClass(User.class);
         configuration.addAnnotatedClass(Session.class);
