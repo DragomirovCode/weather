@@ -16,6 +16,7 @@ import ru.dragomirov.dto.request.LocationRequestDTO;
 import ru.dragomirov.dto.response.LocationResponseDTO;
 import ru.dragomirov.entities.Location;
 import ru.dragomirov.utils.MappingUtil;
+import ru.dragomirov.utils.Utils;
 import ru.dragomirov.utils.constants.ApiKeyConstant;
 
 import java.util.List;
@@ -24,9 +25,11 @@ import java.util.stream.Collectors;
 @WebServlet(name = "UniqueCityWeatherServlet", urlPatterns = "/unique-search-city-weather")
 public class UniqueCityWeatherServlet extends HttpServlet {
     private HibernateLocationCrudDAO hibernateLocationCrudDAO;
+    private Utils utils;
     @Override
     public void init(){
         this.hibernateLocationCrudDAO = new HibernateLocationCrudDAO();
+        this.utils = new Utils();
     }
 
     @Override
@@ -34,7 +37,7 @@ public class UniqueCityWeatherServlet extends HttpServlet {
         try {
             String cityName = req.getParameter("city");
             String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
-            String apiUrl = buildApiUrl(cityName, apiKey);
+            String apiUrl = utils.buildUniqueCityWeatherApiUrl(cityName, apiKey);
 
             CloseableHttpClient httpClient = HttpClients.createDefault();
             // Создание объекта запроса
