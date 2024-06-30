@@ -14,6 +14,8 @@ public class LocationRequestDTO {
     @SerializedName("coord")
     public Coordinates coordinates;
 
+    @Getter
+    @Setter
     public static class Coordinates {
         @SerializedName("lat")
         public BigDecimal latitude;
