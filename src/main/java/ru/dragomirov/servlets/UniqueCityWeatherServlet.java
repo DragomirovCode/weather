@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @WebServlet(name = "UniqueCityWeatherServlet", urlPatterns = "/unique-search-city-weather")
-public class UniqueCityWeatherServlet extends HttpServlet {
+public class UniqueCityWeatherServlet extends BaseServlet {
     private HibernateLocationCrudDAO hibernateLocationCrudDAO;
     private Utils utils;
     @Override
