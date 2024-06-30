@@ -35,7 +35,7 @@ public class RegistrationServlet extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         AuthenticationRequest authenticationRequest = new AuthenticationRequest(req);
 
-        if (!authenticationRequest.isValid()) {
+        if (authenticationRequest.isValid()) {
             HttpErrorHandlingServlet.handleError(400, resp,
                     "Ошибка: логин и пароль должны быть указаны");
             return;

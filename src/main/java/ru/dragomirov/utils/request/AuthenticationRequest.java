@@ -18,6 +18,6 @@ public class AuthenticationRequest {
     }
 
     public boolean isValid() {
-        return login != null && !login.isEmpty() && password != null && !password.isEmpty();
+        return login == null || login.isEmpty() || password == null || password.isEmpty();
     }
 }
