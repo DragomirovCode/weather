@@ -10,6 +10,12 @@ public class MappingUtil {
 
     static {
         MODEL_MAPPER = new ModelMapper();
+
+        MODEL_MAPPER.typeMap(LocationRequestDTO.class, Location.class)
+                .addMappings(mapper -> {
+                    mapper.map(src -> src.getCoordinates().getLatitude(), Location::setLatitude);
+                    mapper.map(src -> src.getCoordinates().getLongitude(), Location::setLongitude);
+                });
     }
 
     public static Location locationToEntity(LocationRequestDTO dto) {
