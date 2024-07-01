@@ -24,6 +24,11 @@ public class MainServlet extends BaseServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String uuid = req.getParameter("uuid");
 
+        if (uuid == null) {
+            resp.sendRedirect(WebPageConstants.LOGIN_PAGE_X.getValue());
+            return;
+        }
+
         LocalDateTime now = LocalDateTime.now();
 
         Optional<Session> session = hibernateSessionCrudDAO.findById(uuid);
