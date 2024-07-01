@@ -39,6 +39,7 @@ public class UniqueCityWeatherServlet extends BaseServlet {
 
         if (cityName.isEmpty()) {
             HttpErrorHandlingServlet.handleError(400, resp, "пустое поле");
+            return;
         }
 
         String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
