@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@WebServlet(name = "MainServlet", urlPatterns = "")
+@WebServlet(name = "MainServlet", urlPatterns = "/app")
 public class MainServlet extends BaseServlet {
     private HibernateSessionCrudDAO hibernateSessionCrudDAO;
 
