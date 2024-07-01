@@ -38,7 +38,7 @@ public class UniqueCityWeatherServlet extends BaseServlet {
         String cityName = req.getParameter("city");
 
         if (cityName.isEmpty()) {
-            HttpErrorHandlingServlet.handleError(400, resp, "пустое поле");
+            HttpErrorHandlingServlet.handleError(400, resp, "Отсутствует нужное поле формы");
             return;
         }
 
