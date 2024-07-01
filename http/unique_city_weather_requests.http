@@ -7,3 +7,8 @@ Accept: application/json
 # http400 - Отсутствует нужное поле формы
 GET http://localhost:8080/unique-search-city-weather?city=
 Accept: application/json
+
+### GetUniqueCityWeather
+# http404 - Город не найден
+GET http://localhost:8080/unique-search-city-weather?city=XXX
+Accept: application/json
