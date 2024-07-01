@@ -50,6 +50,12 @@ public class UniqueCityWeatherServlet extends BaseServlet {
         HttpGet request = new HttpGet(apiUrl);
         // Выполнение запроса
         HttpResponse response = httpClient.execute(request);
+
+        if (response.getStatusLine().getStatusCode() == 404) {
+            HttpErrorHandlingServlet.handleError(404, resp, "Город не найден");
+            return;
+        }
+
         // Преобразование тела ответа в строку
         String jsonStr = EntityUtils.toString(response.getEntity());
         // Десериализация строки JSON в Java-объект
