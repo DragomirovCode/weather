@@ -36,6 +36,11 @@ public class UniqueCityWeatherServlet extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String cityName = req.getParameter("city");
+
+        if (cityName.isEmpty()) {
+            HttpErrorHandlingServlet.handleError(400, resp, "пустое поле");
+        }
+
         String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
         String apiUrl = utils.buildUniqueCityWeatherApiUrl(cityName, apiKey);
 
