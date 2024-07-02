@@ -4,6 +4,11 @@ GET http://localhost:8080/unique-search-city-weather?city=Kurganinsk
 Accept: application/json
 
 ### GetUniqueCityWeather
+# http200 - Успех
+GET http://localhost:8080/unique-search-city-weather?city=San Francisco
+Accept: application/json
+
+### GetUniqueCityWeather
 # http400 - Отсутствует нужное поле формы
 GET http://localhost:8080/unique-search-city-weather?city=
 Accept: application/json
