@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@WebServlet(name = "MainCookieServlet", urlPatterns = "")
-public class MainCookieServlet extends BaseServlet {
+@WebServlet(name = "CookieServlet", urlPatterns = "")
+public class CookieServlet extends BaseServlet {
     private HibernateSessionCrudDAO hibernateSessionCrudDAO;
 
     @Override
