@@ -8,4 +8,8 @@ public class Utils {
         String encodedCity = URLEncoder.encode(city, StandardCharsets.UTF_8);
         return "https://api.openweathermap.org/data/2.5/weather?q=" + encodedCity + "&appid=" + key;
     }
+
+    public String buildLatLonCityWeatherApiUrl(String lat, String lon, String key) {
+        return "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "lon" + "&appid=" + key;
+    }
 }
