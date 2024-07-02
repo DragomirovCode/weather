@@ -20,12 +20,14 @@ import ru.dragomirov.utils.constants.ApiKeyConstant;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @WebServlet(name = "UniqueCityWeatherServlet", urlPatterns = "/unique-search-city-weather")
 public class UniqueCityWeatherServlet extends BaseServlet {
     private HibernateLocationCrudDAO hibernateLocationCrudDAO;
     private Utils utils;
+    private Pattern regex = Pattern.compile("[^A-Za-z0-9]");
 
     @Override
     public void init(){
@@ -42,9 +44,9 @@ public class UniqueCityWeatherServlet extends BaseServlet {
             return;
         }
 
-        if (cityName.matches(".*\\d.*")) {
+        if (regex.matcher(cityName).find()) {
             HttpErrorHandlingServlet.handleError(400, resp,
-                    "Не должно содержать цифр");
+                    "Не должно содержать спец.символы и цифры");
             return;
         }
 
