@@ -6,7 +6,7 @@ import ru.dragomirov.utils.HibernateSessionManagerUtil;
 import java.util.List;
 import java.util.Optional;
 
-public class HibernateLocationCrudDAO implements CrudDAO<Location, Integer>{
+public class HibernateLocationCrudDAO implements LocationDAO{
     @Override
     public void create(Location entity) {
         HibernateSessionManagerUtil.performTransaction(session ->
@@ -42,5 +42,15 @@ public class HibernateLocationCrudDAO implements CrudDAO<Location, Integer>{
         HibernateSessionManagerUtil.performTransaction(session ->
                 session.delete(locationToDelete),
                 "Произошла ошибка при выполнении метода 'delete'(HibernateLocationCrudDAO)");
+    }
+
+    @Override
+    public Optional<Location> findByLocationName(String name) {
+        return Optional.ofNullable((Location) HibernateSessionManagerUtil.performSessionQuery(session ->
+                session.createQuery("FROM Location WHERE name = :name")
+                        .setParameter("name", name)
+                        .uniqueResult(),
+                "Произошла ошибка при выполнении метода 'findByLocationName'(HibernateLocationCrudDAO)"
+        ));
     }
 }
