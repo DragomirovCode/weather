@@ -1,5 +1,6 @@
 package ru.dragomirov.utils;
 
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
@@ -9,7 +10,7 @@ public class Utils {
         return "https://api.openweathermap.org/data/2.5/weather?q=" + encodedCity + "&appid=" + key;
     }
 
-    public String buildLatLonCityWeatherApiUrl(String lat, String lon, String key) {
+    public String buildLatLonCityWeatherApiUrl(BigDecimal lat, BigDecimal lon, String key) {
         return "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "lon" + lon + "&appid=" + key;
     }
 }
