@@ -42,6 +42,12 @@ public class UniqueCityWeatherServlet extends BaseServlet {
             return;
         }
 
+        if (cityName.matches(".*\\d.*")) {
+            HttpErrorHandlingServlet.handleError(400, resp,
+                    "Не должно содержать цифр");
+            return;
+        }
+
         String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
         String apiUrl = utils.buildUniqueCityWeatherApiUrl(cityName, apiKey);
 
