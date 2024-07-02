@@ -1,4 +1,9 @@
 package ru.dragomirov.dao;
 
-public interface LocationDAO {
+import ru.dragomirov.entities.Location;
+
+import java.util.Optional;
+
+public interface LocationDAO extends CrudDAO<Location, Integer> {
+    Optional<Location> findByLocationName(String name);
 }
