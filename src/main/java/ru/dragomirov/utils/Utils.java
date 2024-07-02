@@ -10,6 +10,6 @@ public class Utils {
     }
 
     public String buildLatLonCityWeatherApiUrl(String lat, String lon, String key) {
-        return "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "lon" + "&appid=" + key;
+        return "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "lon" + lon + "&appid=" + key;
     }
 }
