@@ -17,8 +17,8 @@ import ru.dragomirov.utils.constants.ApiKeyConstant;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-@WebServlet(name = "UniqueCityWeatherServlet", urlPatterns = "/unique-search-city-weather")
-public class UniqueCityWeatherServlet extends BaseServlet {
+@WebServlet(name = "SearchUniqueCityWeatherServlet", urlPatterns = "/unique-search-city-weather")
+public class SearchUniqueCityWeatherServlet extends BaseServlet {
     private Utils utils;
     private final Pattern regex = Pattern.compile("[^a-zA-Z\\s:]");
 
