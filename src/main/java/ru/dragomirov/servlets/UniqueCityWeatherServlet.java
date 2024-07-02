@@ -63,6 +63,8 @@ public class UniqueCityWeatherServlet extends BaseServlet {
         LocationRequestDTO requestDTO = gson.fromJson(jsonStr, LocationRequestDTO.class);
 
         Location location = MappingUtil.locationToEntity(requestDTO);
+        // тест значение
+        location.setUserId(1);
         hibernateLocationCrudDAO.create(location);
 
         List<Location> locationList = hibernateLocationCrudDAO.findAll();
