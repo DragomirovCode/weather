@@ -10,28 +10,20 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import ru.dragomirov.dao.HibernateLocationCrudDAO;
 import ru.dragomirov.dto.request.LocationRequestDTO;
-import ru.dragomirov.dto.response.LocationResponseDTO;
-import ru.dragomirov.entities.Location;
-import ru.dragomirov.utils.MappingUtil;
 import ru.dragomirov.utils.Utils;
 import ru.dragomirov.utils.constants.ApiKeyConstant;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @WebServlet(name = "UniqueCityWeatherServlet", urlPatterns = "/unique-search-city-weather")
 public class UniqueCityWeatherServlet extends BaseServlet {
-    private HibernateLocationCrudDAO hibernateLocationCrudDAO;
     private Utils utils;
-    private Pattern regex = Pattern.compile("[^A-Za-z0-9]");
+    private final Pattern regex = Pattern.compile("[^a-zA-Z\\s:]");
 
     @Override
     public void init(){
-        this.hibernateLocationCrudDAO = new HibernateLocationCrudDAO();
         this.utils = new Utils();
     }
 
@@ -70,16 +62,7 @@ public class UniqueCityWeatherServlet extends BaseServlet {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         LocationRequestDTO requestDTO = gson.fromJson(jsonStr, LocationRequestDTO.class);
 
-        Location location = MappingUtil.locationToEntity(requestDTO);
-        // тест значение
-        location.setUserId(1);
-        hibernateLocationCrudDAO.create(location);
-
-        List<Location> locationList = hibernateLocationCrudDAO.findAll();
-        List<LocationResponseDTO> responseDTOList = locationList.stream()
-                    .map(MappingUtil::locationToDTO).collect(Collectors.toList());
-
-        String jsonResponse = gson.toJson(responseDTOList);
+        String jsonResponse = gson.toJson(requestDTO);
         resp.getWriter().write(jsonResponse);
         resp.setStatus(HttpServletResponse.SC_OK);
     }
