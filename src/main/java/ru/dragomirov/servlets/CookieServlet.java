@@ -29,6 +29,8 @@ public class CookieServlet extends BaseServlet {
             return;
         }
 
+        getServletContext().setAttribute("myUuid", uuid);
+
         LocalDateTime now = LocalDateTime.now();
 
         Optional<Session> session = hibernateSessionCrudDAO.findById(uuid);
