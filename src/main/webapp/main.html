@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Main</title>
@@ -10,5 +10,11 @@ Main
 <form action="" method="post">
     <input type="submit" name="exit" value="exit">
 </form>
+
+
+<pre>
+    <!--/*@thymesVar id="jsonData" type="ru.dragomirov.servlets.MainFormServlet"*/-->
+    <div th:text="${jsonData}"></div>
+</pre>
 </body>
 </html>
