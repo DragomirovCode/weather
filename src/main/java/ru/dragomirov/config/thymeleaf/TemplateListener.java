@@ -11,7 +11,9 @@ public class TemplateListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext servletContext = sce.getServletContext();
+
         TemplateEngine templateEngine = TemplateEngineConfig.buildTemplateEngine(servletContext);
+
         servletContext.setAttribute("templateEngine", templateEngine);
     }
 }
