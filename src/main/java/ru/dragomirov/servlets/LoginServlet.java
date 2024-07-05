@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@WebServlet("/login")
+@WebServlet(name = "LoginServlet" , urlPatterns = "/login")
 public class LoginServlet extends BaseServlet {
     private HibernateUserCrudDAO hibernateUserCrudDAO;
     private HibernateSessionCrudDAO hibernateSessionCrudDAO;
