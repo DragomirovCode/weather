@@ -1,6 +1,5 @@
 package ru.dragomirov.servlets;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
@@ -21,7 +20,7 @@ public class CookieServlet extends BaseServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String uuid = req.getParameter("uuid");
 
         if (uuid == null) {
@@ -41,7 +40,7 @@ public class CookieServlet extends BaseServlet {
             exitSession.removeAttribute("user");
             return;
             }
-        req.getRequestDispatcher(WebPageConstants.MAIN_PAGE.getValue()).forward(req, resp);
+        templateEngine.process(WebPageConstants.MAIN_PAGE_X.getValue(), webContext, resp.getWriter());
     }
 
     @Override

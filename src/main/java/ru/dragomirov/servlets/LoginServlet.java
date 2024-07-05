@@ -1,6 +1,5 @@
 package ru.dragomirov.servlets;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
@@ -14,7 +13,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@WebServlet(name = "LoginServlet", urlPatterns = "/login")
+@WebServlet("/login")
 public class LoginServlet extends BaseServlet {
     private HibernateUserCrudDAO hibernateUserCrudDAO;
     private HibernateSessionCrudDAO hibernateSessionCrudDAO;
@@ -26,8 +25,8 @@ public class LoginServlet extends BaseServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher(WebPageConstants.LOGIN_PAGE.getValue()).forward(req, resp);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        templateEngine.process(WebPageConstants.LOGIN_PAGE_X.getValue(), webContext, resp.getWriter());
     }
 
     @Override

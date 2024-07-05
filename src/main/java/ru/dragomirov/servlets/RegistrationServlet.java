@@ -1,6 +1,5 @@
 package ru.dragomirov.servlets;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,8 +26,8 @@ public class RegistrationServlet extends BaseServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher(WebPageConstants.REGISTRATION_PAGE.getValue()).forward(req, resp);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        templateEngine.process(WebPageConstants.REGISTRATION_PAGE_X.getValue(), webContext, resp.getWriter());
     }
 
     @Override
