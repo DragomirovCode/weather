@@ -10,6 +10,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.thymeleaf.context.WebContext;
+import ru.dragomirov.config.thymeleaf.TemplateEngineConfig;
 import ru.dragomirov.dto.request.LocationRequestDTO;
 import ru.dragomirov.utils.Utils;
 import ru.dragomirov.utils.constants.ApiKeyConstant;
@@ -62,8 +64,8 @@ public class SearchUniqueCityWeatherServlet extends BaseServlet {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         LocationRequestDTO requestDTO = gson.fromJson(jsonStr, LocationRequestDTO.class);
 
-        String jsonResponse = gson.toJson(requestDTO);
-        resp.getWriter().write(jsonResponse);
-        resp.setStatus(HttpServletResponse.SC_OK);
+        WebContext context = TemplateEngineConfig.buildWebContext(req, resp, req.getServletContext());
+        context.setVariable("uniqueCity", requestDTO);
+        templateEngine.process("unique-city-weather", context, resp.getWriter());
     }
 }
