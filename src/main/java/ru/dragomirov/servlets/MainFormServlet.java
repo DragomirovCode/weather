@@ -1,11 +1,10 @@
 package ru.dragomirov.servlets;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.thymeleaf.context.WebContext;
+import ru.dragomirov.config.thymeleaf.TemplateEngineConfig;
 import ru.dragomirov.dao.HibernateLocationCrudDAO;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dto.response.LocationResponseDTO;
@@ -19,7 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @WebServlet(name = "MainFormServlet", urlPatterns = "/my")
-public class MainFormServlet extends HttpServlet {
+public class MainFormServlet extends BaseServlet {
     private HibernateLocationCrudDAO hibernateLocationCrudDAO;
     private HibernateSessionCrudDAO hibernateSessionCrudDAO;
 
@@ -40,17 +39,15 @@ public class MainFormServlet extends HttpServlet {
 
         Optional<Session> session = hibernateSessionCrudDAO.findById(otherUuid);
 
-        System.out.println(session.get().getUserId());
-
         List<Location> locationList = hibernateLocationCrudDAO.findByListLocationId(session.get().getUserId());
 
         List<LocationResponseDTO> responseDTOList = locationList.stream()
                 .map(MappingUtil::locationToDTO)
                 .collect(Collectors.toList());
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String json = gson.toJson(responseDTOList);
-        resp.getWriter().write(json);
-        req.setAttribute("jsonData", json);
+        WebContext context = TemplateEngineConfig.buildWebContext(req, resp, req.getServletContext());
+        context.setVariable("jsonData", responseDTOList);
+        templateEngine.process("main", context, resp.getWriter());
+
     }
 }
