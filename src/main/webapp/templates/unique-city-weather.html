@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Unique City Weather</title>
+</head>
+<body>
+
+<form th:action="@{/unique-search-city-weather}" th:method="get">
+  <div>
+    <span>ID: </span><span th:text="${uniqueCity.id}"></span><br>
+    <span>Name: </span><span th:text="${uniqueCity.name}"></span><br>
+    <span>Temp: </span><span th:text="${uniqueCity.main.temperatureActual}"></span><br>
+  </div>
+</form>
+
+</body>
+</html>
