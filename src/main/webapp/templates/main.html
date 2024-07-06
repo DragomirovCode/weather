@@ -10,12 +10,20 @@ Main
 <form action="" method="post">
     <input type="submit" name="exit" value="exit">
 </form>
+<br>
 
+<form th:action="@{/unique-search-city-weather}" th:method="get">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="city" placeholder="Поиск уникального города по названию...">
+        <button class="btn btn-outline-secondary" type="submit">Поиск</button>
+    </div>
+</form>
 
+<br>
 <form th:action="@{/my}" th:method="get">
     <div>
         <ul>
-            <li th:each="location : ${jsonData}">
+            <li th:each="location  : ${jsonData}">
                 <span>ID: </span><span th:text="${location.id}"></span><br>
                 <span>Name: </span><span th:text="${location.name}"></span><br>
                 <span>Latitude: </span><span th:text="${location.latitude}"></span><br>
