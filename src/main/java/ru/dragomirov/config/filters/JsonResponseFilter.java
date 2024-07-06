@@ -21,6 +21,7 @@ public class JsonResponseFilter implements Filter {
         servletRequest.setCharacterEncoding("UTF-8");
         httpResponse.setCharacterEncoding("UTF-8");
         httpResponse.setContentType("application/json");
+        httpResponse.setContentType("text/html;charset=UTF-8");
 
         filterChain.doFilter(servletRequest, servletResponse);
     }
