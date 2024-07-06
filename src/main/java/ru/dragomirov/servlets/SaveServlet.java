@@ -1,4 +1,4 @@
 package ru.dragomirov.servlets;
 
-public class SaveServlets {
+public class SaveServlet {
 }
