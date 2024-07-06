@@ -10,7 +10,10 @@
   <div>
     <span>ID: </span><span th:text="${uniqueCity.id}"></span><br>
     <span>Name: </span><span th:text="${uniqueCity.name}"></span><br>
-    <span>Temp: </span><span th:text="${uniqueCity.main.temperatureActual}"></span><br>
+    <span>Temperature Actual: </span><span th:text="${uniqueCity.main.temperatureActual}"></span><br>
+    <span>Temperature Max: </span><span th:text="${uniqueCity.main.temperatureMax}"></span><br>
+    <span>Temperature Min: </span><span th:text="${uniqueCity.main.temperatureMin}"></span><br>
+    <span>Temperature Like: </span><span th:text="${uniqueCity.main.temperatureFeelsLike}"></span><br>
   </div>
 </form>
 
