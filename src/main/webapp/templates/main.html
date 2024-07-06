@@ -12,9 +12,18 @@ Main
 </form>
 
 
-<pre>
-    <!--/*@thymesVar id="jsonData" type="ru.dragomirov.servlets.MainFormServlet"*/-->
-    <div th:text="${jsonData}"></div>
-</pre>
+<form th:action="@{/my}" th:method="get">
+    <div>
+        <ul>
+            <li th:each="location : ${jsonData}">
+                <span>ID: </span><span th:text="${location.id}"></span><br>
+                <span>Name: </span><span th:text="${location.name}"></span><br>
+                <span>Latitude: </span><span th:text="${location.latitude}"></span><br>
+                <span>Longitude: </span><span th:text="${location.longitude}"></span><br>
+            </li>
+        </ul>
+    </div>
+</form>
+
 </body>
 </html>
