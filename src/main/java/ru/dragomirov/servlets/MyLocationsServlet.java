@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "MainFormServlet", urlPatterns = "/my")
-public class MainFormServlet extends BaseServlet {
+@WebServlet(name = "MyLocationsServlet", urlPatterns = "/my")
+public class MyLocationsServlet extends BaseServlet {
     private HibernateLocationCrudDAO hibernateLocationCrudDAO;
     private HibernateSessionCrudDAO hibernateSessionCrudDAO;
 
