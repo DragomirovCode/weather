@@ -34,8 +34,8 @@ public class SaveServlet extends BaseServlet {
         Location location = new Location();
         location.setId(Integer.parseInt(id));
         location.setName(city);
-        location.setLatitude(BigDecimal.valueOf(Double.parseDouble(latitude)));
-        location.setLongitude(BigDecimal.valueOf(Double.parseDouble(longitude)));
+        location.setLatitude(new BigDecimal(latitude));
+        location.setLongitude(new BigDecimal(longitude));
 
         String otherUuid = (String) getServletContext().getAttribute("myUuid");
 
