@@ -20,18 +20,21 @@ Main
 </form>
 
 <br>
-<form th:action="@{/my}" th:method="get">
-    <div>
-        <ul>
-            <li th:each="location  : ${jsonData}">
-                <span>ID: </span><span th:text="${location.id}"></span><br>
-                <span>Name: </span><span th:text="${location.name}"></span><br>
-                <span>Latitude: </span><span th:text="${location.latitude}"></span><br>
-                <span>Longitude: </span><span th:text="${location.longitude}"></span><br>
-            </li>
-        </ul>
-    </div>
-</form>
+<div>
+    <ul>
+        <li th:each="location : ${locations}">
+            <span>ID: </span><span th:text="${location.id}"></span><br>
+            <span>Name: </span><span th:text="${location.name}"></span><br>
+            <span th:if="${location.main != null}">
+                <span>Temperature Actual: </span><span th:text="${location.main.temperatureActual}"></span><br>
+                <span>Temperature Max: </span><span th:text="${location.main.temperatureMax}"></span><br>
+                <span>Temperature Min: </span><span th:text="${location.main.temperatureMin}"></span><br>
+                <span>Temperature Feels Like: </span><span th:text="${location.main.temperatureFeelsLike}"></span><br>
+            </span>
+            <br>
+        </li>
+    </ul>
+</div>
 
 </body>
 </html>
