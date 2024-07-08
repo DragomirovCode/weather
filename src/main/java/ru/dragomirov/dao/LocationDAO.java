@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface LocationDAO extends CrudDAO<Location, Integer> {
     List<Location> findByListLocationName(String name);
-    List<Location> findByListLocationId(int id);
+    List<Location> findByListLocationUserId(int userId);
 }

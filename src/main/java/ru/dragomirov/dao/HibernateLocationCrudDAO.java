@@ -55,10 +55,10 @@ public class HibernateLocationCrudDAO implements LocationDAO{
     }
 
     @Override
-    public List<Location> findByListLocationId(int id) {
+    public List<Location> findByListLocationUserId(int userId) {
         return HibernateSessionManagerUtil.performSessionQuery(session ->
                 session.createQuery("FROM Location  WHERE userId = :userId")
-                        .setParameter("userId", id)
+                        .setParameter("userId", userId)
                         .list(),
                 "Произошла ошибка при выполнении метода 'findByListLocationId'(HibernateLocationCrudDAO)"
 
