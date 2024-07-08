@@ -10,6 +10,7 @@ import ru.dragomirov.entities.Session;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @WebServlet(name = "SaveServlet", urlPatterns = "/save")
@@ -47,8 +48,13 @@ public class SaveServlet extends BaseServlet {
 
         location.setUserId(session.get().getUserId());
 
-        hibernateLocationCrudDAO.create(location);
+        List<Location> existingLocations = hibernateLocationCrudDAO.findByListLocationName(city);
 
-        resp.sendRedirect("/?uuid=" + session.get().getId());
+        if (existingLocations.isEmpty()) {
+            hibernateLocationCrudDAO.create(location);
+            resp.sendRedirect("/?uuid=" + session.get().getId());
+        } else {
+            resp.sendRedirect("/?uuid=" + session.get().getId());
+        }
     }
 }
