@@ -1,31 +1,41 @@
 package ru.dragomirov.servlets;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.thymeleaf.context.WebContext;
 import ru.dragomirov.config.thymeleaf.TemplateEngineConfig;
 import ru.dragomirov.dao.HibernateLocationCrudDAO;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
-import ru.dragomirov.dto.response.LocationResponseDTO;
+import ru.dragomirov.dto.request.LocationRequestDTO;
 import ru.dragomirov.entities.Location;
 import ru.dragomirov.entities.Session;
-import ru.dragomirov.utils.MappingUtil;
+import ru.dragomirov.utils.Utils;
+import ru.dragomirov.utils.constants.ApiKeyConstant;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @WebServlet(name = "MyLocationsServlet", urlPatterns = "/my")
 public class MyLocationsServlet extends BaseServlet {
     private HibernateLocationCrudDAO hibernateLocationCrudDAO;
     private HibernateSessionCrudDAO hibernateSessionCrudDAO;
+    private Utils utils;
 
     @Override
     public void init() {
         this.hibernateLocationCrudDAO = new HibernateLocationCrudDAO();
         this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
+        this.utils = new Utils();
     }
 
     @Override
@@ -38,16 +48,24 @@ public class MyLocationsServlet extends BaseServlet {
         }
 
         Optional<Session> session = hibernateSessionCrudDAO.findById(otherUuid);
+        List<Location> location = hibernateLocationCrudDAO.findByListLocationUserId(session.get().getUserId());
 
-        List<Location> locationList = hibernateLocationCrudDAO.findByListLocationId(session.get().getUserId());
+        String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
 
-        List<LocationResponseDTO> responseDTOList = locationList.stream()
-                .map(MappingUtil::locationToDTO)
-                .collect(Collectors.toList());
+        CloseableHttpClient httpClient = HttpClients.createDefault();
 
+        List<LocationRequestDTO> locationWeatherData = new ArrayList<>();
+        for (Location loc : location) {
+            String apiUrl = utils.buildLatLonCityWeatherApiUrl(loc.getLatitude(), loc.getLongitude(), apiKey);
+            HttpGet request = new HttpGet(apiUrl);
+            HttpResponse response = httpClient.execute(request);
+            String jsonStr = EntityUtils.toString(response.getEntity());
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            LocationRequestDTO requestDTO = gson.fromJson(jsonStr, LocationRequestDTO.class);
+            locationWeatherData.add(requestDTO);
+        }
         WebContext context = TemplateEngineConfig.buildWebContext(req, resp, req.getServletContext());
-        context.setVariable("jsonData", responseDTOList);
+        context.setVariable("locations", locationWeatherData);
         templateEngine.process("main", context, resp.getWriter());
-
     }
 }
