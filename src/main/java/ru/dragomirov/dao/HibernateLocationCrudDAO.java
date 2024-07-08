@@ -45,13 +45,13 @@ public class HibernateLocationCrudDAO implements LocationDAO{
     }
 
     @Override
-    public Optional<Location> findByLocationName(String name) {
-        return Optional.ofNullable((Location) HibernateSessionManagerUtil.performSessionQuery(session ->
+    public List<Location> findByListLocationName(String name) {
+        return HibernateSessionManagerUtil.performSessionQuery(session ->
                 session.createQuery("FROM Location WHERE name = :name")
                         .setParameter("name", name)
-                        .uniqueResult(),
-                "Произошла ошибка при выполнении метода 'findByLocationName'(HibernateLocationCrudDAO)"
-        ));
+                        .list(),
+                "Произошла ошибка при выполнении метода 'findByListLocationName'(HibernateLocationCrudDAO)"
+        );
     }
 
     @Override
