@@ -9,6 +9,7 @@ import ru.dragomirov.entities.Location;
 import ru.dragomirov.entities.Session;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @WebServlet(name = "DeleteServlet", urlPatterns = "/delete")
@@ -34,9 +35,11 @@ public class DeleteServlet extends BaseServlet {
 
     protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String otherUuid = (String) getServletContext().getAttribute("myUuid");
-        String nameStr = req.getParameter("name");
+        String latitudeStr = req.getParameter("latitude");
+        String longitudeStr = req.getParameter("longitude");
 
-        Optional<Location> location = hibernateLocationCrudDAO.findByLocationName(nameStr);
+        Optional<Location> location = hibernateLocationCrudDAO.findByLocationLatitudeAndLongitude(
+                new BigDecimal(latitudeStr), new BigDecimal(longitudeStr));
 
         hibernateLocationCrudDAO.delete(location.get().getId());
 
