@@ -5,16 +5,15 @@
     <title>Main</title>
 </head>
 <body>
-Main
 <br>
 <form action="" method="post">
     <input type="submit" name="exit" value="exit">
 </form>
 <br>
 
-<form th:action="@{/unique-search-city-weather}" th:method="get">
+<form th:action="@{/search-city-weather}" th:method="get">
     <div class="input-group mb-3">
-        <input type="text" class="form-control" name="city" placeholder="Поиск уникального города по названию...">
+        <input type="text" class="form-control" name="city" placeholder="Поиск города по названию...">
         <button class="btn btn-outline-secondary" type="submit">Поиск</button>
     </div>
 </form>
