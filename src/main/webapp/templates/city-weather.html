@@ -6,6 +6,12 @@
 </head>
 <body>
 
+<form action="/back" method="get">
+  <input type="submit" name="back" value="back">
+</form>
+
+<br>
+
 <form th:action="@{/search-city-weather}" th:method="get">
   <div>
     <span>ID: </span><span th:text="${city.id}"></span><br>
