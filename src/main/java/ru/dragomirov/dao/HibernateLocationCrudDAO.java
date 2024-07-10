@@ -3,6 +3,7 @@ package ru.dragomirov.dao;
 import ru.dragomirov.entities.Location;
 import ru.dragomirov.utils.HibernateSessionManagerUtil;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,5 +73,16 @@ public class HibernateLocationCrudDAO implements LocationDAO{
                         .setParameter("name", name)
                         .uniqueResult(),
                         "Произошла ошибка при выполнении метода 'findByLocationName'(HibernateLocationCrudDAO)"));
+    }
+
+    @Override
+    public Optional<Location> findByLocationLatitudeAndLongitude(BigDecimal latitude, BigDecimal longitude) {
+        return Optional.ofNullable((Location) HibernateSessionManagerUtil.performSessionQuery(session ->
+                session.createQuery("FROM Location WHERE latitude = :latitude AND longitude = :longitude")
+                .setParameter("latitude", latitude)
+                .setParameter("longitude", longitude)
+                .uniqueResult(),
+                "Произошла ошибка при выполнении метода 'findByLocationLatitudeAndLongitude'(HibernateLocationCrudDAO)"
+        ));
     }
 }
