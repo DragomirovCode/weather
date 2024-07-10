@@ -32,7 +32,8 @@
                 <form th:action="@{/delete}" method="post">
                     <input type="hidden" name="_method" value="PATCH">
                     <div class="input-group mb-3">
-                        <input type="hidden" name="name" th:value="${location.name}">
+                        <input type="hidden" name="latitude" th:value="${location.coordinates.latitude}">
+                        <input type="hidden" name="longitude" th:value="${location.coordinates.longitude}">
                         <button class="btn btn-outline-secondary" type="submit">Удалить</button>
                     </div>
                 </form>
