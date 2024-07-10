@@ -3,11 +3,24 @@ package ru.dragomirov.servlets;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.dragomirov.dao.HibernateLocationCrudDAO;
+import ru.dragomirov.dao.HibernateSessionCrudDAO;
+import ru.dragomirov.entities.Location;
+import ru.dragomirov.entities.Session;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @WebServlet(name = "DeleteServlet", urlPatterns = "/delete")
 public class DeleteServlet extends BaseServlet {
+    private HibernateLocationCrudDAO hibernateLocationCrudDAO;
+    private HibernateSessionCrudDAO hibernateSessionCrudDAO;
+
+    @Override
+    public void init() {
+        this.hibernateLocationCrudDAO = new HibernateLocationCrudDAO();
+        this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
+    }
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String method = req.getMethod();
@@ -20,6 +33,15 @@ public class DeleteServlet extends BaseServlet {
     }
 
     protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.getWriter().write("PATCH request processed");
+        String otherUuid = (String) getServletContext().getAttribute("myUuid");
+        String nameStr = req.getParameter("name");
+
+        Optional<Location> location = hibernateLocationCrudDAO.findByLocationName(nameStr);
+
+        hibernateLocationCrudDAO.delete(location.get().getId());
+
+        Optional<Session> session = hibernateSessionCrudDAO.findById(otherUuid);
+
+        resp.sendRedirect("/?uuid=" + session.get().getId());
     }
 }
