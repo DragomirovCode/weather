@@ -27,7 +27,7 @@ public class BaseServlet extends HttpServlet {
         }
     }
     @Override
-    public void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         webContext = TemplateEngineConfig.buildWebContext(req, resp, getServletContext());
         webContext.setVariable("message", req.getParameter("message"));
         try {
