@@ -29,11 +29,18 @@
                 <span>Temperature Max: </span><span th:text="${location.main.temperatureMax}"></span><br>
                 <span>Temperature Min: </span><span th:text="${location.main.temperatureMin}"></span><br>
                 <span>Temperature Feels Like: </span><span th:text="${location.main.temperatureFeelsLike}"></span><br>
+                <input type="hidden" name="id" th:value="${location.id}">
+                <form th:action="@{/delete}" method="post">
+                    <input type="hidden" name="_method" value="PATCH">
+                    <div class="input-group mb-3">
+                        <button class="btn btn-outline-secondary" type="submit">Удалить</button>
+                    </div>
+                </form>
+                <br>
             </span>
             <br>
         </li>
     </ul>
 </div>
-
 </body>
 </html>
