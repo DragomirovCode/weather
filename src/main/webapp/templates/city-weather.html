@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>City Weather</title>
+</head>
+<body>
+
+<form th:action="@{/search-city-weather}" th:method="get">
+  <div>
+    <span>ID: </span><span th:text="${city.id}"></span><br>
+    <span>Name: </span><span th:text="${city.name}"></span><br>
+    <span>Latitude: </span><span th:text="${city.coordinates.latitude}"></span><br>
+    <span>Longitude: </span><span th:text="${city.coordinates.longitude}"></span><br>
+    <span>Temperature Actual: </span><span th:text="${city.main.temperatureActual}"></span><br>
+    <span>Temperature Max: </span><span th:text="${city.main.temperatureMax}"></span><br>
+    <span>Temperature Min: </span><span th:text="${city.main.temperatureMin}"></span><br>
+    <span>Temperature Like: </span><span th:text="${city.main.temperatureFeelsLike}"></span><br>
+
+      <br>
+  </div>
+</form>
+
+<form th:action="@{/save}" method="post">
+  <div class="input-group mb-3">
+    <input type="hidden" name="id" th:value="${city.id}">
+    <input type="hidden" name="city" th:value="${city.name}">
+    <input type="hidden" name="latitude" th:value="${city.coordinates.latitude}">
+    <input type="hidden" name="longitude" th:value="${city.coordinates.longitude}">
+    <button class="btn btn-outline-secondary" type="submit">Save</button>
+  </div>
+</form>
+
+</body>
+</html>
