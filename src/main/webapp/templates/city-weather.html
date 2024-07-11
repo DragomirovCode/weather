@@ -17,9 +17,9 @@
     <ul>
       <li th:each="city : ${cityList}">
         <span>Name: </span><span th:text="${city.name}"></span><br>
-        <span>Local names: </span><span th:text="${city.country}"></span><br>
-        <span>Lat: </span><span th:text="${city.latitude}"></span><br>
-        <span>Lon: </span><span th:text="${city.longitude}"></span><br>
+        <span>Country: </span><span th:text="${city.country}"></span><br>
+        <span>Latitude: </span><span th:text="${city.latitude}"></span><br>
+        <span>Longitude: </span><span th:text="${city.longitude}"></span><br>
         <br>
       </li>
     </ul>
