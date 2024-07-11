@@ -78,7 +78,7 @@ public class HibernateLocationCrudDAO implements LocationDAO{
     @Override
     public Optional<Location> findByLocationLatitudeAndLongitude(BigDecimal latitude, BigDecimal longitude) {
         return Optional.ofNullable((Location) HibernateSessionManagerUtil.performSessionQuery(session ->
-                session.createQuery("FROM Location WHERE latitude = :latitude AND longitude = :longitude")
+                session.createQuery("FROM Location WHERE ROUND(latitude, 4) = ROUND(:latitude, 4) AND ROUND(longitude, 4) = ROUND(:longitude, 4)")
                 .setParameter("latitude", latitude)
                 .setParameter("longitude", longitude)
                 .uniqueResult(),
