@@ -30,8 +30,6 @@ public class SaveServlet extends BaseServlet {
         String latitude = req.getParameter("latitude");
         String longitude = req.getParameter("longitude");
 
-        Location location = new Location();
-
         if (otherUuid == null || otherUuid.isEmpty()) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Пользователя с таким uuid не существует");
             return;
@@ -43,10 +41,8 @@ public class SaveServlet extends BaseServlet {
                 new BigDecimal(latitude), new BigDecimal(longitude), session.get().getUserId());
 
         if (locationOptional.isEmpty()) {
-            location.setName(city);
-            location.setLatitude(new BigDecimal(latitude));
-            location.setLongitude(new BigDecimal(longitude));
-            location.setUserId(session.get().getUserId());
+            Location location =
+                    new Location(city, new BigDecimal(latitude), new BigDecimal(longitude), session.get().getUserId());
             hibernateLocationCrudDAO.create(location);
             resp.sendRedirect("/?uuid=" + session.get().getId());
         } else {
