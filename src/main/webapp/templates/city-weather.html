@@ -12,7 +12,6 @@
 
 <br>
 
-<form th:action="@{/search-city-weather}" th:method="get">
   <div>
     <ul>
       <li th:each="city : ${cityList}">
@@ -20,11 +19,17 @@
         <span>Country: </span><span th:text="${city.country}"></span><br>
         <span>Latitude: </span><span th:text="${city.latitude}"></span><br>
         <span>Longitude: </span><span th:text="${city.longitude}"></span><br>
-        <br>
+        <form th:action="@{/save}" method="post">
+          <div class="input-group mb-3">
+            <input type="hidden" name="city" th:value="${city.name}">
+            <input type="hidden" name="latitude" th:value="${city.latitude}">
+            <input type="hidden" name="longitude" th:value="${city.longitude}">
+            <button class="btn btn-outline-secondary" type="submit">save</button>
+          </div>
+        </form>
       </li>
     </ul>
   </div>
-  </form>
 
   <hr>
 
