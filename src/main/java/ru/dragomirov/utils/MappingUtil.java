@@ -1,7 +1,7 @@
 package ru.dragomirov.utils;
 
 import org.modelmapper.ModelMapper;
-import ru.dragomirov.dto.request.LocationRequestDTO;
+import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
 import ru.dragomirov.dto.response.LocationResponseDTO;
 import ru.dragomirov.entities.Location;
 
@@ -11,14 +11,14 @@ public class MappingUtil {
     static {
         MODEL_MAPPER = new ModelMapper();
 
-        MODEL_MAPPER.typeMap(LocationRequestDTO.class, Location.class)
+        MODEL_MAPPER.typeMap(WeatherByLocationRequestDTO.class, Location.class)
                 .addMappings(mapper -> {
-                    mapper.map(LocationRequestDTO::getLatitude, Location::setLatitude);
-                    mapper.map(LocationRequestDTO::getLongitude, Location::setLongitude);
+                    mapper.map(WeatherByLocationRequestDTO::getLatitude, Location::setLatitude);
+                    mapper.map(WeatherByLocationRequestDTO::getLongitude, Location::setLongitude);
                 });
     }
 
-    public static Location locationToEntity(LocationRequestDTO dto) {
+    public static Location locationToEntity(WeatherByLocationRequestDTO dto) {
         return MODEL_MAPPER.map(dto, Location.class);
     }
 

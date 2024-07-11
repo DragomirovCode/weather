@@ -2,7 +2,6 @@ package ru.dragomirov.servlets;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,12 +12,11 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.thymeleaf.context.WebContext;
 import ru.dragomirov.config.thymeleaf.TemplateEngineConfig;
-import ru.dragomirov.dto.request.LocationRequestDTO;
+import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
 import ru.dragomirov.utils.Utils;
 import ru.dragomirov.utils.constants.ApiKeyConstant;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -65,8 +63,8 @@ public class SearchCityWeatherServlet extends BaseServlet {
         String jsonStr = EntityUtils.toString(response.getEntity());
         // Десериализация строки JSON в Java-объект
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        LocationRequestDTO[] requestDTOArray = gson.fromJson(jsonStr, LocationRequestDTO[].class);
-        List<LocationRequestDTO> requestDTOList = List.of(requestDTOArray);
+        WeatherByLocationRequestDTO[] requestDTOArray = gson.fromJson(jsonStr, WeatherByLocationRequestDTO[].class);
+        List<WeatherByLocationRequestDTO> requestDTOList = List.of(requestDTOArray);
 
         WebContext context = TemplateEngineConfig.buildWebContext(req, resp, req.getServletContext());
         context.setVariable("cityList", requestDTOList);

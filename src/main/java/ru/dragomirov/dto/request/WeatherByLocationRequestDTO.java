@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @ToString
-public class LocationRequestDTO {
+public class WeatherByLocationRequestDTO {
     private String name;
     private String country;
     private String state;
