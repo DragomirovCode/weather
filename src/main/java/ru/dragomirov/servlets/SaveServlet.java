@@ -26,7 +26,6 @@ public class SaveServlet extends BaseServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String otherUuid = (String) getServletContext().getAttribute("myUuid");
-        String id = req.getParameter("id");
         String city = req.getParameter("city");
         String latitude = req.getParameter("latitude");
         String longitude = req.getParameter("longitude");
@@ -44,7 +43,6 @@ public class SaveServlet extends BaseServlet {
                 new BigDecimal(latitude), new BigDecimal(longitude), session.get().getUserId());
 
         if (locationOptional.isEmpty()) {
-            location.setId(Integer.parseInt(id));
             location.setName(city);
             location.setLatitude(new BigDecimal(latitude));
             location.setLongitude(new BigDecimal(longitude));
