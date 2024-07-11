@@ -14,7 +14,7 @@ import org.thymeleaf.context.WebContext;
 import ru.dragomirov.config.thymeleaf.TemplateEngineConfig;
 import ru.dragomirov.dao.HibernateLocationCrudDAO;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
-import ru.dragomirov.dto.request.LocationRequestDTO;
+import ru.dragomirov.dto.request.WeatherByCoordinatesRequestDTO;
 import ru.dragomirov.entities.Location;
 import ru.dragomirov.entities.Session;
 import ru.dragomirov.utils.Utils;
@@ -54,14 +54,14 @@ public class MyLocationsServlet extends BaseServlet {
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
-        List<LocationRequestDTO> locationWeatherData = new ArrayList<>();
+        List<WeatherByCoordinatesRequestDTO> locationWeatherData = new ArrayList<>();
         for (Location loc : location) {
             String apiUrl = utils.buildLatLonCityWeatherApiUrl(loc.getLatitude(), loc.getLongitude(), apiKey);
             HttpGet request = new HttpGet(apiUrl);
             HttpResponse response = httpClient.execute(request);
             String jsonStr = EntityUtils.toString(response.getEntity());
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            LocationRequestDTO requestDTO = gson.fromJson(jsonStr, LocationRequestDTO.class);
+            WeatherByCoordinatesRequestDTO requestDTO = gson.fromJson(jsonStr, WeatherByCoordinatesRequestDTO.class);
             locationWeatherData.add(requestDTO);
         }
         WebContext context = TemplateEngineConfig.buildWebContext(req, resp, req.getServletContext());
