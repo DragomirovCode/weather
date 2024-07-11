@@ -3,38 +3,19 @@ package ru.dragomirov.dto.request;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 
 @Getter
 @Setter
+@ToString
 public class LocationRequestDTO {
-    public int id;
-    public String name;
-    @SerializedName("coord")
-    public Coordinates coordinates;
-    @SerializedName("main")
-    public Main main;
-
-    @Getter
-    @Setter
-    public static class Coordinates {
-        @SerializedName("lat")
-        public BigDecimal latitude;
-        @SerializedName("lon")
-        public BigDecimal longitude;
-    }
-
-    @Getter
-    @Setter
-    public static class Main {
-        @SerializedName("temp")
-        public BigDecimal temperatureActual;
-        @SerializedName("temp_max")
-        public BigDecimal temperatureMax;
-        @SerializedName("temp_min")
-        public BigDecimal temperatureMin;
-        @SerializedName("feels_like")
-        public BigDecimal temperatureFeelsLike;
-    }
+    private String name;
+    private String country;
+    private String state;
+    @SerializedName("lat")
+    private BigDecimal latitude;
+    @SerializedName("lon")
+    private BigDecimal longitude;
 }
