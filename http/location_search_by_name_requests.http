@@ -15,3 +15,7 @@ GET https://api.openweathermap.org/data/2.5/weather?q=Kurganinsk,RU&appid=66b4f9
 # Возвращает данные о погоде для города Курганинск в Краснодарском крае, Россия.
 # Обеспечивает более точные данные, когда в стране есть несколько регионов с одинаковыми или похожими названиями городов.
 GET https://api.openweathermap.org/data/2.5/weather?q=Kurganinsk,KDA,RU&appid=66b4f9f34b5073497f497f4d4f2be438
+
+
+### http200 - Успех
+GET https://api.openweathermap.org/geo/1.0/direct?q=Los Angeles&limit=5&appid=66b4f9f34b5073497f497f4d4f2be438
