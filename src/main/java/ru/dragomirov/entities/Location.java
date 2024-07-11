@@ -25,9 +25,10 @@ public class Location {
 
     public Location() {}
 
-    public Location(String name, BigDecimal latitude, BigDecimal longitude) {
+    public Location(String name, BigDecimal latitude, BigDecimal longitude, int userId) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.userId = userId;
     }
 }
