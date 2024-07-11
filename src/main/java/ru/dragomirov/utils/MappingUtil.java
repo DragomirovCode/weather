@@ -13,8 +13,8 @@ public class MappingUtil {
 
         MODEL_MAPPER.typeMap(LocationRequestDTO.class, Location.class)
                 .addMappings(mapper -> {
-                    mapper.map(src -> src.getCoordinates().getLatitude(), Location::setLatitude);
-                    mapper.map(src -> src.getCoordinates().getLongitude(), Location::setLongitude);
+                    mapper.map(LocationRequestDTO::getLatitude, Location::setLatitude);
+                    mapper.map(LocationRequestDTO::getLongitude, Location::setLongitude);
                 });
     }
 
