@@ -6,8 +6,8 @@ import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
 import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
-import ru.dragomirov.exception.EntityExistsException;
 import ru.dragomirov.exception.InvalidParameterException;
+import ru.dragomirov.exception.NotFoundException;
 import ru.dragomirov.utils.constants.WebPageConstants;
 import ru.dragomirov.utils.request.AuthenticationRequest;
 
@@ -62,7 +62,7 @@ public class LoginServlet extends BaseServlet {
 
                     resp.sendRedirect("/?uuid=" + sessionId.get().getId());
                 } else {
-                    throw new EntityExistsException("User with such a login or password does not exist");
+                    throw new NotFoundException("User with such a login or password does not exist");
                 }
                 break;
             case "registration":

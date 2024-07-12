@@ -7,7 +7,7 @@ import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
 import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
-import ru.dragomirov.exception.EntityExistsException;
+import ru.dragomirov.exception.NotFoundException;
 import ru.dragomirov.utils.constants.WebPageConstants;
 import ru.dragomirov.utils.request.AuthenticationRequest;
 import ru.dragomirov.exception.InvalidParameterException;
@@ -49,7 +49,7 @@ public class RegistrationServlet extends BaseServlet {
                 Optional<User> user = hibernateUserCrudDAO.findByLogin(authenticationRequest.getLogin());
 
                 if (user.isPresent()) {
-                   throw new EntityExistsException("User with such a login already exists");
+                   throw new NotFoundException("User with such a login already exists");
                 }
                 User newUser = new User(authenticationRequest.getLogin(), authenticationRequest.getPassword());
                 hibernateUserCrudDAO.create(newUser);
