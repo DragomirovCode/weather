@@ -43,7 +43,7 @@ public class SaveServlet extends BaseServlet {
         }
 
         Optional<Location> locationOptional = hibernateLocationCrudDAO.findByLocationLatitudeAndLongitudeAndUserId(
-                new BigDecimal(latitude), new BigDecimal(longitude), session.get().getUserId());
+                new BigDecimal(latitude), new BigDecimal(longitude), session.get().getUserId(), city);
 
         if (locationOptional.isEmpty()) {
             Location location =

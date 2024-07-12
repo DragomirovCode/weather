@@ -88,13 +88,14 @@ public class HibernateLocationCrudDAO implements LocationDAO{
     }
 
     @Override
-    public Optional<Location> findByLocationLatitudeAndLongitudeAndUserId(BigDecimal latitude, BigDecimal longitude, int userId) {
+    public Optional<Location> findByLocationLatitudeAndLongitudeAndUserId(BigDecimal latitude, BigDecimal longitude, int userId, String name) {
         return Optional.ofNullable((Location) HibernateSessionManagerUtil.performSessionQuery(session ->
                 session.createQuery(
-                        "FROM Location  WHERE latitude = :latitude AND longitude = :longitude AND userId = :userId")
+                        "FROM Location  WHERE latitude = :latitude AND longitude = :longitude AND userId = :userId AND name = :name")
                         .setParameter("latitude", latitude)
                         .setParameter("longitude", longitude)
                         .setParameter("userId", userId)
+                        .setParameter("name", name)
                         .uniqueResult(),
                 "Произошла ошибка при выполнении метода 'findByLocationLatitudeAndLongitude'(HibernateLocationCrudDAO)"
         ));
