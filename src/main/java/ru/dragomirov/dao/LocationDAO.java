@@ -10,6 +10,6 @@ public interface LocationDAO extends CrudDAO<Location, Integer> {
     List<Location> findByListLocationName(String name);
     List<Location> findByListLocationUserId(int userId);
     Optional<Location> findByLocationName(String name);
-    Optional<Location> findByLocationLatitudeAndLongitude(BigDecimal latitude, BigDecimal longitude);
+    Optional<Location> findByLocationLatitudeAndLongitude(BigDecimal latitude, BigDecimal longitude, String name);
     Optional<Location> findByLocationLatitudeAndLongitudeAndUserId(BigDecimal latitude, BigDecimal longitude, int userId);
 }
