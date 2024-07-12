@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.entities.Session;
+import ru.dragomirov.exception.SessionExpiredException;
 import ru.dragomirov.utils.constants.WebPageConstants;
 
 import java.io.IOException;
@@ -35,6 +36,10 @@ public class CookieServlet extends BaseServlet {
         LocalDateTime now = LocalDateTime.now();
 
         Optional<Session> session = hibernateSessionCrudDAO.findById(uuid);
+
+        if (session.isEmpty()) {
+            throw new SessionExpiredException("Session has expired");
+        }
 
         if (session.get().getExpiresAt().isBefore(now)) {
             resp.sendRedirect(WebPageConstants.LOGIN_PAGE_X.getValue());

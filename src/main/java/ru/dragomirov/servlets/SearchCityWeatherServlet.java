@@ -13,6 +13,8 @@ import org.apache.http.util.EntityUtils;
 import org.thymeleaf.context.WebContext;
 import ru.dragomirov.config.thymeleaf.TemplateEngineConfig;
 import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
+import ru.dragomirov.exception.InvalidParameterException;
+import ru.dragomirov.exception.NotFoundException;
 import ru.dragomirov.utils.Utils;
 import ru.dragomirov.utils.constants.ApiKeyConstant;
 
@@ -35,14 +37,11 @@ public class SearchCityWeatherServlet extends BaseServlet {
         String cityName = req.getParameter("city");
 
         if (cityName.isEmpty()) {
-            HttpErrorHandlingServlet.handleError(400, resp, "Отсутствует нужное поле формы");
-            return;
+            throw new InvalidParameterException("Parameter city is invalid");
         }
 
         if (regex.matcher(cityName).find()) {
-            HttpErrorHandlingServlet.handleError(400, resp,
-                    "Не должно содержать спец.символы и цифры");
-            return;
+            throw new InvalidParameterException("Is invalid");
         }
 
         String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
@@ -55,8 +54,7 @@ public class SearchCityWeatherServlet extends BaseServlet {
         HttpResponse response = httpClient.execute(request);
 
         if (response.getStatusLine().getStatusCode() == 404) {
-            HttpErrorHandlingServlet.handleError(404, resp, "Город не найден");
-            return;
+            throw new NotFoundException("City was not found");
         }
 
         // Преобразование тела ответа в строку

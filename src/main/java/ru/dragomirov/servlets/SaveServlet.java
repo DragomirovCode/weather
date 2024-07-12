@@ -7,6 +7,8 @@ import ru.dragomirov.dao.HibernateLocationCrudDAO;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.entities.Location;
 import ru.dragomirov.entities.Session;
+import ru.dragomirov.exception.NotFoundException;
+import ru.dragomirov.exception.SessionExpiredException;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -31,11 +33,14 @@ public class SaveServlet extends BaseServlet {
         String longitude = req.getParameter("longitude");
 
         if (otherUuid == null || otherUuid.isEmpty()) {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Пользователя с таким uuid не существует");
-            return;
+            throw new NotFoundException("Uuid has expired");
         }
 
         Optional<Session> session = hibernateSessionCrudDAO.findById(otherUuid);
+
+        if (session.isEmpty()) {
+            throw new SessionExpiredException("Session has expired");
+        }
 
         Optional<Location> locationOptional = hibernateLocationCrudDAO.findByLocationLatitudeAndLongitudeAndUserId(
                 new BigDecimal(latitude), new BigDecimal(longitude), session.get().getUserId());

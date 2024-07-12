@@ -32,8 +32,8 @@ public class BaseServlet extends HttpServlet {
         webContext.setVariable("message", req.getParameter("message"));
         try {
             super.service(req, resp);
-        } catch (IOException | ServletException e) {
-            HttpErrorHandlingServlet.handleError(500, resp, e.getMessage());
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
         }
     }
 }
