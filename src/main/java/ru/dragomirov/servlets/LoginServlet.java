@@ -6,6 +6,7 @@ import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
 import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
+import ru.dragomirov.exception.EntityExistsException;
 import ru.dragomirov.exception.InvalidParameterException;
 import ru.dragomirov.utils.constants.WebPageConstants;
 import ru.dragomirov.utils.request.AuthenticationRequest;
@@ -35,11 +36,11 @@ public class LoginServlet extends BaseServlet {
         AuthenticationRequest authenticationRequest = new AuthenticationRequest(req);
 
         if (authenticationRequest.loginIsValid()) {
-            throw new InvalidParameterException("Error: Parameter login is invalid");
+            throw new InvalidParameterException("Parameter login is invalid");
         }
 
         if (authenticationRequest.passwordIsValid()) {
-            throw new InvalidParameterException("Error: Parameter password is invalid");
+            throw new InvalidParameterException("Parameter password is invalid");
         }
 
         switch (authenticationRequest.getButton()) {
@@ -61,8 +62,7 @@ public class LoginServlet extends BaseServlet {
 
                     resp.sendRedirect("/?uuid=" + sessionId.get().getId());
                 } else {
-                    HttpErrorHandlingServlet.handleError(401, resp,
-                            "Ошибка: пользователя с таким логином или паролем не существует");
+                    throw new EntityExistsException("User with such a login or password does not exist");
                 }
                 break;
             case "registration":

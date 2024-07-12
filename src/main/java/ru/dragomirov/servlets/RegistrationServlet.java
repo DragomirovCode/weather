@@ -7,6 +7,7 @@ import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
 import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
+import ru.dragomirov.exception.EntityExistsException;
 import ru.dragomirov.utils.constants.WebPageConstants;
 import ru.dragomirov.utils.request.AuthenticationRequest;
 import ru.dragomirov.exception.InvalidParameterException;
@@ -36,11 +37,11 @@ public class RegistrationServlet extends BaseServlet {
         AuthenticationRequest authenticationRequest = new AuthenticationRequest(req);
 
         if (authenticationRequest.loginIsValid()) {
-            throw new InvalidParameterException("Error: Parameter login is invalid");
+            throw new InvalidParameterException("Parameter login is invalid");
         }
 
         if (authenticationRequest.passwordIsValid()) {
-            throw new InvalidParameterException("Error: Parameter password is invalid");
+            throw new InvalidParameterException("Parameter password is invalid");
         }
 
         switch (authenticationRequest.getButton()) {
@@ -48,8 +49,7 @@ public class RegistrationServlet extends BaseServlet {
                 Optional<User> user = hibernateUserCrudDAO.findByLogin(authenticationRequest.getLogin());
 
                 if (user.isPresent()) {
-                    HttpErrorHandlingServlet.handleError(409, resp,
-                            "Ошибка: пользователь с таким логином уже существует");
+                   throw new EntityExistsException("User with such a login already exists");
                 }
                 User newUser = new User(authenticationRequest.getLogin(), authenticationRequest.getPassword());
                 hibernateUserCrudDAO.create(newUser);
