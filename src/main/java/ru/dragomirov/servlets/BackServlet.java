@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.entities.Session;
+import ru.dragomirov.exception.SessionExpiredException;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -22,6 +23,9 @@ public class BackServlet extends BaseServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String otherUuid = (String) getServletContext().getAttribute("myUuid");
         Optional<Session> session = hibernateSessionCrudDAO.findById(otherUuid);
+        if (session.isEmpty()) {
+            throw new SessionExpiredException("Session has expired");
+        }
         resp.sendRedirect("/?uuid=" + session.get().getId());
     }
 }

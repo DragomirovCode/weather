@@ -7,6 +7,8 @@ import ru.dragomirov.dao.HibernateLocationCrudDAO;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.entities.Location;
 import ru.dragomirov.entities.Session;
+import ru.dragomirov.exception.NotFoundException;
+import ru.dragomirov.exception.SessionExpiredException;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -41,9 +43,17 @@ public class DeleteServlet extends BaseServlet {
         Optional<Location> location = hibernateLocationCrudDAO.findByLocationLatitudeAndLongitude(
                 new BigDecimal(latitudeStr), new BigDecimal(longitudeStr));
 
+        if (location.isEmpty()) {
+            throw new NotFoundException("Location has expired");
+        }
+
         hibernateLocationCrudDAO.delete(location.get().getId());
 
         Optional<Session> session = hibernateSessionCrudDAO.findById(otherUuid);
+
+        if (session.isEmpty()) {
+            throw new SessionExpiredException("Session has expired");
+        }
 
         resp.sendRedirect("/?uuid=" + session.get().getId());
     }

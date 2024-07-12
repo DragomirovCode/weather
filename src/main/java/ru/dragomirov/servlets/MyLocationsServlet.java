@@ -17,6 +17,7 @@ import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dto.request.WeatherByCoordinatesRequestDTO;
 import ru.dragomirov.entities.Location;
 import ru.dragomirov.entities.Session;
+import ru.dragomirov.exception.SessionExpiredException;
 import ru.dragomirov.utils.Utils;
 import ru.dragomirov.utils.constants.ApiKeyConstant;
 
@@ -48,6 +49,11 @@ public class MyLocationsServlet extends BaseServlet {
         }
 
         Optional<Session> session = hibernateSessionCrudDAO.findById(otherUuid);
+
+        if (session.isEmpty()) {
+            throw new SessionExpiredException("Session has expired");
+        }
+
         List<Location> location = hibernateLocationCrudDAO.findByListLocationUserId(session.get().getUserId());
 
         String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
