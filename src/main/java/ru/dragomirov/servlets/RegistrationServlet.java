@@ -9,6 +9,7 @@ import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
 import ru.dragomirov.utils.constants.WebPageConstants;
 import ru.dragomirov.utils.request.AuthenticationRequest;
+import ru.dragomirov.exception.InvalidParameterException;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -34,10 +35,12 @@ public class RegistrationServlet extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         AuthenticationRequest authenticationRequest = new AuthenticationRequest(req);
 
-        if (authenticationRequest.isValid()) {
-            HttpErrorHandlingServlet.handleError(400, resp,
-                    "Ошибка: логин и пароль должны быть указаны");
-            return;
+        if (authenticationRequest.loginIsValid()) {
+            throw new InvalidParameterException("Error: Parameter login is invalid");
+        }
+
+        if (authenticationRequest.passwordIsValid()) {
+            throw new InvalidParameterException("Error: Parameter password is invalid");
         }
 
         switch (authenticationRequest.getButton()) {

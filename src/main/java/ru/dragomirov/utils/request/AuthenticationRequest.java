@@ -17,7 +17,11 @@ public class AuthenticationRequest {
         this.button = req.getParameter("button");
     }
 
-    public boolean isValid() {
-        return login == null || login.isEmpty() || password == null || password.isEmpty();
+    public boolean loginIsValid() {
+        return login == null || login.isEmpty();
+    }
+
+    public boolean passwordIsValid() {
+        return password == null || password.isEmpty();
     }
 }
