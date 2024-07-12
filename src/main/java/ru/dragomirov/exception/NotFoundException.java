@@ -1,4 +1,4 @@
-package ru.dragomirov.exception.authentication;
+package ru.dragomirov.exception;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException(String message) {
