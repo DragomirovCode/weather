@@ -68,6 +68,9 @@ public class MyLocationsServlet extends BaseServlet {
             String jsonStr = EntityUtils.toString(response.getEntity());
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             WeatherByCoordinatesRequestDTO requestDTO = gson.fromJson(jsonStr, WeatherByCoordinatesRequestDTO.class);
+            requestDTO.setName(loc.getName());
+            requestDTO.coordinates.setLatitude(loc.getLatitude());
+            requestDTO.coordinates.setLongitude(loc.getLongitude());
             locationWeatherData.add(requestDTO);
         }
         WebContext context = TemplateEngineConfig.buildWebContext(req, resp, req.getServletContext());
