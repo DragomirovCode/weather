@@ -61,9 +61,7 @@ public class MyLocationsService {
                 requestDTO.setName(loc.getName());
                 requestDTO.coordinates.setLatitude(loc.getLatitude());
                 requestDTO.coordinates.setLongitude(loc.getLongitude());
-                
-                requestDTO.main.setTemperatureMax(roundingToAnInteger(requestDTO.getMain().temperatureMax));
-                requestDTO.main.setTemperatureMin(roundingToAnInteger(requestDTO.getMain().temperatureMin));
+
                 requestDTO.main.setTemperatureActual(roundingToAnInteger(requestDTO.getMain().temperatureActual));
                 requestDTO.main.setTemperatureFeelsLike(roundingToAnInteger(requestDTO.getMain().temperatureFeelsLike));
 

@@ -25,9 +25,9 @@
             <span>Name: </span><span th:text="${location.name}"></span><br>
             <span th:if="${location.main != null}">
                 <span>Temperature Actual: </span><span th:text="${location.main.temperatureActual}"></span><br>
-                <span>Temperature Max: </span><span th:text="${location.main.temperatureMax}"></span><br>
-                <span>Temperature Min: </span><span th:text="${location.main.temperatureMin}"></span><br>
                 <span>Temperature Feels Like: </span><span th:text="${location.main.temperatureFeelsLike}"></span><br>
+                <span>Country: </span><span th:text="${location.sys.country}"></span><br>
+
                 <form th:action="@{/delete}" method="post">
                     <input type="hidden" name="_method" value="PATCH">
                     <div class="input-group mb-3">
