@@ -8,9 +8,10 @@ import ru.dragomirov.dao.HibernateUserCrudDAO;
 import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
 import ru.dragomirov.exception.NotFoundException;
+import ru.dragomirov.exception.authentication.LoginException;
+import ru.dragomirov.exception.authentication.PasswordException;
 import ru.dragomirov.utils.constants.WebPageConstants;
 import ru.dragomirov.utils.request.AuthenticationRequest;
-import ru.dragomirov.exception.InvalidParameterException;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -37,11 +38,11 @@ public class RegistrationServlet extends BaseServlet {
         AuthenticationRequest authenticationRequest = new AuthenticationRequest(req);
 
         if (authenticationRequest.loginIsValid()) {
-            throw new InvalidParameterException("Parameter login is invalid");
+            throw new LoginException("Parameter login is invalid");
         }
 
         if (authenticationRequest.passwordIsValid()) {
-            throw new InvalidParameterException("Parameter password is invalid");
+            throw new PasswordException("Parameter password is invalid");
         }
 
         switch (authenticationRequest.getButton()) {
@@ -49,7 +50,7 @@ public class RegistrationServlet extends BaseServlet {
                 Optional<User> user = hibernateUserCrudDAO.findByLogin(authenticationRequest.getLogin());
 
                 if (user.isPresent()) {
-                   throw new NotFoundException("User with such a login already exists");
+                   throw new LoginException("User with such a login already exists");
                 }
                 User newUser = new User(authenticationRequest.getLogin(), authenticationRequest.getPassword());
                 hibernateUserCrudDAO.create(newUser);
