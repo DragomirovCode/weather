@@ -16,6 +16,8 @@ import ru.dragomirov.utils.Utils;
 import ru.dragomirov.utils.constants.ApiKeyConstant;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +41,11 @@ public class MyLocationsService {
         return hibernateLocationCrudDAO.findByListLocationUserId(Integer.parseInt(userId));
     }
 
+    private BigDecimal roundingToAnInteger(BigDecimal temperature) {
+        BigDecimal valueTem = new BigDecimal(String.valueOf(temperature));
+        return valueTem.setScale(0, RoundingMode.DOWN);
+    }
+
     public List<WeatherByCoordinatesRequestDTO> getWeatherDataForLocations(List<Location> locations) throws IOException {
         List<WeatherByCoordinatesRequestDTO> locationWeatherData = new ArrayList<>();
         String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
@@ -54,6 +61,12 @@ public class MyLocationsService {
                 requestDTO.setName(loc.getName());
                 requestDTO.coordinates.setLatitude(loc.getLatitude());
                 requestDTO.coordinates.setLongitude(loc.getLongitude());
+                
+                requestDTO.main.setTemperatureMax(roundingToAnInteger(requestDTO.getMain().temperatureMax));
+                requestDTO.main.setTemperatureMin(roundingToAnInteger(requestDTO.getMain().temperatureMin));
+                requestDTO.main.setTemperatureActual(roundingToAnInteger(requestDTO.getMain().temperatureActual));
+                requestDTO.main.setTemperatureFeelsLike(roundingToAnInteger(requestDTO.getMain().temperatureFeelsLike));
+
                 locationWeatherData.add(requestDTO);
             }
         }
