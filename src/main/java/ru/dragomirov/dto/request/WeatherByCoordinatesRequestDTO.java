@@ -15,6 +15,7 @@ public class WeatherByCoordinatesRequestDTO {
     public Coordinates coordinates;
     @SerializedName("main")
     public Main main;
+    public Sys sys;
 
     @Getter
     @Setter
@@ -36,5 +37,11 @@ public class WeatherByCoordinatesRequestDTO {
         public BigDecimal temperatureMin;
         @SerializedName("feels_like")
         public BigDecimal temperatureFeelsLike;
+    }
+
+    @Getter
+    @Setter
+    public static class Sys {
+        public String country;
     }
 }
