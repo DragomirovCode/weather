@@ -11,6 +11,6 @@ public class Utils {
     }
 
     public String buildLatLonCityWeatherApiUrl(BigDecimal lat, BigDecimal lon, String key) {
-        return "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + key;
+        return "https://api.openweathermap.org/data/2.5/weather?lat="+ lat + "&lon=" + lon + "&appid=" + key + "&units=metric";
     }
 }
