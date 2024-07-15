@@ -2,7 +2,6 @@ package ru.dragomirov.services;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -48,7 +47,7 @@ public class MyLocationsService {
         return valueTem.setScale(0, RoundingMode.DOWN);
     }
 
-    public List<WeatherByCoordinatesRequestDTO> getWeatherDataForLocations(List<Location> locations) {
+    public List<WeatherByCoordinatesRequestDTO> getWeatherDataForLocations(List<Location> locations) throws IOException {
         List<WeatherByCoordinatesRequestDTO> locationWeatherData = new ArrayList<>();
         String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
 
@@ -58,10 +57,6 @@ public class MyLocationsService {
                     String apiUrl = utils.buildLatLonCityWeatherApiUrl(loc.getLatitude(), loc.getLongitude(), apiKey);
                     HttpGet request = new HttpGet(apiUrl);
                     HttpResponse response = httpClient.execute(request);
-
-                    if (response.getStatusLine().getStatusCode() != 200) {
-                        throw new WeatherApiException("Failed to get weather data");
-                    }
 
                     String jsonStr = EntityUtils.toString(response.getEntity());
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -75,14 +70,10 @@ public class MyLocationsService {
 
                     locationWeatherData.add(requestDTO);
                 } catch (WeatherApiException e) {
-                    throw new WeatherApiException("Error processing location ");
+                    throw new WeatherApiException("Error processing location");
                 }
             }
-        } catch (WeatherApiException | IOException e) {
-            throw new WeatherApiException("Error creating or closing HttpClient: ");
         }
         return locationWeatherData;
     }
-
 }
-
