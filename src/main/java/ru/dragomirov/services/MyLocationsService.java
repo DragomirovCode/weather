@@ -2,6 +2,7 @@ package ru.dragomirov.services;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -12,6 +13,7 @@ import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dto.request.WeatherByCoordinatesRequestDTO;
 import ru.dragomirov.entities.Location;
 import ru.dragomirov.entities.Session;
+import ru.dragomirov.exception.api.WeatherApiException;
 import ru.dragomirov.utils.Utils;
 import ru.dragomirov.utils.constants.ApiKeyConstant;
 
@@ -46,29 +48,41 @@ public class MyLocationsService {
         return valueTem.setScale(0, RoundingMode.DOWN);
     }
 
-    public List<WeatherByCoordinatesRequestDTO> getWeatherDataForLocations(List<Location> locations) throws IOException {
+    public List<WeatherByCoordinatesRequestDTO> getWeatherDataForLocations(List<Location> locations) {
         List<WeatherByCoordinatesRequestDTO> locationWeatherData = new ArrayList<>();
         String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             for (Location loc : locations) {
-                String apiUrl = utils.buildLatLonCityWeatherApiUrl(loc.getLatitude(), loc.getLongitude(), apiKey);
-                HttpGet request = new HttpGet(apiUrl);
-                HttpResponse response = httpClient.execute(request);
-                String jsonStr = EntityUtils.toString(response.getEntity());
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                WeatherByCoordinatesRequestDTO requestDTO = gson.fromJson(jsonStr, WeatherByCoordinatesRequestDTO.class);
-                requestDTO.setName(loc.getName());
-                requestDTO.coordinates.setLatitude(loc.getLatitude());
-                requestDTO.coordinates.setLongitude(loc.getLongitude());
+                try {
+                    String apiUrl = utils.buildLatLonCityWeatherApiUrl(loc.getLatitude(), loc.getLongitude(), apiKey);
+                    HttpGet request = new HttpGet(apiUrl);
+                    HttpResponse response = httpClient.execute(request);
 
-                requestDTO.main.setTemperatureActual(roundingToAnInteger(requestDTO.getMain().temperatureActual));
-                requestDTO.main.setTemperatureFeelsLike(roundingToAnInteger(requestDTO.getMain().temperatureFeelsLike));
+                    if (response.getStatusLine().getStatusCode() != 200) {
+                        throw new WeatherApiException("Failed to get weather data");
+                    }
 
-                locationWeatherData.add(requestDTO);
+                    String jsonStr = EntityUtils.toString(response.getEntity());
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    WeatherByCoordinatesRequestDTO requestDTO = gson.fromJson(jsonStr, WeatherByCoordinatesRequestDTO.class);
+                    requestDTO.setName(loc.getName());
+                    requestDTO.coordinates.setLatitude(loc.getLatitude());
+                    requestDTO.coordinates.setLongitude(loc.getLongitude());
+
+                    requestDTO.main.setTemperatureActual(roundingToAnInteger(requestDTO.getMain().temperatureActual));
+                    requestDTO.main.setTemperatureFeelsLike(roundingToAnInteger(requestDTO.getMain().temperatureFeelsLike));
+
+                    locationWeatherData.add(requestDTO);
+                } catch (WeatherApiException e) {
+                    throw new WeatherApiException("Error processing location ");
+                }
             }
+        } catch (WeatherApiException | IOException e) {
+            throw new WeatherApiException("Error creating or closing HttpClient: ");
         }
         return locationWeatherData;
     }
+
 }
 
