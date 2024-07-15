@@ -15,6 +15,7 @@ import ru.dragomirov.config.thymeleaf.TemplateEngineConfig;
 import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
 import ru.dragomirov.exception.InvalidParameterException;
 import ru.dragomirov.exception.NotFoundException;
+import ru.dragomirov.exception.api.WeatherApiException;
 import ru.dragomirov.utils.Utils;
 import ru.dragomirov.utils.constants.ApiKeyConstant;
 
@@ -43,29 +44,31 @@ public class SearchCityWeatherServlet extends BaseServlet {
         if (regex.matcher(cityName).find()) {
             throw new InvalidParameterException("Is invalid");
         }
+        try {
+            String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
+            String apiUrl = utils.buildCityWeatherApiUrl(cityName, apiKey);
 
-        String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
-        String apiUrl = utils.buildCityWeatherApiUrl(cityName, apiKey);
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            // Создание объекта запроса
+            HttpGet request = new HttpGet(apiUrl);
+            // Выполнение запроса
+            HttpResponse response = httpClient.execute(request);
 
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        // Создание объекта запроса
-        HttpGet request = new HttpGet(apiUrl);
-        // Выполнение запроса
-        HttpResponse response = httpClient.execute(request);
+            if (response.getStatusLine().getStatusCode() == 404) {
+                throw new NotFoundException("City was not found");
+            }
 
-        if (response.getStatusLine().getStatusCode() == 404) {
-            throw new NotFoundException("City was not found");
+            // Преобразование тела ответа в строку
+            String jsonStr = EntityUtils.toString(response.getEntity());
+            // Десериализация строки JSON в Java-объект
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            WeatherByLocationRequestDTO[] requestDTOArray = gson.fromJson(jsonStr, WeatherByLocationRequestDTO[].class);
+            List<WeatherByLocationRequestDTO> requestDTOList = List.of(requestDTOArray);
+            WebContext context = TemplateEngineConfig.buildWebContext(req, resp, req.getServletContext());
+            context.setVariable("cityList", requestDTOList);
+            templateEngine.process("city-weather", context, resp.getWriter());
+        } catch (WeatherApiException e) {
+            throw new WeatherApiException("Error accessing the API");
         }
-
-        // Преобразование тела ответа в строку
-        String jsonStr = EntityUtils.toString(response.getEntity());
-        // Десериализация строки JSON в Java-объект
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        WeatherByLocationRequestDTO[] requestDTOArray = gson.fromJson(jsonStr, WeatherByLocationRequestDTO[].class);
-        List<WeatherByLocationRequestDTO> requestDTOList = List.of(requestDTOArray);
-
-        WebContext context = TemplateEngineConfig.buildWebContext(req, resp, req.getServletContext());
-        context.setVariable("cityList", requestDTOList);
-        templateEngine.process("city-weather", context, resp.getWriter());
     }
 }

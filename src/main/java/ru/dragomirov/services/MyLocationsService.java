@@ -70,7 +70,7 @@ public class MyLocationsService {
 
                     locationWeatherData.add(requestDTO);
                 } catch (WeatherApiException e) {
-                    throw new WeatherApiException("Error processing location");
+                    throw new WeatherApiException("Error accessing the API");
                 }
             }
         }

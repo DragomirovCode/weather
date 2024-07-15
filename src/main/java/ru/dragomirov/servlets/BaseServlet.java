@@ -44,12 +44,15 @@ public class BaseServlet extends HttpServlet {
             templateEngine.process("error/authentication/authentication-error", webContext, resp.getWriter());
         } catch (SessionExpiredException | EntityExistsException | ServletException e) {
             resp.sendRedirect(WebPageConstants.LOGIN_PAGE_X.getValue());
-        } catch (InvalidParameterException | WeatherApiException e) {
+        } catch (InvalidParameterException e) {
             webContext.setVariable("error", e.getMessage());
             templateEngine.process("error/error", webContext, resp.getWriter());
         } catch (DatabaseOperationException e) {
             webContext.setVariable("error", e.getMessage());
             templateEngine.process("error/database-error", webContext, resp.getWriter());
+        } catch (WeatherApiException e) {
+            webContext.setVariable("error", e.getMessage());
+            templateEngine.process("error/api-error", webContext, resp.getWriter());
         }
     }
 }
