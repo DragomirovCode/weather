@@ -9,7 +9,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import ru.dragomirov.config.thymeleaf.TemplateEngineConfig;
+import ru.dragomirov.exception.DatabaseOperationException;
 import ru.dragomirov.exception.EntityExistsException;
+import ru.dragomirov.exception.InvalidParameterException;
 import ru.dragomirov.exception.SessionExpiredException;
 import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.exception.authentication.PasswordException;
@@ -41,6 +43,12 @@ public class BaseServlet extends HttpServlet {
             templateEngine.process("error/authentication/authentication-error", webContext, resp.getWriter());
         } catch (SessionExpiredException | EntityExistsException | ServletException e) {
             resp.sendRedirect(WebPageConstants.LOGIN_PAGE_X.getValue());
+        } catch (InvalidParameterException e) {
+            webContext.setVariable("error", e.getMessage());
+            templateEngine.process("error/error", webContext, resp.getWriter());
+        } catch (DatabaseOperationException e) {
+            webContext.setVariable("error", e.getMessage());
+            templateEngine.process("error/database-error", webContext, resp.getWriter());
         }
     }
 }

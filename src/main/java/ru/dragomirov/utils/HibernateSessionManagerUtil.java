@@ -1,5 +1,6 @@
 package ru.dragomirov.utils;
 import org.hibernate.Session;
+import ru.dragomirov.exception.DatabaseOperationException;
 
 /**
  * HibernateSessionManagerUtil используется для управления сессиями Hibernate.
@@ -30,7 +31,8 @@ public class HibernateSessionManagerUtil {
             return sessionQuery.execute(session);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException(errorMessage, e);
+            System.out.println(errorMessage);
+            throw new DatabaseOperationException("An error occurred on the server side");
         }
     }
 
@@ -45,7 +47,8 @@ public class HibernateSessionManagerUtil {
             if (session != null && session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
-            throw new RuntimeException(errorMessage, e);
+            System.out.println(errorMessage);
+            throw new DatabaseOperationException("An error occurred on the server side");
         } finally {
             if (session != null) {
                 session.close();
