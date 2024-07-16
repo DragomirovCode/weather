@@ -3,29 +3,21 @@ package ru.dragomirov.servlets;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.dragomirov.dao.HibernateSessionCrudDAO;
-import ru.dragomirov.dao.HibernateUserCrudDAO;
-import ru.dragomirov.entities.Session;
-import ru.dragomirov.entities.User;
-import ru.dragomirov.exception.NotFoundException;
+import lombok.SneakyThrows;
 import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.exception.authentication.PasswordException;
+import ru.dragomirov.services.RegistrationService;
 import ru.dragomirov.utils.constants.WebPageConstants;
 import ru.dragomirov.utils.request.AuthenticationRequest;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.UUID;
 
 @WebServlet(name = "RegistrationServlet", urlPatterns = "/registration")
 public class RegistrationServlet extends BaseServlet {
-    private HibernateUserCrudDAO hibernateUserCrudDAO;
-    private HibernateSessionCrudDAO hibernateSessionCrudDAO;
+    private RegistrationService registrationService;
     @Override
     public void init(){
-        this.hibernateUserCrudDAO = new HibernateUserCrudDAO();
-        this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
+        registrationService = new RegistrationService();
     }
 
     @Override
@@ -33,8 +25,9 @@ public class RegistrationServlet extends BaseServlet {
         templateEngine.process(WebPageConstants.REGISTRATION_PAGE_X.getValue(), webContext, resp.getWriter());
     }
 
+    @SneakyThrows
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         AuthenticationRequest authenticationRequest = new AuthenticationRequest(req);
 
         if (authenticationRequest.loginIsValid()) {
@@ -44,27 +37,6 @@ public class RegistrationServlet extends BaseServlet {
         if (authenticationRequest.passwordIsValid()) {
             throw new PasswordException("Parameter password is invalid");
         }
-
-        switch (authenticationRequest.getButton()) {
-            case "registration":
-                Optional<User> user = hibernateUserCrudDAO.findByLogin(authenticationRequest.getLogin());
-
-                if (user.isPresent()) {
-                   throw new LoginException("User with such a login already exists");
-                }
-                User newUser = new User(authenticationRequest.getLogin(), authenticationRequest.getPassword());
-                hibernateUserCrudDAO.create(newUser);
-
-                LocalDateTime nowTime = LocalDateTime.now();
-                LocalDateTime futureTime = nowTime.plusHours(1);
-                UUID sessionId = UUID.randomUUID();
-                Session session = new Session(sessionId.toString(), newUser.getId(), futureTime);
-                hibernateSessionCrudDAO.create(session);
-                resp.sendRedirect(WebPageConstants.LOGIN_PAGE_X.getValue());
-                break;
-            case "login":
-                resp.sendRedirect(WebPageConstants.LOGIN_PAGE_X.getValue());
-                break;
-        }
+        registrationService.processAuthenticationRequest(authenticationRequest, resp);
     }
 }
