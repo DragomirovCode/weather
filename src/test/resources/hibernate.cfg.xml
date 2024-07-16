@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-
+        <!-- Database connection settings -->
         <property name="connection.driver_class">org.sqlite.JDBC</property>
         <property name="connection.url">jdbc:sqlite::resource:db/database.db</property>
         <property name="connection.username"></property>
@@ -15,5 +15,9 @@
         <property name="hbm2ddl.auto">create-drop</property>
         <property name="show_sql">true</property>
 
+        <!-- Entities -->
+        <mapping class="ru.dragomirov.entities.User"/>
+        <mapping class="ru.dragomirov.entities.Session"/>
+        <mapping class="ru.dragomirov.entities.Location"/>
     </session-factory>
 </hibernate-configuration>
