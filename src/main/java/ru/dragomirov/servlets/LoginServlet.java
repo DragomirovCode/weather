@@ -13,7 +13,9 @@ import ru.dragomirov.utils.request.AuthenticationRequest;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @WebServlet(name = "LoginServlet" , urlPatterns = "/login")
 public class LoginServlet extends BaseServlet {
@@ -50,17 +52,27 @@ public class LoginServlet extends BaseServlet {
                     LocalDateTime nowTime = LocalDateTime.now();
                     LocalDateTime futureTime = nowTime.plusHours(1);
                     Optional<Session> sessionId = hibernateSessionCrudDAO.findByUserId(user.get().getId());
+                    Session newSession;
+                    if (sessionId.isEmpty()) {
+                        UUID sessionIdUUID = UUID.randomUUID();
+                        newSession = new Session(sessionIdUUID.toString(), user.get().getId(), futureTime);
+                        hibernateSessionCrudDAO.create(newSession);
+                    } else {
+                        newSession = new Session(sessionId.get().getId(), user.get().getId(), futureTime);
+                        hibernateSessionCrudDAO.update(newSession);
+                    }
                     HttpSession session = req.getSession();
-                    session.setAttribute("user", sessionId.get().getUserId());
 
-                    Session sessionUpdateTime = new Session(sessionId.get().getId(), user.get().getId(), futureTime);
+                    session.setAttribute("user", newSession.getUserId());
+
+                    Session sessionUpdateTime = new Session(newSession.getId(), user.get().getId(), futureTime);
                     hibernateSessionCrudDAO.update(sessionUpdateTime);
 
-                    Cookie cookie = new Cookie("uuid", sessionId.get().getId());
+                    Cookie cookie = new Cookie("uuid", newSession.getId());
                     cookie.setMaxAge(3600);
                     resp.addCookie(cookie);
 
-                    resp.sendRedirect("/?uuid=" + sessionId.get().getId());
+                    resp.sendRedirect("/?uuid=" + newSession.getId());
                 } else {
                     throw new LoginException("User with such a login or password does not exist");
                 }
