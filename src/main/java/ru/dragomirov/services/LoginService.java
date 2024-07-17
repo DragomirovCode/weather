@@ -20,6 +20,7 @@ import java.util.UUID;
 public class LoginService {
     private HibernateUserCrudDAO hibernateUserCrudDAO;
     private HibernateSessionCrudDAO hibernateSessionCrudDAO;
+    private final int cookieMaxAge = ConfigUtil.getIntProperty("cookie.max_age");
 
     public LoginService() {
         this.hibernateUserCrudDAO = new HibernateUserCrudDAO();
@@ -41,7 +42,7 @@ public class LoginService {
 
     private Session createOrUpdateSession(Long userId) {
         LocalDateTime nowTime = LocalDateTime.now();
-        LocalDateTime futureTime = nowTime.plusHours(1);
+        LocalDateTime futureTime = nowTime.plusSeconds(cookieMaxAge);
         Optional<Session> sessionId = hibernateSessionCrudDAO.findByUserId(Math.toIntExact(userId));
         Session newSession;
         if (sessionId.isEmpty()) {
@@ -62,7 +63,6 @@ public class LoginService {
         Session sessionUpdateTime = new Session(session.getId(), session.getUserId(), session.getExpiresAt());
         hibernateSessionCrudDAO.update(sessionUpdateTime);
 
-        int cookieMaxAge = ConfigUtil.getIntProperty("cookie.max_age");
         Cookie cookie = new Cookie("uuid", session.getId());
         cookie.setMaxAge(cookieMaxAge);
         resp.addCookie(cookie);
