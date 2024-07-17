@@ -9,6 +9,7 @@ import ru.dragomirov.dao.HibernateUserCrudDAO;
 import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
 import ru.dragomirov.exception.authentication.LoginException;
+import ru.dragomirov.utils.ConfigUtil;
 import ru.dragomirov.utils.request.AuthenticationRequest;
 
 import java.io.IOException;
@@ -61,8 +62,9 @@ public class LoginService {
         Session sessionUpdateTime = new Session(session.getId(), session.getUserId(), session.getExpiresAt());
         hibernateSessionCrudDAO.update(sessionUpdateTime);
 
+        int cookieMaxAge = ConfigUtil.getIntProperty("cookie.max_age");
         Cookie cookie = new Cookie("uuid", session.getId());
-        cookie.setMaxAge(3600);
+        cookie.setMaxAge(cookieMaxAge);
         resp.addCookie(cookie);
 
         resp.sendRedirect("/?uuid=" + session.getId());
