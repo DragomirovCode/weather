@@ -15,6 +15,9 @@
         <property name="hbm2ddl.auto">create-drop</property>
         <property name="show_sql">true</property>
 
+        <!-- Custom properties -->
+        <property name="cookie.max_age">1</property>
+
         <!-- Entities -->
         <mapping class="ru.dragomirov.entities.User"/>
         <mapping class="ru.dragomirov.entities.Session"/>
