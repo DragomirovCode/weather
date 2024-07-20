@@ -1,4 +1,4 @@
-package ru.dragomirov.config.filters;
+package ru.dragomirov.config.filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
-import ru.dragomirov.entities.Session;
+import ru.dragomirov.entity.Session;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

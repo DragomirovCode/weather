@@ -1,12 +1,12 @@
-package ru.dragomirov.servlets;
+package ru.dragomirov.servlet;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.dragomirov.dao.HibernateLocationCrudDAO;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
-import ru.dragomirov.entities.Location;
-import ru.dragomirov.entities.Session;
+import ru.dragomirov.entity.Location;
+import ru.dragomirov.entity.Session;
 import ru.dragomirov.exception.NotFoundException;
 import ru.dragomirov.exception.SessionExpiredException;
 

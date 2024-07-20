@@ -1,13 +1,13 @@
-package ru.dragomirov.servlets;
+package ru.dragomirov.servlet;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import lombok.SneakyThrows;
 import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.exception.authentication.PasswordException;
-import ru.dragomirov.services.LoginService;
-import ru.dragomirov.utils.constants.WebPageConstants;
-import ru.dragomirov.utils.AuthenticationRequest;
+import ru.dragomirov.service.LoginService;
+import ru.dragomirov.util.constant.WebPageConstant;
+import ru.dragomirov.util.AuthenticationRequest;
 
 import java.io.IOException;
 
@@ -22,7 +22,7 @@ public class LoginServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        templateEngine.process(WebPageConstants.LOGIN_PAGE_X.getValue(), webContext, resp.getWriter());
+        templateEngine.process(WebPageConstant.LOGIN_PAGE_X.getValue(), webContext, resp.getWriter());
     }
 
     @SneakyThrows
@@ -43,7 +43,7 @@ public class LoginServlet extends BaseServlet {
                 loginService.handleLogin(authenticationRequest, req, resp);
                 break;
             case "registration":
-                resp.sendRedirect(WebPageConstants.REGISTRATION_PAGE_X.getValue());
+                resp.sendRedirect(WebPageConstant.REGISTRATION_PAGE_X.getValue());
                 break;
         }
     }

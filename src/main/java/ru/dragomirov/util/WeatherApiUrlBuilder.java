@@ -1,4 +1,4 @@
-package ru.dragomirov.utils;
+package ru.dragomirov.util;
 
 import java.math.BigDecimal;
 import java.net.URLEncoder;

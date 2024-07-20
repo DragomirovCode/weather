@@ -1,6 +1,6 @@
 package ru.dragomirov.dao;
 
-import ru.dragomirov.entities.Session;
+import ru.dragomirov.entity.Session;
 
 import java.util.Optional;
 

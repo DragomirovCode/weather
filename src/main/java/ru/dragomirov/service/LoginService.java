@@ -1,4 +1,4 @@
-package ru.dragomirov.services;
+package ru.dragomirov.service;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -6,11 +6,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
-import ru.dragomirov.entities.Session;
-import ru.dragomirov.entities.User;
+import ru.dragomirov.entity.Session;
+import ru.dragomirov.entity.User;
 import ru.dragomirov.exception.authentication.LoginException;
-import ru.dragomirov.utils.ConfigUtil;
-import ru.dragomirov.utils.AuthenticationRequest;
+import ru.dragomirov.util.ConfigUtil;
+import ru.dragomirov.util.AuthenticationRequest;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

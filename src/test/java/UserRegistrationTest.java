@@ -5,13 +5,13 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
-import ru.dragomirov.entities.Session;
-import ru.dragomirov.entities.User;
+import ru.dragomirov.entity.Session;
+import ru.dragomirov.entity.User;
 import ru.dragomirov.exception.authentication.LoginException;
-import ru.dragomirov.services.LoginService;
-import ru.dragomirov.services.RegistrationService;
-import ru.dragomirov.servlets.CookieServlet;
-import ru.dragomirov.utils.AuthenticationRequest;
+import ru.dragomirov.service.LoginService;
+import ru.dragomirov.service.RegistrationService;
+import ru.dragomirov.servlet.CookieServlet;
+import ru.dragomirov.util.AuthenticationRequest;
 
 import java.util.*;
 

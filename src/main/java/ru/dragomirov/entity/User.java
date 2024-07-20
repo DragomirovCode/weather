@@ -1,4 +1,4 @@
-package ru.dragomirov.entities;
+package ru.dragomirov.entity;
 
 import lombok.Getter;
 import lombok.Setter;

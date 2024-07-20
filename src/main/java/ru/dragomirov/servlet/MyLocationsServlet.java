@@ -1,4 +1,4 @@
-package ru.dragomirov.servlets;
+package ru.dragomirov.servlet;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -6,10 +6,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.thymeleaf.context.WebContext;
 import ru.dragomirov.config.thymeleaf.TemplateEngineConfig;
 import ru.dragomirov.dto.request.WeatherByCoordinatesRequestDTO;
-import ru.dragomirov.entities.Location;
-import ru.dragomirov.entities.Session;
+import ru.dragomirov.entity.Location;
+import ru.dragomirov.entity.Session;
 import ru.dragomirov.exception.SessionExpiredException;
-import ru.dragomirov.services.MyLocationsService;
+import ru.dragomirov.service.MyLocationsService;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,7 +1,7 @@
 package ru.dragomirov.dao;
 
-import ru.dragomirov.entities.Location;
-import ru.dragomirov.utils.HibernateSessionManagerUtil;
+import ru.dragomirov.entity.Location;
+import ru.dragomirov.util.HibernateSessionManagerUtil;
 
 import java.math.BigDecimal;
 import java.util.List;

@@ -19,8 +19,8 @@
         <property name="cookie.max_age">1</property>
 
         <!-- Entities -->
-        <mapping class="ru.dragomirov.entities.User"/>
-        <mapping class="ru.dragomirov.entities.Session"/>
-        <mapping class="ru.dragomirov.entities.Location"/>
+        <mapping class="ru.dragomirov.entity.User"/>
+        <mapping class="ru.dragomirov.entity.Session"/>
+        <mapping class="ru.dragomirov.entity.Location"/>
     </session-factory>
 </hibernate-configuration>

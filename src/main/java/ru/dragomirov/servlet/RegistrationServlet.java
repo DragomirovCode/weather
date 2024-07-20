@@ -1,4 +1,4 @@
-package ru.dragomirov.servlets;
+package ru.dragomirov.servlet;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -6,9 +6,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.exception.authentication.PasswordException;
-import ru.dragomirov.services.RegistrationService;
-import ru.dragomirov.utils.constants.WebPageConstants;
-import ru.dragomirov.utils.AuthenticationRequest;
+import ru.dragomirov.service.RegistrationService;
+import ru.dragomirov.util.constant.WebPageConstant;
+import ru.dragomirov.util.AuthenticationRequest;
 
 import java.io.IOException;
 
@@ -22,7 +22,7 @@ public class RegistrationServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        templateEngine.process(WebPageConstants.REGISTRATION_PAGE_X.getValue(), webContext, resp.getWriter());
+        templateEngine.process(WebPageConstant.REGISTRATION_PAGE_X.getValue(), webContext, resp.getWriter());
     }
 
     @SneakyThrows

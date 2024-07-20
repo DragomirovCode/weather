@@ -1,4 +1,4 @@
-package ru.dragomirov.servlets;
+package ru.dragomirov.servlet;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
@@ -16,7 +16,7 @@ import ru.dragomirov.exception.SessionExpiredException;
 import ru.dragomirov.exception.api.WeatherApiException;
 import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.exception.authentication.PasswordException;
-import ru.dragomirov.utils.constants.WebPageConstants;
+import ru.dragomirov.util.constant.WebPageConstant;
 
 import java.io.IOException;
 
@@ -43,7 +43,7 @@ public class BaseServlet extends HttpServlet {
             webContext.setVariable("error", e.getMessage());
             templateEngine.process("error/authentication/authentication-error", webContext, resp.getWriter());
         } catch (SessionExpiredException | EntityExistsException | ServletException e) {
-            resp.sendRedirect(WebPageConstants.LOGIN_PAGE_X.getValue());
+            resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
         } catch (InvalidParameterException e) {
             webContext.setVariable("error", e.getMessage());
             templateEngine.process("error/error", webContext, resp.getWriter());

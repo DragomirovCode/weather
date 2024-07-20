@@ -1,13 +1,13 @@
-package ru.dragomirov.servlets;
+package ru.dragomirov.servlet;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
-import ru.dragomirov.entities.Session;
+import ru.dragomirov.entity.Session;
 import ru.dragomirov.exception.SessionExpiredException;
-import ru.dragomirov.utils.constants.WebPageConstants;
+import ru.dragomirov.util.constant.WebPageConstant;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -28,7 +28,7 @@ public class CookieServlet extends BaseServlet {
         String uuid = req.getParameter("uuid");
 
         if (uuid == null) {
-            resp.sendRedirect(WebPageConstants.LOGIN_PAGE_X.getValue());
+            resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
             return;
         }
 
@@ -43,7 +43,7 @@ public class CookieServlet extends BaseServlet {
         }
 
         if (session.get().getExpiresAt().isBefore(now)) {
-            resp.sendRedirect(WebPageConstants.LOGIN_PAGE_X.getValue());
+            resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
             HttpSession exitSession = req.getSession(false);
             exitSession.removeAttribute("user");
             hibernateSessionCrudDAO.delete(String.valueOf(session.get().getId()));
@@ -74,7 +74,7 @@ public class CookieServlet extends BaseServlet {
 
         switch (button) {
             case "exit":
-                resp.sendRedirect(WebPageConstants.LOGIN_PAGE_X.getValue());
+                resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
                 HttpSession exitSession = req.getSession(false);
                 exitSession.removeAttribute("user");
                 hibernateSessionCrudDAO.delete(String.valueOf(session.get().getId()));

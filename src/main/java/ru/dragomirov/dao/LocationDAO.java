@@ -1,6 +1,6 @@
 package ru.dragomirov.dao;
 
-import ru.dragomirov.entities.Location;
+import ru.dragomirov.entity.Location;
 
 import java.math.BigDecimal;
 import java.util.List;

@@ -5,7 +5,7 @@
          version="5.0">
 
     <listener>
-        <listener-class>ru.dragomirov.utils.HibernateSessionFactoryUtil</listener-class>
+        <listener-class>ru.dragomirov.util.HibernateSessionFactoryUtil</listener-class>
     </listener>
 
 </web-app>

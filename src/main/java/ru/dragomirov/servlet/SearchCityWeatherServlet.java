@@ -1,4 +1,4 @@
-package ru.dragomirov.servlets;
+package ru.dragomirov.servlet;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -7,7 +7,7 @@ import org.thymeleaf.context.WebContext;
 import ru.dragomirov.config.thymeleaf.TemplateEngineConfig;
 import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
 import ru.dragomirov.exception.api.WeatherApiException;
-import ru.dragomirov.services.SearchCityWeatherService;
+import ru.dragomirov.service.SearchCityWeatherService;
 
 import java.io.IOException;
 import java.util.List;

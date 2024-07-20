@@ -1,6 +1,6 @@
-package ru.dragomirov.utils.constants;
+package ru.dragomirov.util.constant;
 
-public enum WebPageConstants {
+public enum WebPageConstant {
     MAIN_PAGE("/main.html"),
     MAIN_PAGE_X("/main"),
     LOGIN_PAGE("/login.html"),
@@ -9,7 +9,7 @@ public enum WebPageConstants {
     REGISTRATION_PAGE_X("/registration");
     private final String value;
 
-    WebPageConstants(String value) {
+    WebPageConstant(String value) {
         this.value = value;
     }
 

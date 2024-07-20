@@ -1,7 +1,7 @@
 package ru.dragomirov.dao;
 
-import ru.dragomirov.entities.Session;
-import ru.dragomirov.utils.HibernateSessionManagerUtil;
+import ru.dragomirov.entity.Session;
+import ru.dragomirov.util.HibernateSessionManagerUtil;
 
 import java.util.List;
 import java.util.Optional;

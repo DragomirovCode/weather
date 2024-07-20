@@ -1,6 +1,6 @@
 package ru.dragomirov.dao;
 
-import ru.dragomirov.entities.User;
+import ru.dragomirov.entity.User;
 
 import java.util.Optional;
 

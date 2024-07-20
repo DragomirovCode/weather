@@ -1,4 +1,4 @@
-package ru.dragomirov.config.filters;
+package ru.dragomirov.config.filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;

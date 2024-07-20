@@ -1,13 +1,13 @@
-package ru.dragomirov.services;
+package ru.dragomirov.service;
 
 import jakarta.servlet.http.HttpServletResponse;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
-import ru.dragomirov.entities.Session;
-import ru.dragomirov.entities.User;
+import ru.dragomirov.entity.Session;
+import ru.dragomirov.entity.User;
 import ru.dragomirov.exception.authentication.LoginException;
-import ru.dragomirov.utils.constants.WebPageConstants;
-import ru.dragomirov.utils.AuthenticationRequest;
+import ru.dragomirov.util.constant.WebPageConstant;
+import ru.dragomirov.util.AuthenticationRequest;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -46,11 +46,11 @@ public class RegistrationService {
 
         User newUser = createUser(authenticationRequest);
         createSession(newUser);
-        resp.sendRedirect(WebPageConstants.LOGIN_PAGE_X.getValue());
+        resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
     }
 
     private void handleLogin(HttpServletResponse resp) throws Exception {
-        resp.sendRedirect(WebPageConstants.LOGIN_PAGE_X.getValue());
+        resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
     }
 
     private User createUser(AuthenticationRequest authenticationRequest) {

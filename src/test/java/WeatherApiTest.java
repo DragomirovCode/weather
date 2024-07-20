@@ -3,7 +3,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import ru.dragomirov.exception.InvalidParameterException;
-import ru.dragomirov.servlets.SearchCityWeatherServlet;
+import ru.dragomirov.servlet.SearchCityWeatherServlet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;

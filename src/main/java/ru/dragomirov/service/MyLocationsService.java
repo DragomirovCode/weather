@@ -1,4 +1,4 @@
-package ru.dragomirov.services;
+package ru.dragomirov.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,11 +10,11 @@ import org.apache.http.util.EntityUtils;
 import ru.dragomirov.dao.HibernateLocationCrudDAO;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dto.request.WeatherByCoordinatesRequestDTO;
-import ru.dragomirov.entities.Location;
-import ru.dragomirov.entities.Session;
+import ru.dragomirov.entity.Location;
+import ru.dragomirov.entity.Session;
 import ru.dragomirov.exception.api.WeatherApiException;
-import ru.dragomirov.utils.WeatherApiUrlBuilder;
-import ru.dragomirov.utils.constants.ApiKeyConstant;
+import ru.dragomirov.util.WeatherApiUrlBuilder;
+import ru.dragomirov.util.constant.ApiKeyConstant;
 
 import java.io.IOException;
 import java.math.BigDecimal;

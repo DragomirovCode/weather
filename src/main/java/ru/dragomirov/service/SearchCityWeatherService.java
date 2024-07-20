@@ -1,4 +1,4 @@
-package ru.dragomirov.services;
+package ru.dragomirov.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,8 +11,8 @@ import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
 import ru.dragomirov.exception.InvalidParameterException;
 import ru.dragomirov.exception.NotFoundException;
 import ru.dragomirov.exception.api.WeatherApiException;
-import ru.dragomirov.utils.WeatherApiUrlBuilder;
-import ru.dragomirov.utils.constants.ApiKeyConstant;
+import ru.dragomirov.util.WeatherApiUrlBuilder;
+import ru.dragomirov.util.constant.ApiKeyConstant;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,4 +1,4 @@
-package ru.dragomirov.utils.constants;
+package ru.dragomirov.util.constant;
 
 public enum ApiKeyConstant {
     API_KEY_CONSTANT("66b4f9f34b5073497f497f4d4f2be438");
