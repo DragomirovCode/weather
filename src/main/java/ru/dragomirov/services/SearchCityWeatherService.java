@@ -11,7 +11,7 @@ import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
 import ru.dragomirov.exception.InvalidParameterException;
 import ru.dragomirov.exception.NotFoundException;
 import ru.dragomirov.exception.api.WeatherApiException;
-import ru.dragomirov.utils.Utils;
+import ru.dragomirov.utils.WeatherApiUrlBuilder;
 import ru.dragomirov.utils.constants.ApiKeyConstant;
 
 import java.io.IOException;
@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class SearchCityWeatherService {
-    private Utils utils;
+    private WeatherApiUrlBuilder weatherApiUrlBuilder;
     private final Pattern regex = Pattern.compile("[^a-zA-Z\\s:]");
 
     public SearchCityWeatherService() {
-        this.utils = new Utils();
+        this.weatherApiUrlBuilder = new WeatherApiUrlBuilder();
     }
     public List<WeatherByLocationRequestDTO> getWeatherByCity(String cityName) throws WeatherApiException {
         validateCityName(cityName);
@@ -49,7 +49,7 @@ public class SearchCityWeatherService {
 
     private String buildApiUrl(String cityName) {
         String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
-        return utils.buildCityWeatherApiUrl(cityName, apiKey);
+        return weatherApiUrlBuilder.buildCityWeatherApiUrl(cityName, apiKey);
     }
 
     private HttpResponse executeRequest(CloseableHttpClient httpClient, String apiUrl) throws IOException {

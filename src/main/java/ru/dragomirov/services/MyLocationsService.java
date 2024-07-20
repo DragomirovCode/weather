@@ -13,7 +13,7 @@ import ru.dragomirov.dto.request.WeatherByCoordinatesRequestDTO;
 import ru.dragomirov.entities.Location;
 import ru.dragomirov.entities.Session;
 import ru.dragomirov.exception.api.WeatherApiException;
-import ru.dragomirov.utils.Utils;
+import ru.dragomirov.utils.WeatherApiUrlBuilder;
 import ru.dragomirov.utils.constants.ApiKeyConstant;
 
 import java.io.IOException;
@@ -26,12 +26,12 @@ import java.util.Optional;
 public class MyLocationsService {
     private final HibernateLocationCrudDAO hibernateLocationCrudDAO;
     private final HibernateSessionCrudDAO hibernateSessionCrudDAO;
-    private final Utils utils;
+    private final WeatherApiUrlBuilder weatherApiUrlBuilder;
 
     public MyLocationsService() {
         this.hibernateLocationCrudDAO = new HibernateLocationCrudDAO();
         this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
-        this.utils = new Utils();
+        this.weatherApiUrlBuilder = new WeatherApiUrlBuilder();
     }
 
     public Optional<Session> getSession(String uuid) {
@@ -54,7 +54,7 @@ public class MyLocationsService {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             for (Location loc : locations) {
                 try {
-                    String apiUrl = utils.buildLatLonCityWeatherApiUrl(loc.getLatitude(), loc.getLongitude(), apiKey);
+                    String apiUrl = weatherApiUrlBuilder.buildLatLonCityWeatherApiUrl(loc.getLatitude(), loc.getLongitude(), apiKey);
                     HttpGet request = new HttpGet(apiUrl);
                     HttpResponse response = httpClient.execute(request);
 
