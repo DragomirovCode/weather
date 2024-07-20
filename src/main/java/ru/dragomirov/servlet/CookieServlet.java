@@ -25,14 +25,14 @@ public class CookieServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String uuid = req.getParameter("uuid");
+        String uuid = (String) getServletContext().getAttribute("myUuid");
 
         if (uuid == null) {
             resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
             return;
         }
 
-        getServletContext().setAttribute("myUuid", uuid);
+        //getServletContext().setAttribute("myUuid", uuid);
 
         LocalDateTime now = LocalDateTime.now();
 
@@ -63,7 +63,7 @@ public class CookieServlet extends BaseServlet {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String uuid = req.getParameter("uuid");
+        String uuid = (String) getServletContext().getAttribute("myUuid");
         String button = req.getParameter("exit");
 
         Optional<Session> session = hibernateSessionCrudDAO.findById(uuid);

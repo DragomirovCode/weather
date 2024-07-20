@@ -26,6 +26,6 @@ public class BackServlet extends BaseServlet {
         if (session.isEmpty()) {
             throw new SessionExpiredException("Session has expired");
         }
-        resp.sendRedirect("/?uuid=" + session.get().getId());
+        resp.sendRedirect("/");
     }
 }

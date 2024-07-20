@@ -57,6 +57,6 @@ public class DeleteServlet extends BaseServlet {
             throw new SessionExpiredException("Session has expired");
         }
 
-        resp.sendRedirect("/?uuid=" + session.get().getId());
+        resp.sendRedirect("/");
     }
 }

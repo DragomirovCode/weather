@@ -67,6 +67,7 @@ public class LoginService {
         cookie.setMaxAge(cookieMaxAge);
         resp.addCookie(cookie);
 
-        resp.sendRedirect("/?uuid=" + session.getId());
+        httpSession.getServletContext().setAttribute("myUuid", session.getId());
+        resp.sendRedirect("/");
     }
 }

@@ -49,9 +49,9 @@ public class SaveServlet extends BaseServlet {
             Location location =
                     new Location(city, new BigDecimal(latitude), new BigDecimal(longitude), session.get().getUserId());
             hibernateLocationCrudDAO.create(location);
-            resp.sendRedirect("/?uuid=" + session.get().getId());
+            resp.sendRedirect("/");
         } else {
-            resp.sendRedirect("/?uuid=" + session.get().getId());
+            resp.sendRedirect("/");
         }
     }
 }
