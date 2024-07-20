@@ -7,7 +7,7 @@ import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
 import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.utils.constants.WebPageConstants;
-import ru.dragomirov.utils.request.AuthenticationRequest;
+import ru.dragomirov.utils.AuthenticationRequest;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

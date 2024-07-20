@@ -1,6 +1,3 @@
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletConfig;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -14,15 +11,9 @@ import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.services.LoginService;
 import ru.dragomirov.services.RegistrationService;
 import ru.dragomirov.servlets.CookieServlet;
-import ru.dragomirov.utils.constants.WebPageConstants;
-import ru.dragomirov.utils.request.AuthenticationRequest;
+import ru.dragomirov.utils.AuthenticationRequest;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;

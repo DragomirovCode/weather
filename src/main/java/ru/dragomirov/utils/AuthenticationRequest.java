@@ -1,4 +1,4 @@
-package ru.dragomirov.utils.request;
+package ru.dragomirov.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;

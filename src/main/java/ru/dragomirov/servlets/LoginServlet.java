@@ -7,7 +7,7 @@ import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.exception.authentication.PasswordException;
 import ru.dragomirov.services.LoginService;
 import ru.dragomirov.utils.constants.WebPageConstants;
-import ru.dragomirov.utils.request.AuthenticationRequest;
+import ru.dragomirov.utils.AuthenticationRequest;
 
 import java.io.IOException;
 

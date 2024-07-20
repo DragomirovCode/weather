@@ -10,7 +10,7 @@ import ru.dragomirov.entities.Session;
 import ru.dragomirov.entities.User;
 import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.utils.ConfigUtil;
-import ru.dragomirov.utils.request.AuthenticationRequest;
+import ru.dragomirov.utils.AuthenticationRequest;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
