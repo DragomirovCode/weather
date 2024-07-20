@@ -40,8 +40,10 @@ public class DeleteServlet extends BaseServlet {
         String latitudeStr = req.getParameter("latitude");
         String longitudeStr = req.getParameter("longitude");
 
+        Optional<Session> sessionId = hibernateSessionCrudDAO.findById(otherUuid);
+
         Optional<Location> location = hibernateLocationCrudDAO.findByLocationLatitudeAndLongitude(
-                new BigDecimal(latitudeStr), new BigDecimal(longitudeStr));
+                new BigDecimal(latitudeStr), new BigDecimal(longitudeStr),sessionId.get().getUserId());
 
         if (location.isEmpty()) {
             throw new NotFoundException("Location has expired");
