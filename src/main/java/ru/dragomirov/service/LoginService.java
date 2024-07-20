@@ -9,7 +9,7 @@ import ru.dragomirov.dao.HibernateUserCrudDAO;
 import ru.dragomirov.entity.Session;
 import ru.dragomirov.entity.User;
 import ru.dragomirov.exception.authentication.LoginException;
-import ru.dragomirov.config.Config;
+import ru.dragomirov.config.CookieTimeConfig;
 import ru.dragomirov.util.AuthenticationRequest;
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ import java.util.UUID;
 public class LoginService {
     private HibernateUserCrudDAO hibernateUserCrudDAO;
     private HibernateSessionCrudDAO hibernateSessionCrudDAO;
-    private final int cookieMaxAge = Config.getIntProperty("cookie.max_age");
+    private final int cookieMaxAge = CookieTimeConfig.getIntProperty("cookie.max_age");
 
     public LoginService() {
         this.hibernateUserCrudDAO = new HibernateUserCrudDAO();

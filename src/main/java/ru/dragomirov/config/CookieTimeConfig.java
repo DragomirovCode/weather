@@ -2,7 +2,7 @@ package ru.dragomirov.config;
 
 import org.hibernate.cfg.Configuration;
 
-public class Config {
+public class CookieTimeConfig {
     private static final Configuration configuration = new Configuration().configure();
 
     public static String getProperty(String key) {
