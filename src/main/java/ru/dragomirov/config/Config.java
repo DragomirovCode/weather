@@ -1,8 +1,8 @@
-package ru.dragomirov.util;
+package ru.dragomirov.config;
 
 import org.hibernate.cfg.Configuration;
 
-public class ConfigUtil {
+public class Config {
     private static final Configuration configuration = new Configuration().configure();
 
     public static String getProperty(String key) {
