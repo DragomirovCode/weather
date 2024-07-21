@@ -18,10 +18,7 @@ public class JsonResponseFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
-        servletRequest.setCharacterEncoding("UTF-8");
-        httpResponse.setCharacterEncoding("UTF-8");
-        httpResponse.setContentType("application/json");
-        httpResponse.setContentType("text/html;charset=UTF-8");
+        httpResponse.setContentType("application/json;charset=UTF-8");
 
         filterChain.doFilter(servletRequest, servletResponse);
     }
