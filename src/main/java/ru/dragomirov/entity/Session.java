@@ -1,6 +1,7 @@
 package ru.dragomirov.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "Sessions")
 public class Session {
@@ -20,8 +22,6 @@ public class Session {
     private int userId;
     @Column(name = "expires_at")
     private LocalDateTime expiresAt;
-
-    public Session() {}
 
     public Session(String id, int userId, LocalDateTime expiresAt) {
         this.id = id;

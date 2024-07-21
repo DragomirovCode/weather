@@ -1,12 +1,14 @@
 package ru.dragomirov.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "Users")
 public class User {
@@ -17,8 +19,6 @@ public class User {
     private String login;
     @Column(name = "password")
     private String password;
-
-    public User() {}
 
     public User(String login, String password) {
         this.login = login;
