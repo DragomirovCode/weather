@@ -1,10 +1,11 @@
-package ru.dragomirov.config.thymeleaf;
+package ru.dragomirov.config.listener;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 import org.thymeleaf.TemplateEngine;
+import ru.dragomirov.config.TemplateEngineConfig;
 
 @WebListener
 public class TemplateListener implements ServletContextListener {
