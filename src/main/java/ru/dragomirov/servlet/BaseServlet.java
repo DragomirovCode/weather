@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
-import ru.dragomirov.config.thymeleaf.TemplateEngineConfig;
+import ru.dragomirov.config.TemplateEngineConfig;
 import ru.dragomirov.exception.DatabaseOperationException;
 import ru.dragomirov.exception.EntityExistsException;
 import ru.dragomirov.exception.InvalidParameterException;

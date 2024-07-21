@@ -4,7 +4,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.thymeleaf.context.WebContext;
-import ru.dragomirov.config.thymeleaf.TemplateEngineConfig;
+import ru.dragomirov.config.TemplateEngineConfig;
 import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
 import ru.dragomirov.exception.api.WeatherApiCallException;
 import ru.dragomirov.service.SearchCityWeatherService;

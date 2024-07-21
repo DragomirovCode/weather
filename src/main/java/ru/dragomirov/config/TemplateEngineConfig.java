@@ -1,4 +1,4 @@
-package ru.dragomirov.config.thymeleaf;
+package ru.dragomirov.config;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
