@@ -73,6 +73,8 @@ public class MyLocationsService {
                     throw new WeatherApiCallException("Error accessing the API");
                 }
             }
+        } catch (WeatherApiCallException e) {
+            throw new WeatherApiCallException("Error accessing the API");
         }
         return locationWeatherData;
     }
