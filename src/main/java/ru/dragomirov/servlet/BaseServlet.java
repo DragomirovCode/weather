@@ -13,7 +13,7 @@ import ru.dragomirov.exception.DatabaseOperationException;
 import ru.dragomirov.exception.EntityExistsException;
 import ru.dragomirov.exception.InvalidParameterException;
 import ru.dragomirov.exception.SessionExpiredException;
-import ru.dragomirov.exception.api.WeatherApiException;
+import ru.dragomirov.exception.api.WeatherApiCallException;
 import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.exception.authentication.PasswordException;
 import ru.dragomirov.util.constant.WebPageConstant;
@@ -50,7 +50,7 @@ public class BaseServlet extends HttpServlet {
         } catch (DatabaseOperationException e) {
             webContext.setVariable("error", e.getMessage());
             templateEngine.process("error/database-error", webContext, resp.getWriter());
-        } catch (WeatherApiException e) {
+        } catch (WeatherApiCallException e) {
             webContext.setVariable("error", e.getMessage());
             templateEngine.process("error/api-error", webContext, resp.getWriter());
         }

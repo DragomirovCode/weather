@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.thymeleaf.context.WebContext;
 import ru.dragomirov.config.thymeleaf.TemplateEngineConfig;
 import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
-import ru.dragomirov.exception.api.WeatherApiException;
+import ru.dragomirov.exception.api.WeatherApiCallException;
 import ru.dragomirov.service.SearchCityWeatherService;
 
 import java.io.IOException;
@@ -30,8 +30,8 @@ public class SearchCityWeatherServlet extends BaseServlet {
             WebContext context = TemplateEngineConfig.buildWebContext(req, resp, req.getServletContext());
             context.setVariable("cityList", requestDTOList);
             templateEngine.process("city-weather", context, resp.getWriter());
-        } catch (WeatherApiException e) {
-            throw new WeatherApiException("Error accessing the API");
+        } catch (WeatherApiCallException e) {
+            throw new WeatherApiCallException("Error accessing the API");
         }
     }
 }

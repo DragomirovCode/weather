@@ -12,7 +12,7 @@ import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dto.request.WeatherByCoordinatesRequestDTO;
 import ru.dragomirov.entity.Location;
 import ru.dragomirov.entity.Session;
-import ru.dragomirov.exception.api.WeatherApiException;
+import ru.dragomirov.exception.api.WeatherApiCallException;
 import ru.dragomirov.util.WeatherApiUrlBuilder;
 import ru.dragomirov.util.constant.ApiKeyConstant;
 
@@ -69,8 +69,8 @@ public class MyLocationsService {
                     requestDTO.main.setTemperatureFeelsLike(roundingToAnInteger(requestDTO.getMain().temperatureFeelsLike));
 
                     locationWeatherData.add(requestDTO);
-                } catch (WeatherApiException e) {
-                    throw new WeatherApiException("Error accessing the API");
+                } catch (WeatherApiCallException e) {
+                    throw new WeatherApiCallException("Error accessing the API");
                 }
             }
         }

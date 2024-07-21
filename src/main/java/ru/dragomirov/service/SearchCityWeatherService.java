@@ -10,7 +10,7 @@ import org.apache.http.util.EntityUtils;
 import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
 import ru.dragomirov.exception.InvalidParameterException;
 import ru.dragomirov.exception.NotFoundException;
-import ru.dragomirov.exception.api.WeatherApiException;
+import ru.dragomirov.exception.api.WeatherApiCallException;
 import ru.dragomirov.util.WeatherApiUrlBuilder;
 import ru.dragomirov.util.constant.ApiKeyConstant;
 
@@ -25,7 +25,7 @@ public class SearchCityWeatherService {
     public SearchCityWeatherService() {
         this.weatherApiUrlBuilder = new WeatherApiUrlBuilder();
     }
-    public List<WeatherByLocationRequestDTO> getWeatherByCity(String cityName) throws WeatherApiException {
+    public List<WeatherByLocationRequestDTO> getWeatherByCity(String cityName) throws WeatherApiCallException {
         validateCityName(cityName);
         String apiUrl = buildApiUrl(cityName);
 
@@ -33,7 +33,7 @@ public class SearchCityWeatherService {
             HttpResponse response = executeRequest(httpClient, apiUrl);
             return processResponse(response);
         } catch (IOException e) {
-            throw new WeatherApiException("Error accessing the API");
+            throw new WeatherApiCallException("Error accessing the API");
         }
     }
 
@@ -57,7 +57,7 @@ public class SearchCityWeatherService {
         return httpClient.execute(request);
     }
 
-    private List<WeatherByLocationRequestDTO> processResponse(HttpResponse response) throws IOException, WeatherApiException {
+    private List<WeatherByLocationRequestDTO> processResponse(HttpResponse response) throws IOException, WeatherApiCallException {
         if (response.getStatusLine().getStatusCode() == 404) {
             throw new NotFoundException("City was not found");
         }
