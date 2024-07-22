@@ -28,7 +28,7 @@
                 <span>Temperature Feels Like: </span><span th:text="${location.main.temperatureFeelsLike}"></span><br>
                 <span>Country: </span><span th:text="${location.sys.country}"></span><br>
 
-                <form th:action="@{/delete}" method="post">
+                <form th:action="@{/delete-location}" method="post">
                     <input type="hidden" name="_method" value="PATCH">
                     <div class="input-group mb-3">
                         <input type="hidden" name="latitude" th:value="${location.coordinates.latitude}">

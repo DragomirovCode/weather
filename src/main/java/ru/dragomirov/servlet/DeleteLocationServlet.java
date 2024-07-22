@@ -14,8 +14,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Optional;
 
-@WebServlet(name = "DeleteServlet", urlPatterns = "/delete")
-public class DeleteServlet extends BaseServlet {
+@WebServlet(name = "DeleteLocationServlet", urlPatterns = "/delete-location")
+public class DeleteLocationServlet extends BaseServlet {
     private HibernateLocationCrudDAO hibernateLocationCrudDAO;
     private HibernateSessionCrudDAO hibernateSessionCrudDAO;
 
