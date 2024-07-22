@@ -25,7 +25,8 @@ public class SaveLocationService {
                 new BigDecimal(latitudeStr), new BigDecimal(longitudeStr), session.getUserId(), city);
 
         if (location.isEmpty()) {
-            hibernateLocationCrudDAO.create(location.get());
+            Location newLocation = new Location(city, new BigDecimal(latitudeStr), new BigDecimal(longitudeStr), session.getUserId());
+            hibernateLocationCrudDAO.create(newLocation);
         } else {
             throw new SaveLocationException("Such a location already exists in the database");
         }
@@ -34,5 +35,4 @@ public class SaveLocationService {
     private Session validateSession(String uuid) {
         return hibernateSessionCrudDAO.findById(uuid).orElseThrow(() -> new SessionExpiredException("Session has expired"));
     }
-
 }
