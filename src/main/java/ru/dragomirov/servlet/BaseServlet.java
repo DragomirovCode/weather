@@ -9,10 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import ru.dragomirov.config.TemplateEngineConfig;
-import ru.dragomirov.exception.DatabaseOperationException;
-import ru.dragomirov.exception.EntityExistsException;
-import ru.dragomirov.exception.InvalidParameterException;
-import ru.dragomirov.exception.SessionExpiredException;
+import ru.dragomirov.exception.*;
 import ru.dragomirov.exception.api.WeatherApiCallException;
 import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.exception.authentication.PasswordException;
@@ -53,6 +50,8 @@ public class BaseServlet extends HttpServlet {
         } catch (WeatherApiCallException e) {
             webContext.setVariable("error", e.getMessage());
             templateEngine.process("error/api-error", webContext, resp.getWriter());
+        } catch (SaveLocationException e) {
+            templateEngine.process("main", webContext, resp.getWriter());
         }
     }
 }
