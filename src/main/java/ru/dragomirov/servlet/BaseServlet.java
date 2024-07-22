@@ -39,7 +39,7 @@ public class BaseServlet extends HttpServlet {
         } catch (LoginException | PasswordException e) {
             webContext.setVariable("error", e.getMessage());
             templateEngine.process("error/authentication/authentication-error", webContext, resp.getWriter());
-        } catch (SessionExpiredException | EntityExistsException | ServletException e) {
+        } catch (EntityExistsException | ServletException e) {
             resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
         } catch (InvalidParameterException e) {
             webContext.setVariable("error", e.getMessage());
@@ -52,6 +52,8 @@ public class BaseServlet extends HttpServlet {
             templateEngine.process("error/api-error", webContext, resp.getWriter());
         } catch (SaveLocationException e) {
             templateEngine.process("main", webContext, resp.getWriter());
+        } catch (SessionExpiredException e) {
+            templateEngine.process("login", webContext, resp.getWriter());
         }
     }
 }
