@@ -13,7 +13,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class WeatherApiTest {
+public class WeatherByLocationApiTest {
     private SearchCityWeatherService service;
     private WeatherApiUrlBuilder weatherApiUrlBuilder;
 
