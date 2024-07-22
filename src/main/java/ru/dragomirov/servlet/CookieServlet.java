@@ -7,56 +7,29 @@ import jakarta.servlet.http.*;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.entity.Session;
 import ru.dragomirov.exception.SessionExpiredException;
+import ru.dragomirov.service.CookieService;
 import ru.dragomirov.util.constant.WebPageConstant;
 
 import java.io.IOException;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @WebServlet(name = "CookieServlet", urlPatterns = "")
 public class CookieServlet extends BaseServlet {
     private HibernateSessionCrudDAO hibernateSessionCrudDAO;
+    private CookieService cookieService;
 
     @Override
     public void init(){
         this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
+        this.cookieService = new CookieService();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String uuid = (String) getServletContext().getAttribute("myUuid");
 
-        if (uuid == null) {
-            resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
-            return;
-        }
+       cookieService.validateAndHandleSession(uuid, req, resp);
 
-        //getServletContext().setAttribute("myUuid", uuid);
-
-        LocalDateTime now = LocalDateTime.now();
-
-        Optional<Session> session = hibernateSessionCrudDAO.findById(uuid);
-
-        if (session.isEmpty()) {
-            throw new SessionExpiredException("Session has expired");
-        }
-
-        if (session.get().getExpiresAt().isBefore(now)) {
-            resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
-            HttpSession exitSession = req.getSession(false);
-            exitSession.removeAttribute("user");
-            hibernateSessionCrudDAO.delete(String.valueOf(session.get().getId()));
-            return;
-            }
-
-        // Вычисляем оставшееся время
-        Duration duration = Duration.between(now, session.get().getExpiresAt());
-        long minutes = duration.toSeconds() ;
-
-        System.out.println(minutes);
-
-        // Включаем логика сервлета /my
         RequestDispatcher dispatcher = req.getRequestDispatcher("/my");
         dispatcher.forward(req, resp);
     }
