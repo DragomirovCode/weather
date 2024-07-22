@@ -3,26 +3,17 @@ package ru.dragomirov.servlet;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.dragomirov.dao.HibernateLocationCrudDAO;
-import ru.dragomirov.dao.HibernateSessionCrudDAO;
-import ru.dragomirov.entity.Location;
-import ru.dragomirov.entity.Session;
-import ru.dragomirov.exception.NotFoundException;
-import ru.dragomirov.exception.SessionExpiredException;
+import ru.dragomirov.service.SaveLocationService;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Optional;
 
 @WebServlet(name = "SaveLocationServlet", urlPatterns = "/save-location")
 public class SaveLocationServlet extends BaseServlet {
-    private HibernateLocationCrudDAO hibernateLocationCrudDAO;
-    private HibernateSessionCrudDAO hibernateSessionCrudDAO;
+    private SaveLocationService saveLocationService;
 
     @Override
     public void init() {
-        this.hibernateLocationCrudDAO = new HibernateLocationCrudDAO();
-        this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
+        this.saveLocationService = new SaveLocationService();
     }
 
     @Override
@@ -32,26 +23,7 @@ public class SaveLocationServlet extends BaseServlet {
         String latitude = req.getParameter("latitude");
         String longitude = req.getParameter("longitude");
 
-        if (otherUuid == null || otherUuid.isEmpty()) {
-            throw new NotFoundException("Uuid has expired");
-        }
-
-        Optional<Session> session = hibernateSessionCrudDAO.findById(otherUuid);
-
-        if (session.isEmpty()) {
-            throw new SessionExpiredException("Session has expired");
-        }
-
-        Optional<Location> locationOptional = hibernateLocationCrudDAO.findByLocationLatitudeAndLongitudeAndUserId(
-                new BigDecimal(latitude), new BigDecimal(longitude), session.get().getUserId(), city);
-
-        if (locationOptional.isEmpty()) {
-            Location location =
-                    new Location(city, new BigDecimal(latitude), new BigDecimal(longitude), session.get().getUserId());
-            hibernateLocationCrudDAO.create(location);
-            resp.sendRedirect("/");
-        } else {
-            resp.sendRedirect("/");
-        }
+        saveLocationService.saveLocation(otherUuid, city, latitude, longitude);
+        resp.sendRedirect("/");
     }
 }
