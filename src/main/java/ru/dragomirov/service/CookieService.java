@@ -10,7 +10,6 @@ import ru.dragomirov.util.constant.WebPageConstant;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 public class CookieService {
     private HibernateSessionCrudDAO hibernateSessionCrudDAO;
@@ -24,18 +23,14 @@ public class CookieService {
     }
 
     public void validateAndHandleSession(String uuid, HttpServletRequest req, HttpServletResponse resp) {
-        Optional<Session> session = validateSession(uuid);
-        if (session.isPresent()) {
-            LocalDateTime now = nowTime();
-            handleSessionExpiration(session.get(), now, req, resp);
-            printRemainingTime(Duration.between(now, session.get().getExpiresAt()));
-        } else {
-            throw new SessionExpiredException("Session has expired");
-        }
+        Session session = validateSession(uuid);
+        LocalDateTime now = nowTime();
+        handleSessionExpiration(session, now, req, resp);
+        printRemainingTime(Duration.between(now, session.getExpiresAt()));
     }
 
-    private Optional<Session> validateSession(String uuid) {
-        return hibernateSessionCrudDAO.findById(uuid);
+    private Session validateSession(String uuid) {
+        return hibernateSessionCrudDAO.findById(uuid).orElseThrow(() -> new SessionExpiredException("Session has expired"));
     }
 
     private void handleSessionExpiration(Session session, LocalDateTime now, HttpServletRequest req, HttpServletResponse resp) {
