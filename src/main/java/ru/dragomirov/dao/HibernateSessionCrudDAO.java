@@ -1,6 +1,7 @@
 package ru.dragomirov.dao;
 
 import ru.dragomirov.entity.Session;
+import ru.dragomirov.exception.SessionExpiredException;
 import ru.dragomirov.util.HibernateSessionManagerUtil;
 
 import java.util.List;
@@ -23,9 +24,13 @@ public class HibernateSessionCrudDAO implements SessionDAO {
 
     @Override
     public Optional<Session> findById(String id) {
-        return Optional.ofNullable(HibernateSessionManagerUtil.performSessionQuery(session ->
-                session.get(Session.class, id),
-                "Произошла ошибка при выполнении метода 'findById'(HibernateSessionCrudDAO)"));
+        if (id == null || id.isEmpty()) {
+            throw new SessionExpiredException("Session has expired");
+        } else {
+            return Optional.ofNullable(HibernateSessionManagerUtil.performSessionQuery(session ->
+                            session.get(Session.class, id),
+                    "Произошла ошибка при выполнении метода 'findById'(HibernateSessionCrudDAO)"));
+        }
     }
 
     @Override
