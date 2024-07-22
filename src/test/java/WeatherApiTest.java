@@ -1,28 +1,49 @@
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.SneakyThrows;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
 import ru.dragomirov.exception.InvalidParameterException;
-import ru.dragomirov.servlet.SearchCityWeatherServlet;
+import ru.dragomirov.service.SearchCityWeatherService;
+import ru.dragomirov.util.WeatherApiUrlBuilder;
+import ru.dragomirov.util.constant.ApiKeyConstant;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class WeatherApiTest {
+    private SearchCityWeatherService service;
+    private WeatherApiUrlBuilder weatherApiUrlBuilder;
+
+    @BeforeEach
+    void setUp() {
+        weatherApiUrlBuilder = mock(WeatherApiUrlBuilder.class);
+        service = new SearchCityWeatherService(weatherApiUrlBuilder);
+    }
+
     @Test
-    @SneakyThrows
-    void shouldThrow4xxExceptionForInvalidCityParameter() {
-        SearchCityWeatherServlet servlet = new SearchCityWeatherServlet();
+    void shouldThrowExceptionForInvalidCityParameter_One() {
+        assertThrows(InvalidParameterException.class, () -> service.getWeatherByCity(""));
+    }
 
-        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
-        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
-        when(mockRequest.getParameter("city")).thenReturn("");
+    @Test
+    void shouldThrowExceptionForInvalidCityParameter_Two() {
+        assertThrows(InvalidParameterException.class, () -> service.getWeatherByCity("123"));
+    }
 
-        try {
-            servlet.doGet(mockRequest, mockResponse);
-        } catch (InvalidParameterException e) {
-            assertEquals("Parameter city is invalid", e.getMessage());
-        }
+    @Test
+    void shouldReturnWeatherDataForValidCity() {
+        when(weatherApiUrlBuilder.buildCityWeatherApiUrl(anyString(), anyString()))
+                .thenReturn(
+                "https://api.openweathermap.org/geo/1.0/direct?q=" + "Moscow" + "&limit=5&appid=" +
+                        ApiKeyConstant.API_KEY_CONSTANT.getValue()
+        );
+
+        List<WeatherByLocationRequestDTO> weatherData = service.getWeatherByCity("Moscow");
+
+        assertNotNull(weatherData);
+        assertFalse(weatherData.isEmpty());
     }
 }
