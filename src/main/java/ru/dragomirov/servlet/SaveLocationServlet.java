@@ -14,8 +14,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Optional;
 
-@WebServlet(name = "SaveServlet", urlPatterns = "/save")
-public class SaveServlet extends BaseServlet {
+@WebServlet(name = "SaveLocationServlet", urlPatterns = "/save-location")
+public class SaveLocationServlet extends BaseServlet {
     private HibernateLocationCrudDAO hibernateLocationCrudDAO;
     private HibernateSessionCrudDAO hibernateSessionCrudDAO;
 
