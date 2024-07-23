@@ -22,8 +22,8 @@ public class SearchCityWeatherService {
     private WeatherApiUrlBuilder weatherApiUrlBuilder;
     private final Pattern regex = Pattern.compile("[^a-zA-Z\\s:]");
 
-    public SearchCityWeatherService() {
-        this.weatherApiUrlBuilder = new WeatherApiUrlBuilder();
+    public SearchCityWeatherService(WeatherApiUrlBuilder weatherApiUrlBuilder) {
+        this.weatherApiUrlBuilder = weatherApiUrlBuilder;
     }
     public List<WeatherByLocationRequestDTO> getWeatherByCity(String cityName) throws WeatherApiCallException {
         validateCityName(cityName);
