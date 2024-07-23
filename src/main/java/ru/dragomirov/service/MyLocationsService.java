@@ -12,6 +12,7 @@ import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dto.request.WeatherByCoordinatesRequestDTO;
 import ru.dragomirov.entity.Location;
 import ru.dragomirov.entity.Session;
+import ru.dragomirov.exception.SessionExpiredException;
 import ru.dragomirov.exception.api.WeatherApiCallException;
 import ru.dragomirov.util.WeatherApiUrlBuilder;
 import ru.dragomirov.util.constant.ApiKeyConstant;
@@ -21,7 +22,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class MyLocationsService {
     private final HibernateLocationCrudDAO hibernateLocationCrudDAO;
@@ -38,8 +38,8 @@ public class MyLocationsService {
         this.httpClient = HttpClients.createDefault();
     }
 
-    public Optional<Session> getSession(String uuid) {
-        return hibernateSessionCrudDAO.findById(uuid);
+    public Session getSession(String uuid) {
+        return hibernateSessionCrudDAO.findById(uuid).orElseThrow(() -> new SessionExpiredException("Session has expired"));
     }
 
     public List<Location> getLocationsByUserId(String userId) {

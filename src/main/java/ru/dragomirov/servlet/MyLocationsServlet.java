@@ -8,13 +8,11 @@ import ru.dragomirov.config.TemplateEngineConfig;
 import ru.dragomirov.dto.request.WeatherByCoordinatesRequestDTO;
 import ru.dragomirov.entity.Location;
 import ru.dragomirov.entity.Session;
-import ru.dragomirov.exception.SessionExpiredException;
 import ru.dragomirov.service.MyLocationsService;
 import ru.dragomirov.util.WeatherApiUrlBuilder;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @WebServlet(name = "MyLocationsServlet", urlPatterns = "/my")
 public class MyLocationsServlet extends BaseServlet {
@@ -31,18 +29,9 @@ public class MyLocationsServlet extends BaseServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String otherUuid = (String) getServletContext().getAttribute("myUuid");
 
-        if (otherUuid == null || otherUuid.isEmpty()) {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Пользователя с таким uuid не существует");
-            return;
-        }
+        Session session = myLocationsService.getSession(otherUuid);
 
-        Optional<Session> session = myLocationsService.getSession(otherUuid);
-
-        if (session.isEmpty()) {
-            throw new SessionExpiredException("Session has expired");
-        }
-
-        List<Location> locations = myLocationsService.getLocationsByUserId(String.valueOf(session.get().getUserId()));
+        List<Location> locations = myLocationsService.getLocationsByUserId(String.valueOf(session.getUserId()));
         List<WeatherByCoordinatesRequestDTO> locationWeatherData = myLocationsService.getWeatherDataForLocations(locations);
 
         WebContext context = TemplateEngineConfig.buildWebContext(req, resp, req.getServletContext());
