@@ -51,7 +51,7 @@ public class BaseServlet extends HttpServlet {
             webContext.setVariable("error", e.getMessage());
             templateEngine.process("error/api-error", webContext, resp.getWriter());
         } catch (SaveLocationException e) {
-            templateEngine.process("main", webContext, resp.getWriter());
+            resp.sendRedirect(WebPageConstant.MAIN_PAGE_X.getValue());
         } catch (SessionExpiredException e) {
             templateEngine.process("login", webContext, resp.getWriter());
         }
