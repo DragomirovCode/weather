@@ -10,6 +10,7 @@ import ru.dragomirov.entity.Location;
 import ru.dragomirov.entity.Session;
 import ru.dragomirov.exception.SessionExpiredException;
 import ru.dragomirov.service.MyLocationsService;
+import ru.dragomirov.util.WeatherApiUrlBuilder;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,10 +19,12 @@ import java.util.Optional;
 @WebServlet(name = "MyLocationsServlet", urlPatterns = "/my")
 public class MyLocationsServlet extends BaseServlet {
     private MyLocationsService myLocationsService;
+    private WeatherApiUrlBuilder weatherApiUrlBuilder;
 
     @Override
     public void init() {
-        this.myLocationsService = new MyLocationsService();
+        this.weatherApiUrlBuilder = new WeatherApiUrlBuilder();
+        this.myLocationsService = new MyLocationsService(this.weatherApiUrlBuilder);
     }
 
     @Override

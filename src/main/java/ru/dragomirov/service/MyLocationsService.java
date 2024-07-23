@@ -30,8 +30,8 @@ public class MyLocationsService {
     private final Gson gson;
     private final CloseableHttpClient httpClient;
 
-    public MyLocationsService() {
-        this.weatherApiUrlBuilder = new WeatherApiUrlBuilder();
+    public MyLocationsService(WeatherApiUrlBuilder weatherApiUrlBuilder) {
+        this.weatherApiUrlBuilder = weatherApiUrlBuilder;
         this.hibernateLocationCrudDAO = new HibernateLocationCrudDAO();
         this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
         this.gson = new GsonBuilder().setPrettyPrinting().create();
