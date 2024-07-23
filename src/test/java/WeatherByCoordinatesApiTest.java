@@ -30,7 +30,6 @@ public class WeatherByCoordinatesApiTest {
     void shouldReturnWeatherData() {
         Location location = new Location();
         location.setId(1);
-        location.setName("Moscow");
         location.setLatitude(BigDecimal.valueOf(55.7504461));
         location.setLongitude(BigDecimal.valueOf(37.6174943));
         location.setUserId(1);
