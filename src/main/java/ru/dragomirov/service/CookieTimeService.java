@@ -11,10 +11,10 @@ import ru.dragomirov.util.constant.WebPageConstant;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class CookieService {
+public class CookieTimeService {
     private HibernateSessionCrudDAO hibernateSessionCrudDAO;
 
-    public CookieService() {
+    public CookieTimeService() {
         this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
     }
 

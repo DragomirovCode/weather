@@ -7,28 +7,28 @@ import jakarta.servlet.http.*;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.entity.Session;
 import ru.dragomirov.exception.SessionExpiredException;
-import ru.dragomirov.service.CookieService;
+import ru.dragomirov.service.CookieTimeService;
 import ru.dragomirov.util.constant.WebPageConstant;
 
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(name = "CookieServlet", urlPatterns = "")
-public class CookieServlet extends BaseServlet {
+@WebServlet(name = "CookieTimeServlet", urlPatterns = "")
+public class CookieTimeServlet extends BaseServlet {
     private HibernateSessionCrudDAO hibernateSessionCrudDAO;
-    private CookieService cookieService;
+    private CookieTimeService cookieTimeService;
 
     @Override
     public void init(){
         this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
-        this.cookieService = new CookieService();
+        this.cookieTimeService = new CookieTimeService();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String uuid = (String) getServletContext().getAttribute("myUuid");
 
-       cookieService.validateAndHandleSession(uuid, req, resp);
+       cookieTimeService.validateAndHandleSession(uuid, req, resp);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/my");
         dispatcher.forward(req, resp);

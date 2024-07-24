@@ -10,7 +10,7 @@ import ru.dragomirov.entity.User;
 import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.service.LoginService;
 import ru.dragomirov.service.RegistrationService;
-import ru.dragomirov.servlet.CookieServlet;
+import ru.dragomirov.servlet.CookieTimeServlet;
 import ru.dragomirov.util.AuthenticationRequest;
 
 import java.util.*;
@@ -81,8 +81,8 @@ public class UserRegistrationTest {
         HttpSession httpSession = mock(HttpSession.class);
 
         // Инициализируем сервлет и другие необходимые объекты
-        CookieServlet cookieServlet = new CookieServlet();
-        cookieServlet.init();
+        CookieTimeServlet cookieTimeServlet = new CookieTimeServlet();
+        cookieTimeServlet.init();
 
         AuthenticationRequest authenticationRequest = new AuthenticationRequest(req);
         LoginService loginService = new LoginService();
@@ -115,7 +115,7 @@ public class UserRegistrationTest {
         when(req.getParameter("exit")).thenReturn("exit");
 
         // Вызываем метод doPost для проверки удаления атрибута "user"
-        cookieServlet.doPost(req, resp);
+        cookieTimeServlet.doPost(req, resp);
 
         session = hibernateSessionCrudDAO.findByUserId(user.getId());
         System.out.println("После: ... " );
