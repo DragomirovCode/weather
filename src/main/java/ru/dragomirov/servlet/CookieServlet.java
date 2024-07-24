@@ -37,7 +37,7 @@ public class CookieServlet extends BaseServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String uuid = (String) getServletContext().getAttribute("myUuid");
-        String button = req.getParameter("exit");
+        String button = req.getParameter("button");
 
         Optional<Session> session = hibernateSessionCrudDAO.findById(uuid);
 
@@ -51,6 +51,14 @@ public class CookieServlet extends BaseServlet {
                 HttpSession exitSession = req.getSession(false);
                 exitSession.removeAttribute("user");
                 hibernateSessionCrudDAO.delete(String.valueOf(session.get().getId()));
+                break;
+
+            case "login":
+                resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
+                break;
+
+            case "registration":
+                resp.sendRedirect(WebPageConstant.REGISTRATION_PAGE_X.getValue());
                 break;
         }
     }
