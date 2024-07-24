@@ -53,7 +53,7 @@ public class BaseServlet extends HttpServlet {
         } catch (SaveLocationException e) {
             resp.sendRedirect(WebPageConstant.MAIN_PAGE_X.getValue());
         } catch (SessionExpiredException e) {
-            templateEngine.process("login", webContext, resp.getWriter());
+            templateEngine.process("main", webContext, resp.getWriter());
         }
     }
 }
