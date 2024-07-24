@@ -4,6 +4,8 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import org.thymeleaf.context.WebContext;
+import ru.dragomirov.config.TemplateEngineConfig;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.entity.Session;
 import ru.dragomirov.exception.SessionExpiredException;
@@ -28,7 +30,12 @@ public class CookieTimeServlet extends BaseServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String uuid = (String) getServletContext().getAttribute("myUuid");
 
-       cookieTimeService.validateAndHandleSession(uuid, req, resp);
+        Optional<Session> session = hibernateSessionCrudDAO.findById(uuid);
+
+        cookieTimeService.validateAndHandleSession(uuid, req, resp);
+
+        WebContext context = TemplateEngineConfig.buildWebContext(req, resp, req.getServletContext());
+        context.setVariable("mySession", session);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/my");
         dispatcher.forward(req, resp);
