@@ -37,9 +37,9 @@ public class WeatherByLocationApiTest {
     void shouldReturnWeatherDataForValidCity() {
         when(weatherApiUrlBuilder.buildCityWeatherApiUrl(anyString(), anyString()))
                 .thenReturn(
-                "https://api.openweathermap.org/geo/1.0/direct?q=" + "Moscow" + "&limit=5&appid=" +
-                        ApiKeyConstant.API_KEY_CONSTANT.getValue()
-        );
+                        "https://api.openweathermap.org/geo/1.0/direct?q=" + "Moscow" + "&limit=5&appid=" +
+                                ApiKeyConstant.API_KEY_CONSTANT.getValue()
+                );
 
         List<WeatherByLocationRequestDTO> weatherData = service.getWeatherByCity("Moscow");
 

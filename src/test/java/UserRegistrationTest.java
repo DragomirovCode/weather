@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 public class UserRegistrationTest {
     @SneakyThrows
     @Test
-    public void shouldAddUserInDatabase(){
+    public void shouldAddUserInDatabase() {
         // Создаем mock объекты
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse resp = mock(HttpServletResponse.class);
@@ -118,7 +118,7 @@ public class UserRegistrationTest {
         cookieTimeServlet.doPost(req, resp);
 
         session = hibernateSessionCrudDAO.findByUserId(user.getId());
-        System.out.println("После: ... " );
+        System.out.println("После: ... ");
 
         // Проверяем, что выбрасывается исключение при вызове метода
         Optional<Session> finalSession = session;
