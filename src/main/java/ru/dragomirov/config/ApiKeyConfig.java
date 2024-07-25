@@ -8,8 +8,4 @@ public class ApiKeyConfig {
     public static String getProperty(String key) {
         return configuration.getProperty(key);
     }
-
-    public static String getStringProperty(String key) {
-        return String.valueOf(key);
-    }
 }
