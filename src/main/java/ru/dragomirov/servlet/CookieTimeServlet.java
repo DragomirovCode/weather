@@ -8,7 +8,6 @@ import org.thymeleaf.context.WebContext;
 import ru.dragomirov.config.TemplateEngineConfig;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.entity.Session;
-import ru.dragomirov.exception.SessionExpiredException;
 import ru.dragomirov.service.CookieTimeService;
 import ru.dragomirov.util.constant.WebPageConstant;
 
@@ -46,27 +45,18 @@ public class CookieTimeServlet extends BaseServlet {
         String uuid = (String) getServletContext().getAttribute("myUuid");
         String button = req.getParameter("button");
 
-        Optional<Session> session = hibernateSessionCrudDAO.findById(uuid);
-
-        if (session.isEmpty()) {
-            throw new SessionExpiredException("Session has expired");
+        if (button.equals("login")) {
+            resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
+        } else if (button.equals("registration")) {
+            resp.sendRedirect(WebPageConstant.REGISTRATION_PAGE_X.getValue());
         }
 
-        switch (button) {
-            case "exit":
-                resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
-                HttpSession exitSession = req.getSession(false);
-                exitSession.removeAttribute("user");
-                hibernateSessionCrudDAO.delete(String.valueOf(session.get().getId()));
-                break;
-
-            case "login":
-                resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
-                break;
-
-            case "registration":
-                resp.sendRedirect(WebPageConstant.REGISTRATION_PAGE_X.getValue());
-                break;
+        if (button.equals("exit")) {
+            resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
+            HttpSession exitSession = req.getSession(false);
+            exitSession.removeAttribute("user");
+            Optional<Session> session = hibernateSessionCrudDAO.findById(uuid);
+            hibernateSessionCrudDAO.delete(String.valueOf(session.get().getId()));
         }
     }
 }
