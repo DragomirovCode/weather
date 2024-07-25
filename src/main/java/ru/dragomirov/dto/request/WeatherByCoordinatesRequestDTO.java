@@ -10,11 +10,15 @@ import java.math.BigDecimal;
 @Setter
 public class WeatherByCoordinatesRequestDTO {
     public int id;
+
     public String name;
+
     @SerializedName("coord")
     public Coordinates coordinates;
+
     @SerializedName("main")
     public Main main;
+
     public Sys sys;
 
     @Getter
@@ -22,6 +26,7 @@ public class WeatherByCoordinatesRequestDTO {
     public static class Coordinates {
         @SerializedName("lat")
         public BigDecimal latitude;
+
         @SerializedName("lon")
         public BigDecimal longitude;
     }
@@ -31,10 +36,13 @@ public class WeatherByCoordinatesRequestDTO {
     public static class Main {
         @SerializedName("temp")
         public BigDecimal temperatureActual;
+
         @SerializedName("temp_max")
         public BigDecimal temperatureMax;
+
         @SerializedName("temp_min")
         public BigDecimal temperatureMin;
+
         @SerializedName("feels_like")
         public BigDecimal temperatureFeelsLike;
     }

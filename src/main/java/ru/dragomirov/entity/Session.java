@@ -18,8 +18,10 @@ import java.time.LocalDateTime;
 public class Session {
     @Id
     private String id;
+
     @Column(name = "user_id")
     private int userId;
+
     @Column(name = "expires_at")
     private LocalDateTime expiresAt;
 
