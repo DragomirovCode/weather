@@ -6,4 +6,4 @@ CREATE TABLE Locations
     latitude  DECIMAL(40, 35),
     longitude DECIMAL(40, 35),
     FOREIGN KEY (user_id) REFERENCES Users (id)
-);
+)
