@@ -27,10 +27,13 @@ public class SearchCityWeatherServlet extends BaseServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String cityName = req.getParameter("city");
+        String uuid = (String) getServletContext().getAttribute("myUuid");
+        System.out.println("UUID: " + uuid);
 
         try {
             List<WeatherByLocationRequestDTO> requestDTOList = searchCityWeatherService.getWeatherByCity(cityName);
             WebContext context = TemplateEngineConfig.buildWebContext(req, resp, req.getServletContext());
+            context.setVariable("mySession", uuid);
             context.setVariable("cityList", requestDTOList);
             templateEngine.process("city-weather", context, resp.getWriter());
         } catch (WeatherApiCallException e) {

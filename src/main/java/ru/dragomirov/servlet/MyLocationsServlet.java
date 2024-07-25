@@ -35,6 +35,7 @@ public class MyLocationsServlet extends BaseServlet {
         List<WeatherByCoordinatesRequestDTO> locationWeatherData = myLocationsService.getWeatherDataForLocations(locations);
 
         WebContext context = TemplateEngineConfig.buildWebContext(req, resp, req.getServletContext());
+        context.setVariable("mySession", session);
         context.setVariable("locations", locationWeatherData);
         templateEngine.process("main", context, resp.getWriter());
     }
