@@ -17,12 +17,11 @@ import java.util.List;
 @WebServlet(name = "MyLocationsServlet", urlPatterns = "/my")
 public class MyLocationsServlet extends BaseServlet {
     private MyLocationsService myLocationsService;
-    private WeatherApiUrlBuilder weatherApiUrlBuilder;
 
     @Override
     public void init() {
-        this.weatherApiUrlBuilder = new WeatherApiUrlBuilder();
-        this.myLocationsService = new MyLocationsService(this.weatherApiUrlBuilder);
+        WeatherApiUrlBuilder weatherApiUrlBuilder = new WeatherApiUrlBuilder();
+        this.myLocationsService = new MyLocationsService(weatherApiUrlBuilder);
     }
 
     @Override
