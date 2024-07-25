@@ -9,15 +9,15 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class WeatherByLocationRequestDTO {
-    private String name;
+    public String name;
 
-    private String country;
+    public String country;
 
-    private String state;
+    public String state;
 
     @SerializedName("lat")
-    private BigDecimal latitude;
+    public BigDecimal latitude;
 
     @SerializedName("lon")
-    private BigDecimal longitude;
+    public BigDecimal longitude;
 }
