@@ -49,11 +49,6 @@ public class LoginFilter implements Filter {
             }
         }
 
-
-        if (session == null || session.getAttribute("user") == null) {
-            response.sendRedirect("/login");
-        } else {
-            filterChain.doFilter(request, response);
-        }
+        filterChain.doFilter(request, response);
     }
 }
