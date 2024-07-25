@@ -1,7 +1,9 @@
 package ru.dragomirov.util.constant;
 
+import ru.dragomirov.config.ApiKeyConfig;
+
 public enum ApiKeyConstant {
-    API_KEY_CONSTANT("66b4f9f34b5073497f497f4d4f2be438");
+    API_KEY_CONSTANT(ApiKeyConfig.getProperty("api_key"));
     private final String value;
 
     ApiKeyConstant(String value) {
