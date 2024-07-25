@@ -52,7 +52,7 @@ public class CookieTimeServlet extends BaseServlet {
         }
 
         if (button.equals("exit")) {
-            resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
+            resp.sendRedirect(WebPageConstant.MAIN_PAGE_X.getValue());
             HttpSession exitSession = req.getSession(false);
             exitSession.removeAttribute("user");
             Optional<Session> session = hibernateSessionCrudDAO.findById(uuid);
