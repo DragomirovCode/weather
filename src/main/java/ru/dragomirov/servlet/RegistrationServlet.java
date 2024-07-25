@@ -15,8 +15,9 @@ import java.io.IOException;
 @WebServlet(name = "RegistrationServlet", urlPatterns = "/registration")
 public class RegistrationServlet extends BaseServlet {
     private RegistrationService registrationService;
+
     @Override
-    public void init(){
+    public void init() {
         registrationService = new RegistrationService();
     }
 

@@ -1,6 +1,6 @@
 package ru.dragomirov.exception.authentication;
 
-public class PasswordException extends RuntimeException{
+public class PasswordException extends RuntimeException {
     public PasswordException(String message) {
         super(message);
     }

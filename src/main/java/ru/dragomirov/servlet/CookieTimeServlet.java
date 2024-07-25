@@ -20,7 +20,7 @@ public class CookieTimeServlet extends BaseServlet {
     private CookieTimeService cookieTimeService;
 
     @Override
-    public void init(){
+    public void init() {
         this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
         this.cookieTimeService = new CookieTimeService();
     }

@@ -15,6 +15,7 @@ public class DeleteLocationServlet extends BaseServlet {
     public void init() {
         this.deleteLocationService = new DeleteLocationService();
     }
+
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String method = req.getMethod();

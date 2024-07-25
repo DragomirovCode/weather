@@ -1,4 +1,5 @@
 package ru.dragomirov.util;
+
 import org.hibernate.Session;
 import ru.dragomirov.exception.DatabaseOperationException;
 

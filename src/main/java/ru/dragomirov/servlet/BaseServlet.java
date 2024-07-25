@@ -31,6 +31,7 @@ public class BaseServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         webContext = TemplateEngineConfig.buildWebContext(req, resp, getServletContext());

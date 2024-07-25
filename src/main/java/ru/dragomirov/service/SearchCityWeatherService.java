@@ -25,6 +25,7 @@ public class SearchCityWeatherService {
     public SearchCityWeatherService(WeatherApiUrlBuilder weatherApiUrlBuilder) {
         this.weatherApiUrlBuilder = weatherApiUrlBuilder;
     }
+
     public List<WeatherByLocationRequestDTO> getWeatherByCity(String cityName) throws WeatherApiCallException {
         validateCityName(cityName);
         String apiUrl = buildApiUrl(cityName);

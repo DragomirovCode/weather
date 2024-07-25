@@ -11,7 +11,7 @@ import ru.dragomirov.util.AuthenticationRequest;
 
 import java.io.IOException;
 
-@WebServlet(name = "LoginServlet" , urlPatterns = "/login")
+@WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends BaseServlet {
     private LoginService loginService;
 

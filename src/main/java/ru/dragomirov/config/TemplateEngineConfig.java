@@ -34,5 +34,5 @@ public class TemplateEngineConfig {
         templateResolver.setSuffix(".html");
         templateResolver.setCharacterEncoding("UTF-8");
         return templateResolver;
-    }   
+    }
 }

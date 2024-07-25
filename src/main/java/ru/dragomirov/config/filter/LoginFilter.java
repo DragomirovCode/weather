@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@WebFilter(value = { "/*" })
+@WebFilter(value = {"/*"})
 public class LoginFilter implements Filter {
     private HibernateSessionCrudDAO hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
 

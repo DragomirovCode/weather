@@ -26,6 +26,7 @@ public class LoginService {
         this.hibernateUserCrudDAO = new HibernateUserCrudDAO();
         this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
     }
+
     public void handleLogin(AuthenticationRequest authenticationRequest, HttpServletRequest req, HttpServletResponse resp) throws IOException, LoginException {
         Optional<User> user = findUser(authenticationRequest.getLogin(), authenticationRequest.getPassword());
         if (user.isPresent()) {

@@ -11,6 +11,6 @@ public class WeatherApiUrlBuilder {
     }
 
     public String buildLatLonCityWeatherApiUrl(BigDecimal lat, BigDecimal lon, String key) {
-        return "https://api.openweathermap.org/data/2.5/weather?lat="+ lat + "&lon=" + lon + "&appid=" + key + "&units=metric";
+        return "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + key + "&units=metric";
     }
 }
