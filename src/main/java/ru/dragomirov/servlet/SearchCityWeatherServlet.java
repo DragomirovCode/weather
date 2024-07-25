@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.thymeleaf.context.WebContext;
 import ru.dragomirov.config.TemplateEngineConfig;
 import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
-import ru.dragomirov.exception.api.WeatherApiCallException;
 import ru.dragomirov.service.SearchCityWeatherService;
 import ru.dragomirov.util.WeatherApiUrlBuilder;
 
@@ -27,16 +26,11 @@ public class SearchCityWeatherServlet extends BaseServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String cityName = req.getParameter("city");
         String uuid = (String) getServletContext().getAttribute("myUuid");
-        System.out.println("UUID: " + uuid);
 
-        try {
-            List<WeatherByLocationRequestDTO> requestDTOList = searchCityWeatherService.getWeatherByCity(cityName);
-            WebContext context = TemplateEngineConfig.buildWebContext(req, resp, req.getServletContext());
-            context.setVariable("mySession", uuid);
-            context.setVariable("cityList", requestDTOList);
-            templateEngine.process("city-weather", context, resp.getWriter());
-        } catch (WeatherApiCallException e) {
-            throw new WeatherApiCallException("Error accessing the API");
-        }
+        List<WeatherByLocationRequestDTO> requestDTOList = searchCityWeatherService.getWeatherByCity(cityName);
+        WebContext context = TemplateEngineConfig.buildWebContext(req, resp, req.getServletContext());
+        context.setVariable("mySession", uuid);
+        context.setVariable("cityList", requestDTOList);
+        templateEngine.process("city-weather", context, resp.getWriter());
     }
 }
