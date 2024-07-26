@@ -20,7 +20,7 @@ import java.util.UUID;
 public class LoginService {
     private HibernateUserCrudDAO hibernateUserCrudDAO;
     private HibernateSessionCrudDAO hibernateSessionCrudDAO;
-    private final int cookieMaxAge = CookieTimeConfig.getIntProperty("cookie.max_age");
+    private final int cookieMaxAge = Integer.parseInt(CookieTimeConfig.getProperty("cookie.max_age"));
 
     public LoginService() {
         this.hibernateUserCrudDAO = new HibernateUserCrudDAO();
