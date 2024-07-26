@@ -54,28 +54,10 @@ public class UserRegistrationTest {
     }
 
     @Test
-    public void shouldThrowLoginException() {
-        // Создаем mock объекты
-        HttpServletRequest req = mock(HttpServletRequest.class);
-        HttpServletResponse resp = mock(HttpServletResponse.class);
-
-        AuthenticationRequest authenticationRequest = new AuthenticationRequest(req);
-        RegistrationService registrationService = new RegistrationService();
-        HibernateUserCrudDAO hibernateUserCrudDAO = new HibernateUserCrudDAO();
-        User user = new User();
-        user.setLogin("test");
-        user.setPassword("1");
-        hibernateUserCrudDAO.create(user);
-
-        // Устанавливаем параметры
-        authenticationRequest.setLogin("test");
-        authenticationRequest.setPassword("1");
-        authenticationRequest.setButton("registration");
-
-        // Проверяем, что выбрасывается исключение при вызове метода
-        assertThrows(LoginException.class, () -> {
-            registrationService.processAuthenticationRequest(authenticationRequest, resp);
-        });
+    @DisplayName("process authentication request should throw login exception because not unique username")
+    void processAuthenticationRequest_shouldThrowLoginException_NotUniqueUsername() {
+        assertThrows(LoginException.class, () ->
+                registrationService.processAuthenticationRequest(authenticationRequest, resp));
     }
 
     @Test
