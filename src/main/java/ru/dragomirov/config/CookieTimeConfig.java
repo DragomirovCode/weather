@@ -8,8 +8,4 @@ public class CookieTimeConfig {
     public static String getProperty(String key) {
         return configuration.getProperty(key);
     }
-
-    public static int getIntProperty(String key) {
-        return Integer.parseInt(getProperty(key));
-    }
 }
