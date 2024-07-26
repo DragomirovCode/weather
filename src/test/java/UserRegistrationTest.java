@@ -20,11 +20,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class UserRegistrationTest {
-    private HibernateUserCrudDAO hibernateUserCrudDAO;
-    private RegistrationService registrationService;
-    private AuthenticationRequest authenticationRequest;
-    private HttpServletResponse resp;
-    private HttpServletRequest req;
+    HibernateUserCrudDAO hibernateUserCrudDAO;
+    RegistrationService registrationService;
+    AuthenticationRequest authenticationRequest;
+    HttpServletResponse resp;
+    HttpServletRequest req;
 
     @BeforeEach
     void setUp() {
