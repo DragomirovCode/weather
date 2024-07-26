@@ -24,8 +24,7 @@
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
         <thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>
         <mockito-core.version>3.3.3</mockito-core.version>
-        <sqlite-jdbc.version>3.36.0.3</sqlite-jdbc.version>
-        <sqlite-dialect.version>0.1.2</sqlite-dialect.version>
+        <h2.version>1.4.200</h2.version>
     </properties>
 
     <dependencies>
@@ -89,14 +88,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.xerial</groupId>
-            <artifactId>sqlite-jdbc</artifactId>
-            <version>${sqlite-jdbc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.gwenn</groupId>
-            <artifactId>sqlite-dialect</artifactId>
-            <version>${sqlite-dialect.version}</version>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
         </dependency>
     </dependencies>
 
