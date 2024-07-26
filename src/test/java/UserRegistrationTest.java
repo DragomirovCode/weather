@@ -53,9 +53,16 @@ public class UserRegistrationTest {
         assertEquals("testLogin", users.get(0).getLogin());
     }
 
+    @SneakyThrows
     @Test
     @DisplayName("process authentication request should throw login exception because not unique username")
     void processAuthenticationRequest_shouldThrowLoginException_NotUniqueUsername() {
+        authenticationRequest.setLogin("testLogin");
+        authenticationRequest.setPassword("testPassword");
+        authenticationRequest.setButton("registration");
+
+        registrationService.processAuthenticationRequest(authenticationRequest, resp);
+
         assertThrows(LoginException.class, () ->
                 registrationService.processAuthenticationRequest(authenticationRequest, resp));
     }
