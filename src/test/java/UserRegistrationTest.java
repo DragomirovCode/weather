@@ -21,7 +21,6 @@ import static org.mockito.Mockito.*;
 
 public class UserRegistrationTest {
     private HibernateUserCrudDAO hibernateUserCrudDAO;
-    private HibernateSessionCrudDAO hibernateSessionCrudDAO;
     private RegistrationService registrationService;
     private AuthenticationRequest authenticationRequest;
     private HttpServletResponse resp;
@@ -33,7 +32,6 @@ public class UserRegistrationTest {
         req = mock(HttpServletRequest.class);
 
         hibernateUserCrudDAO = new HibernateUserCrudDAO();
-        hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
         registrationService = new RegistrationService();
         authenticationRequest = new AuthenticationRequest(req);
     }
@@ -72,6 +70,7 @@ public class UserRegistrationTest {
     @Test
     @DisplayName("validate and handle session should empty list in database")
     void validateAndHandleSession_shouldEmptyList_inDatabase() {
+        HibernateSessionCrudDAO  hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
         CookieTimeService timeService = new CookieTimeService();
         UUID uuid = UUID.randomUUID();
 
