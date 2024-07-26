@@ -1,6 +1,5 @@
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,11 +9,11 @@ import ru.dragomirov.dao.HibernateUserCrudDAO;
 import ru.dragomirov.entity.Session;
 import ru.dragomirov.entity.User;
 import ru.dragomirov.exception.authentication.LoginException;
-import ru.dragomirov.service.LoginService;
+import ru.dragomirov.service.CookieTimeService;
 import ru.dragomirov.service.RegistrationService;
-import ru.dragomirov.servlet.CookieTimeServlet;
 import ru.dragomirov.util.AuthenticationRequest;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,6 +21,7 @@ import static org.mockito.Mockito.*;
 
 public class UserRegistrationTest {
     private HibernateUserCrudDAO hibernateUserCrudDAO;
+    private HibernateSessionCrudDAO hibernateSessionCrudDAO;
     private RegistrationService registrationService;
     private AuthenticationRequest authenticationRequest;
     private HttpServletResponse resp;
@@ -33,6 +33,7 @@ public class UserRegistrationTest {
         req = mock(HttpServletRequest.class);
 
         hibernateUserCrudDAO = new HibernateUserCrudDAO();
+        hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
         registrationService = new RegistrationService();
         authenticationRequest = new AuthenticationRequest(req);
     }
@@ -67,58 +68,17 @@ public class UserRegistrationTest {
                 registrationService.processAuthenticationRequest(authenticationRequest, resp));
     }
 
-    @Test
     @SneakyThrows
-    void shouldHandleExitButton() {
-        // Создаем мок-объекты
-        HttpServletRequest req = mock(HttpServletRequest.class);
-        HttpServletResponse resp = mock(HttpServletResponse.class);
-        HttpSession httpSession = mock(HttpSession.class);
+    @Test
+    @DisplayName("validate and handle session should empty list in database")
+    void validateAndHandleSession_shouldEmptyList_inDatabase() {
+        CookieTimeService timeService = new CookieTimeService();
+        UUID uuid = UUID.randomUUID();
 
-        // Инициализируем сервлет и другие необходимые объекты
-        CookieTimeServlet cookieTimeServlet = new CookieTimeServlet();
-        cookieTimeServlet.init();
+        hibernateSessionCrudDAO.create(new Session(String.valueOf(uuid), 1, LocalDateTime.now()));
 
-        AuthenticationRequest authenticationRequest = new AuthenticationRequest(req);
-        LoginService loginService = new LoginService();
-        HibernateUserCrudDAO hibernateUserCrudDAO = new HibernateUserCrudDAO();
-        HibernateSessionCrudDAO hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
-        User user = new User();
-        user.setLogin("test");
-        user.setPassword("1");
-        hibernateUserCrudDAO.create(user);
+        timeService.validateAndHandleSession(String.valueOf(uuid), req, resp);
 
-        // Настраиваем мок HttpSession
-        when(req.getSession()).thenReturn(httpSession);
-        when(req.getSession(false)).thenReturn(httpSession);
-        doNothing().when(httpSession).setAttribute(anyString(), any());
-        doNothing().when(httpSession).removeAttribute("user");
-
-        // Настраиваем запрос аутентификации
-        authenticationRequest.setLogin("test");
-        authenticationRequest.setPassword("1");
-        authenticationRequest.setButton("login");
-
-        // Обрабатываем логин
-        loginService.handleLogin(authenticationRequest, req, resp);
-
-        Optional<Session> session = hibernateSessionCrudDAO.findByUserId(user.getId());
-        System.out.println("До: " + session.get().getId());
-
-        // Симулируем нажатие кнопки выхода
-        when(req.getParameter("uuid")).thenReturn(session.get().getId());
-        when(req.getParameter("exit")).thenReturn("exit");
-
-        // Вызываем метод doPost для проверки удаления атрибута "user"
-        cookieTimeServlet.doPost(req, resp);
-
-        session = hibernateSessionCrudDAO.findByUserId(user.getId());
-        System.out.println("После: ... ");
-
-        // Проверяем, что выбрасывается исключение при вызове метода
-        Optional<Session> finalSession = session;
-        assertThrows(NoSuchElementException.class, () -> {
-            finalSession.get().getId();
-        });
+        assertTrue(hibernateSessionCrudDAO.findAll().isEmpty());
     }
 }
