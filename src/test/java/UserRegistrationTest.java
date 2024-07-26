@@ -2,6 +2,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.SneakyThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
@@ -15,36 +17,40 @@ import ru.dragomirov.util.AuthenticationRequest;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class UserRegistrationTest {
+    private HibernateUserCrudDAO hibernateUserCrudDAO;
+    private RegistrationService registrationService;
+    private AuthenticationRequest authenticationRequest;
+    private HttpServletResponse resp;
+    private HttpServletRequest req;
+
+    @BeforeEach
+    void setUp() {
+        resp = mock(HttpServletResponse.class);
+        req = mock(HttpServletRequest.class);
+
+        hibernateUserCrudDAO = new HibernateUserCrudDAO();
+        registrationService = new RegistrationService();
+        authenticationRequest = new AuthenticationRequest(req);
+
+        authenticationRequest.setLogin("testLogin");
+        authenticationRequest.setPassword("testPassword");
+        authenticationRequest.setButton("registration");
+    }
+
     @SneakyThrows
     @Test
-    public void shouldAddUserInDatabase() {
-        // Создаем mock объекты
-        HttpServletRequest req = mock(HttpServletRequest.class);
-        HttpServletResponse resp = mock(HttpServletResponse.class);
-
-        // Настраиваем mock объекты
-        when(req.getParameter("login")).thenReturn("test");
-        when(req.getParameter("password")).thenReturn("1");
-        when(req.getParameter("button")).thenReturn("registration");
-
-        // Создаем AuthenticationRequest и RegistrationService
-        AuthenticationRequest authenticationRequest = new AuthenticationRequest(req);
-        RegistrationService registrationService = new RegistrationService();
-
-        // Устанавливаем параметры
-        authenticationRequest.setLogin("test");
-        authenticationRequest.setPassword("1");
-        authenticationRequest.setButton("registration");
-
-        // Вызываем метод, который хотим протестировать
+    @DisplayName("process authentication request should add user in database")
+    void processAuthenticationRequest_shouldAddUser_inDatabase() {
         registrationService.processAuthenticationRequest(authenticationRequest, resp);
 
-        // Проверяем, что был выполнен редирект на страницу логина
-        verify(resp).sendRedirect("/login");
+        List<User> users = hibernateUserCrudDAO.findAll();
+        assertNotNull(users);
+        assertEquals(1, users.size());
+        assertEquals("testLogin", users.get(0).getLogin());
     }
 
     @Test
