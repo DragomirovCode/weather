@@ -35,16 +35,16 @@ public class UserRegistrationTest {
         hibernateUserCrudDAO = new HibernateUserCrudDAO();
         registrationService = new RegistrationService();
         authenticationRequest = new AuthenticationRequest(req);
-
-        authenticationRequest.setLogin("testLogin");
-        authenticationRequest.setPassword("testPassword");
-        authenticationRequest.setButton("registration");
     }
 
     @SneakyThrows
     @Test
     @DisplayName("process authentication request should add user in database")
     void processAuthenticationRequest_shouldAddUser_inDatabase() {
+        authenticationRequest.setLogin("testLogin");
+        authenticationRequest.setPassword("testPassword");
+        authenticationRequest.setButton("registration");
+
         registrationService.processAuthenticationRequest(authenticationRequest, resp);
 
         List<User> users = hibernateUserCrudDAO.findAll();
