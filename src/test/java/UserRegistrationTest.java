@@ -57,7 +57,7 @@ public class UserRegistrationTest {
     @SneakyThrows
     @Test
     @DisplayName("process authentication request should throw login exception because not unique username")
-    void processAuthenticationRequest_shouldThrowLoginException_NotUniqueUsername() {
+    void processAuthenticationRequest_shouldThrowLoginException_notUniqueUsername() {
         authenticationRequest.setLogin("testLogin");
         authenticationRequest.setPassword("testPassword");
         authenticationRequest.setButton("registration");
