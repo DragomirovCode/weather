@@ -1,3 +1,5 @@
+package api;
+
 import lombok.SneakyThrows;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
