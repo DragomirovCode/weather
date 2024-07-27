@@ -2,10 +2,8 @@ package ru.dragomirov.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.SneakyThrows;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import ru.dragomirov.dao.HibernateLocationCrudDAO;
 import ru.dragomirov.dao.HibernateSessionCrudDAO;
@@ -28,14 +26,14 @@ public class MyLocationsService {
     private final HibernateSessionCrudDAO hibernateSessionCrudDAO;
     private final WeatherApiUrlBuilder weatherApiUrlBuilder;
     private final Gson gson;
-    private final CloseableHttpClient httpClient;
+    private final HttpClientService httpClientService;
 
-    public MyLocationsService(WeatherApiUrlBuilder weatherApiUrlBuilder) {
+    public MyLocationsService(WeatherApiUrlBuilder weatherApiUrlBuilder, HttpClientService httpClientService) {
         this.weatherApiUrlBuilder = weatherApiUrlBuilder;
         this.hibernateLocationCrudDAO = new HibernateLocationCrudDAO();
         this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
         this.gson = new GsonBuilder().setPrettyPrinting().create();
-        this.httpClient = HttpClients.createDefault();
+        this.httpClientService = httpClientService;
     }
 
     public Session getSession(String uuid) {
@@ -50,15 +48,20 @@ public class MyLocationsService {
         return temperature.setScale(0, RoundingMode.DOWN);
     }
 
+    @SneakyThrows
     public List<WeatherByCoordinatesRequestDTO> getWeatherDataForLocations(List<Location> locations) {
         List<WeatherByCoordinatesRequestDTO> locationWeatherData = new ArrayList<>();
-        String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
 
         for (Location loc : locations) {
             try {
-                WeatherByCoordinatesRequestDTO requestDTO = fetchWeatherData(loc, apiKey);
+                String apiUrl = buildApiUrl(loc.getLatitude(), loc.getLongitude());
+                HttpResponse response = httpClientService.executeRequest(apiUrl);
+
+                WeatherByCoordinatesRequestDTO requestDTO = fetchWeatherData(response);
+
                 processWeatherData(requestDTO, loc);
                 locationWeatherData.add(requestDTO);
+
             } catch (WeatherApiCallException e) {
                 throw new WeatherApiCallException("Error accessing the API");
             }
@@ -66,11 +69,8 @@ public class MyLocationsService {
         return locationWeatherData;
     }
 
-    private WeatherByCoordinatesRequestDTO fetchWeatherData(Location loc, String apiKey) {
+    private WeatherByCoordinatesRequestDTO fetchWeatherData(HttpResponse response) {
         try {
-            String apiUrl = weatherApiUrlBuilder.buildLatLonCityWeatherApiUrl(loc.getLatitude(), loc.getLongitude(), apiKey);
-            HttpGet request = new HttpGet(apiUrl);
-            HttpResponse response = httpClient.execute(request);
             String jsonStr = EntityUtils.toString(response.getEntity());
             return gson.fromJson(jsonStr, WeatherByCoordinatesRequestDTO.class);
         } catch (WeatherApiCallException | IOException e) {
@@ -84,5 +84,10 @@ public class MyLocationsService {
         requestDTO.coordinates.setLongitude(loc.getLongitude());
         requestDTO.main.setTemperatureActual(roundingToAnInteger(requestDTO.getMain().temperatureActual));
         requestDTO.main.setTemperatureFeelsLike(roundingToAnInteger(requestDTO.getMain().temperatureFeelsLike));
+    }
+
+    private String buildApiUrl(BigDecimal latitude, BigDecimal longitude) {
+        String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
+        return weatherApiUrlBuilder.buildLatLonCityWeatherApiUrl(latitude, longitude, apiKey);
     }
 }

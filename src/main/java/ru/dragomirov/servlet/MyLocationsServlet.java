@@ -8,6 +8,7 @@ import ru.dragomirov.config.TemplateEngineConfig;
 import ru.dragomirov.dto.request.WeatherByCoordinatesRequestDTO;
 import ru.dragomirov.entity.Location;
 import ru.dragomirov.entity.Session;
+import ru.dragomirov.service.HttpClientService;
 import ru.dragomirov.service.MyLocationsService;
 import ru.dragomirov.util.WeatherApiUrlBuilder;
 
@@ -21,7 +22,8 @@ public class MyLocationsServlet extends BaseServlet {
     @Override
     public void init() {
         WeatherApiUrlBuilder weatherApiUrlBuilder = new WeatherApiUrlBuilder();
-        this.myLocationsService = new MyLocationsService(weatherApiUrlBuilder);
+        HttpClientService httpClientService = new HttpClientService();
+        this.myLocationsService = new MyLocationsService(weatherApiUrlBuilder, httpClientService);
     }
 
     @Override
