@@ -70,6 +70,21 @@ public class WeatherByCoordinatesApiTest {
     }
 
     @SneakyThrows
+    @Test
+    @DisplayName("should handle 500 internal server error")
+    void getWeatherByCity_shouldHandle500Error_inApi() {
+        Location location = new Location();
+        location.setLatitude(new BigDecimal("44.8851635"));
+        location.setLongitude(new BigDecimal("40.5894674"));
+        hibernateLocationCrudDAO.create(location);
+
+        HttpResponse mockResponse = createMockResponseWithStatus(500);
+        when(httpClientService.executeRequest(anyString())).thenReturn(mockResponse);
+
+        assertThrows(RuntimeException.class, () -> service.getWeatherDataForLocations(Collections.singletonList(location)));
+    }
+
+    @SneakyThrows
     HttpResponse createMockResponseWithStatus(int statusCode) {
         HttpResponse mockResponse = mock(HttpResponse.class);
         StatusLine mockStatusLine = mock(StatusLine.class);
