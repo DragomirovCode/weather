@@ -17,6 +17,9 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/*
+  TODO: the tests need to be run separately
+  */
 public class UserRegistrationTest {
     HibernateUserCrudDAO hibernateUserCrudDAO;
     RegistrationService registrationService;
