@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.thymeleaf.context.WebContext;
 import ru.dragomirov.config.TemplateEngineConfig;
 import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
+import ru.dragomirov.service.HttpClientService;
 import ru.dragomirov.service.SearchCityWeatherService;
 import ru.dragomirov.util.WeatherApiUrlBuilder;
 
@@ -19,7 +20,8 @@ public class SearchCityWeatherServlet extends BaseServlet {
     @Override
     public void init() {
         WeatherApiUrlBuilder weatherApiUrlBuilder = new WeatherApiUrlBuilder();
-        this.searchCityWeatherService = new SearchCityWeatherService(weatherApiUrlBuilder);
+        HttpClientService httpClientService = new HttpClientService();
+        this.searchCityWeatherService = new SearchCityWeatherService(weatherApiUrlBuilder, httpClientService);
     }
 
     @Override
