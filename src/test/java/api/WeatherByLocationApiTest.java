@@ -63,6 +63,27 @@ public class WeatherByLocationApiTest {
     }
 
     @SneakyThrows
+    @Test
+    @DisplayName("should handle 500 internal server error")
+    void getWeatherByCity_shouldHandle500Error_inApi() {
+        HttpResponse mockResponse = createMockResponseWithStatus(500);
+        when(httpClientService.executeRequest(anyString())).thenReturn(mockResponse);
+
+        assertThrows(RuntimeException.class, () -> service.getWeatherByCity("Kurganinsk"));
+    }
+
+    @SneakyThrows
+    HttpResponse createMockResponseWithStatus(int statusCode) {
+        HttpResponse mockResponse = mock(HttpResponse.class);
+        StatusLine mockStatusLine = mock(StatusLine.class);
+
+        when(mockStatusLine.getStatusCode()).thenReturn(statusCode);
+        when(mockResponse.getStatusLine()).thenReturn(mockStatusLine);
+
+        return mockResponse;
+    }
+
+    @SneakyThrows
     HttpResponse createMockResponse(String json) {
         // add mock
         HttpResponse mockResponse = mock(HttpResponse.class);
