@@ -8,7 +8,7 @@ import ru.dragomirov.config.TemplateEngineConfig;
 import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
 import ru.dragomirov.service.HttpClientService;
 import ru.dragomirov.service.SearchCityWeatherService;
-import ru.dragomirov.util.WeatherApiUrlBuilder;
+import ru.dragomirov.util.WeatherApiUrlBuilderUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,9 +19,9 @@ public class SearchCityWeatherServlet extends BaseServlet {
 
     @Override
     public void init() {
-        WeatherApiUrlBuilder weatherApiUrlBuilder = new WeatherApiUrlBuilder();
+        WeatherApiUrlBuilderUtil weatherApiUrlBuilderUtil = new WeatherApiUrlBuilderUtil();
         HttpClientService httpClientService = new HttpClientService();
-        this.searchCityWeatherService = new SearchCityWeatherService(weatherApiUrlBuilder, httpClientService);
+        this.searchCityWeatherService = new SearchCityWeatherService(weatherApiUrlBuilderUtil, httpClientService);
     }
 
     @Override

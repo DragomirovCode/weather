@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-public class WeatherApiUrlBuilder {
+public class WeatherApiUrlBuilderUtil {
     public String buildCityWeatherApiUrl(String city, String key) {
         String encodedCity = URLEncoder.encode(city, StandardCharsets.UTF_8);
         return "https://api.openweathermap.org/geo/1.0/direct?q=" + encodedCity + "&limit=5&appid=" + key;

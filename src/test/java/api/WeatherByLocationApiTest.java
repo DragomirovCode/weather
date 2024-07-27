@@ -11,7 +11,7 @@ import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
 import ru.dragomirov.exception.InvalidParameterException;
 import ru.dragomirov.service.HttpClientService;
 import ru.dragomirov.service.SearchCityWeatherService;
-import ru.dragomirov.util.WeatherApiUrlBuilder;
+import ru.dragomirov.util.WeatherApiUrlBuilderUtil;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
@@ -28,19 +28,19 @@ public class WeatherByLocationApiTest {
     static final String TEST_JSON_FILE = "src/test/resources/weather_forecast_by_location.json";
     static final String API_URL = "https://api.openweathermap.org/geo/1.0/direct?q=Kurganinsk&limit=5&appid=";
     SearchCityWeatherService service;
-    WeatherApiUrlBuilder weatherApiUrlBuilder;
+    WeatherApiUrlBuilderUtil weatherApiUrlBuilderUtil;
     HttpClientService httpClientService;
 
     @SneakyThrows
     @BeforeEach
     void setUp() {
-        weatherApiUrlBuilder = mock(WeatherApiUrlBuilder.class);
+        weatherApiUrlBuilderUtil = mock(WeatherApiUrlBuilderUtil.class);
         httpClientService = mock(HttpClientService.class);
-        service = new SearchCityWeatherService(weatherApiUrlBuilder, httpClientService);
+        service = new SearchCityWeatherService(weatherApiUrlBuilderUtil, httpClientService);
 
         String jsonWeather = Files.readString(Path.of(TEST_JSON_FILE));
 
-        when(weatherApiUrlBuilder.buildCityWeatherApiUrl(anyString(), anyString())).thenReturn(API_URL);
+        when(weatherApiUrlBuilderUtil.buildCityWeatherApiUrl(anyString(), anyString())).thenReturn(API_URL);
 
         HttpResponse mockResponse = createMockResponse(jsonWeather);
         when(httpClientService.executeRequest(anyString())).thenReturn(mockResponse);

@@ -4,24 +4,24 @@ import org.apache.http.HttpResponse;
 import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
 import ru.dragomirov.exception.api.WeatherApiCallException;
 import ru.dragomirov.util.CityNameValidatorUtil;
-import ru.dragomirov.util.WeatherApiUrlBuilder;
+import ru.dragomirov.util.WeatherApiUrlBuilderUtil;
 import ru.dragomirov.util.constant.ApiKeyConstant;
 
 import java.io.IOException;
 import java.util.List;
 
 public class SearchCityWeatherService {
-    private final WeatherApiUrlBuilder weatherApiUrlBuilder;
+    private final WeatherApiUrlBuilderUtil weatherApiUrlBuilderUtil;
     private final CityNameValidatorUtil cityNameValidatorUtil;
     private final HttpClientService httpClientService;
-    private final WeatherApiResponseProcessor responseProcessor;
+    private final WeatherApiResponseProcessorService responseProcessor;
 
-    public SearchCityWeatherService(WeatherApiUrlBuilder weatherApiUrlBuilder,
+    public SearchCityWeatherService(WeatherApiUrlBuilderUtil weatherApiUrlBuilderUtil,
                                     HttpClientService httpClientService) {
-        this.weatherApiUrlBuilder = weatherApiUrlBuilder;
+        this.weatherApiUrlBuilderUtil = weatherApiUrlBuilderUtil;
         this.cityNameValidatorUtil = new CityNameValidatorUtil();
         this.httpClientService = httpClientService;
-        this.responseProcessor = new WeatherApiResponseProcessor();
+        this.responseProcessor = new WeatherApiResponseProcessorService();
     }
 
     public List<WeatherByLocationRequestDTO> getWeatherByCity(String cityName) throws WeatherApiCallException {
@@ -38,6 +38,6 @@ public class SearchCityWeatherService {
 
     private String buildApiUrl(String cityName) {
         String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
-        return weatherApiUrlBuilder.buildCityWeatherApiUrl(cityName, apiKey);
+        return weatherApiUrlBuilderUtil.buildCityWeatherApiUrl(cityName, apiKey);
     }
 }

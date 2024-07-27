@@ -8,7 +8,7 @@ import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.exception.authentication.PasswordException;
 import ru.dragomirov.service.RegistrationService;
 import ru.dragomirov.util.constant.WebPageConstant;
-import ru.dragomirov.util.AuthenticationRequest;
+import ru.dragomirov.util.AuthenticationRequestUtil;
 
 import java.io.IOException;
 
@@ -29,15 +29,15 @@ public class RegistrationServlet extends BaseServlet {
     @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-        AuthenticationRequest authenticationRequest = new AuthenticationRequest(req);
+        AuthenticationRequestUtil authenticationRequestUtil = new AuthenticationRequestUtil(req);
 
-        if (authenticationRequest.loginIsValid()) {
+        if (authenticationRequestUtil.loginIsValid()) {
             throw new LoginException("Parameter login is invalid");
         }
 
-        if (authenticationRequest.passwordIsValid()) {
+        if (authenticationRequestUtil.passwordIsValid()) {
             throw new PasswordException("Parameter password is invalid");
         }
-        registrationService.processAuthenticationRequest(authenticationRequest, resp);
+        registrationService.processAuthenticationRequest(authenticationRequestUtil, resp);
     }
 }

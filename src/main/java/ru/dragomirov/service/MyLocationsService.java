@@ -12,7 +12,7 @@ import ru.dragomirov.entity.Location;
 import ru.dragomirov.entity.Session;
 import ru.dragomirov.exception.SessionExpiredException;
 import ru.dragomirov.exception.api.WeatherApiCallException;
-import ru.dragomirov.util.WeatherApiUrlBuilder;
+import ru.dragomirov.util.WeatherApiUrlBuilderUtil;
 import ru.dragomirov.util.constant.ApiKeyConstant;
 
 import java.io.IOException;
@@ -24,12 +24,12 @@ import java.util.List;
 public class MyLocationsService {
     private final HibernateLocationCrudDAO hibernateLocationCrudDAO;
     private final HibernateSessionCrudDAO hibernateSessionCrudDAO;
-    private final WeatherApiUrlBuilder weatherApiUrlBuilder;
+    private final WeatherApiUrlBuilderUtil weatherApiUrlBuilderUtil;
     private final Gson gson;
     private final HttpClientService httpClientService;
 
-    public MyLocationsService(WeatherApiUrlBuilder weatherApiUrlBuilder, HttpClientService httpClientService) {
-        this.weatherApiUrlBuilder = weatherApiUrlBuilder;
+    public MyLocationsService(WeatherApiUrlBuilderUtil weatherApiUrlBuilderUtil, HttpClientService httpClientService) {
+        this.weatherApiUrlBuilderUtil = weatherApiUrlBuilderUtil;
         this.hibernateLocationCrudDAO = new HibernateLocationCrudDAO();
         this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
         this.gson = new GsonBuilder().setPrettyPrinting().create();
@@ -88,6 +88,6 @@ public class MyLocationsService {
 
     private String buildApiUrl(BigDecimal latitude, BigDecimal longitude) {
         String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
-        return weatherApiUrlBuilder.buildLatLonCityWeatherApiUrl(latitude, longitude, apiKey);
+        return weatherApiUrlBuilderUtil.buildLatLonCityWeatherApiUrl(latitude, longitude, apiKey);
     }
 }

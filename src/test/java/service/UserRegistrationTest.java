@@ -10,7 +10,7 @@ import ru.dragomirov.dao.HibernateUserCrudDAO;
 import ru.dragomirov.entity.User;
 import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.service.RegistrationService;
-import ru.dragomirov.util.AuthenticationRequest;
+import ru.dragomirov.util.AuthenticationRequestUtil;
 
 import java.util.*;
 
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 public class UserRegistrationTest {
     HibernateUserCrudDAO hibernateUserCrudDAO;
     RegistrationService registrationService;
-    AuthenticationRequest authenticationRequest;
+    AuthenticationRequestUtil authenticationRequestUtil;
     HttpServletResponse resp;
     HttpServletRequest req;
 
@@ -34,18 +34,18 @@ public class UserRegistrationTest {
 
         hibernateUserCrudDAO = new HibernateUserCrudDAO();
         registrationService = new RegistrationService();
-        authenticationRequest = new AuthenticationRequest(req);
+        authenticationRequestUtil = new AuthenticationRequestUtil(req);
     }
 
     @SneakyThrows
     @Test
     @DisplayName("process authentication request should add user in database")
     void processAuthenticationRequest_shouldAddUser_inDatabase() {
-        authenticationRequest.setLogin("testLogin");
-        authenticationRequest.setPassword("testPassword");
-        authenticationRequest.setButton("registration");
+        authenticationRequestUtil.setLogin("testLogin");
+        authenticationRequestUtil.setPassword("testPassword");
+        authenticationRequestUtil.setButton("registration");
 
-        registrationService.processAuthenticationRequest(authenticationRequest, resp);
+        registrationService.processAuthenticationRequest(authenticationRequestUtil, resp);
 
         List<User> users = hibernateUserCrudDAO.findAll();
         assertNotNull(users);
@@ -57,13 +57,13 @@ public class UserRegistrationTest {
     @Test
     @DisplayName("process authentication request should throw login exception because not unique username")
     void processAuthenticationRequest_shouldThrowLoginException_notUniqueUsername() {
-        authenticationRequest.setLogin("testLogin");
-        authenticationRequest.setPassword("testPassword");
-        authenticationRequest.setButton("registration");
+        authenticationRequestUtil.setLogin("testLogin");
+        authenticationRequestUtil.setPassword("testPassword");
+        authenticationRequestUtil.setButton("registration");
 
-        registrationService.processAuthenticationRequest(authenticationRequest, resp);
+        registrationService.processAuthenticationRequest(authenticationRequestUtil, resp);
 
         assertThrows(LoginException.class, () ->
-                registrationService.processAuthenticationRequest(authenticationRequest, resp));
+                registrationService.processAuthenticationRequest(authenticationRequestUtil, resp));
     }
 }

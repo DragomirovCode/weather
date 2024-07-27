@@ -10,7 +10,7 @@ import ru.dragomirov.exception.NotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-public class WeatherApiResponseProcessor {
+public class WeatherApiResponseProcessorService {
     public List<WeatherByLocationRequestDTO> process(HttpResponse response) throws IOException {
         if (response.getStatusLine().getStatusCode() == 404) {
             throw new NotFoundException("City was not found");

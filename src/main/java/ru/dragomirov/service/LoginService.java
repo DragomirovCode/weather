@@ -10,7 +10,7 @@ import ru.dragomirov.entity.Session;
 import ru.dragomirov.entity.User;
 import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.config.CookieTimeConfig;
-import ru.dragomirov.util.AuthenticationRequest;
+import ru.dragomirov.util.AuthenticationRequestUtil;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -27,8 +27,8 @@ public class LoginService {
         this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
     }
 
-    public void handleLogin(AuthenticationRequest authenticationRequest, HttpServletRequest req, HttpServletResponse resp) throws IOException, LoginException {
-        Optional<User> user = findUser(authenticationRequest.getLogin(), authenticationRequest.getPassword());
+    public void handleLogin(AuthenticationRequestUtil authenticationRequestUtil, HttpServletRequest req, HttpServletResponse resp) throws IOException, LoginException {
+        Optional<User> user = findUser(authenticationRequestUtil.getLogin(), authenticationRequestUtil.getPassword());
         if (user.isPresent()) {
             Session session = createOrUpdateSession((long) user.get().getId());
             setupHttpSessionAndCookie(session, req, resp);

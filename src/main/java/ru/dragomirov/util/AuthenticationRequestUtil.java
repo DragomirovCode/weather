@@ -6,12 +6,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AuthenticationRequest {
+public class AuthenticationRequestUtil {
     private String login;
     private String password;
     private String button;
 
-    public AuthenticationRequest(HttpServletRequest req) {
+    public AuthenticationRequestUtil(HttpServletRequest req) {
         this.login = req.getParameter("login");
         this.password = req.getParameter("password");
         this.button = req.getParameter("button");

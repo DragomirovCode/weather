@@ -6,7 +6,7 @@ import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.exception.authentication.PasswordException;
 import ru.dragomirov.service.LoginService;
 import ru.dragomirov.util.constant.WebPageConstant;
-import ru.dragomirov.util.AuthenticationRequest;
+import ru.dragomirov.util.AuthenticationRequestUtil;
 
 import java.io.IOException;
 
@@ -26,18 +26,18 @@ public class LoginServlet extends BaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        AuthenticationRequest authenticationRequest = new AuthenticationRequest(req);
+        AuthenticationRequestUtil authenticationRequestUtil = new AuthenticationRequestUtil(req);
 
-        if (authenticationRequest.loginIsValid()) {
+        if (authenticationRequestUtil.loginIsValid()) {
             throw new LoginException("Parameter login is invalid");
         }
 
-        if (authenticationRequest.passwordIsValid()) {
+        if (authenticationRequestUtil.passwordIsValid()) {
             throw new PasswordException("Parameter password is invalid");
         }
 
-        switch (authenticationRequest.getButton()) {
-            case "login" -> loginService.handleLogin(authenticationRequest, req, resp);
+        switch (authenticationRequestUtil.getButton()) {
+            case "login" -> loginService.handleLogin(authenticationRequestUtil, req, resp);
             case "registration" -> resp.sendRedirect(WebPageConstant.REGISTRATION_PAGE_X.getValue());
         }
     }

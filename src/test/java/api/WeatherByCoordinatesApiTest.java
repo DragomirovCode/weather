@@ -12,7 +12,7 @@ import ru.dragomirov.dto.request.WeatherByCoordinatesRequestDTO;
 import ru.dragomirov.entity.Location;
 import ru.dragomirov.service.HttpClientService;
 import ru.dragomirov.service.MyLocationsService;
-import ru.dragomirov.util.WeatherApiUrlBuilder;
+import ru.dragomirov.util.WeatherApiUrlBuilderUtil;
 
 import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
@@ -31,7 +31,7 @@ import static org.mockito.Mockito.when;
 public class WeatherByCoordinatesApiTest {
     static final String TEST_JSON_FILE = "src/test/resources/weather_forecast_by_coordinates.json";
     static final String API_URL = "https://api.openweathermap.org/data/2.5/weather?lat=44.8851635&lon=40.5894674&appid=&units=metric";
-    WeatherApiUrlBuilder weatherApiUrlBuilder;
+    WeatherApiUrlBuilderUtil weatherApiUrlBuilderUtil;
     HttpClientService httpClientService;
     MyLocationsService service;
     HibernateLocationCrudDAO hibernateLocationCrudDAO;
@@ -42,12 +42,12 @@ public class WeatherByCoordinatesApiTest {
         hibernateLocationCrudDAO = new HibernateLocationCrudDAO();
 
         httpClientService = mock(HttpClientService.class);
-        weatherApiUrlBuilder = mock(WeatherApiUrlBuilder.class);
-        service = new MyLocationsService(weatherApiUrlBuilder, httpClientService);
+        weatherApiUrlBuilderUtil = mock(WeatherApiUrlBuilderUtil.class);
+        service = new MyLocationsService(weatherApiUrlBuilderUtil, httpClientService);
 
         String jsonWeather = Files.readString(Path.of(TEST_JSON_FILE));
 
-        when(weatherApiUrlBuilder.buildLatLonCityWeatherApiUrl(any(BigDecimal.class), any(BigDecimal.class), any(String.class)))
+        when(weatherApiUrlBuilderUtil.buildLatLonCityWeatherApiUrl(any(BigDecimal.class), any(BigDecimal.class), any(String.class)))
                 .thenReturn(API_URL);
 
         HttpResponse mockResponse = createMockResponse(jsonWeather);

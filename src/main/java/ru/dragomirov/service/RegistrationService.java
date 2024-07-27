@@ -7,7 +7,7 @@ import ru.dragomirov.entity.Session;
 import ru.dragomirov.entity.User;
 import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.util.constant.WebPageConstant;
-import ru.dragomirov.util.AuthenticationRequest;
+import ru.dragomirov.util.AuthenticationRequestUtil;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -22,10 +22,10 @@ public class RegistrationService {
         this.hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
     }
 
-    public void processAuthenticationRequest(AuthenticationRequest authenticationRequest, HttpServletResponse resp) throws Exception {
-        switch (authenticationRequest.getButton()) {
+    public void processAuthenticationRequest(AuthenticationRequestUtil authenticationRequestUtil, HttpServletResponse resp) throws Exception {
+        switch (authenticationRequestUtil.getButton()) {
             case "registration":
-                handleRegistration(authenticationRequest, resp);
+                handleRegistration(authenticationRequestUtil, resp);
                 break;
 
             case "login":
@@ -33,18 +33,18 @@ public class RegistrationService {
                 break;
 
             default:
-                throw new IllegalArgumentException("Unknown button action: " + authenticationRequest.getButton());
+                throw new IllegalArgumentException("Unknown button action: " + authenticationRequestUtil.getButton());
         }
     }
 
-    private void handleRegistration(AuthenticationRequest authenticationRequest, HttpServletResponse resp) throws Exception {
-        Optional<User> user = hibernateUserCrudDAO.findByLogin(authenticationRequest.getLogin());
+    private void handleRegistration(AuthenticationRequestUtil authenticationRequestUtil, HttpServletResponse resp) throws Exception {
+        Optional<User> user = hibernateUserCrudDAO.findByLogin(authenticationRequestUtil.getLogin());
 
         if (user.isPresent()) {
             throw new LoginException("User with such a login already exists");
         }
 
-        User newUser = createUser(authenticationRequest);
+        User newUser = createUser(authenticationRequestUtil);
         createSession(newUser);
         resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
     }
@@ -53,8 +53,8 @@ public class RegistrationService {
         resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
     }
 
-    private User createUser(AuthenticationRequest authenticationRequest) {
-        User newUser = new User(authenticationRequest.getLogin(), authenticationRequest.getPassword());
+    private User createUser(AuthenticationRequestUtil authenticationRequestUtil) {
+        User newUser = new User(authenticationRequestUtil.getLogin(), authenticationRequestUtil.getPassword());
         hibernateUserCrudDAO.create(newUser);
         return newUser;
     }
