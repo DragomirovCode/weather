@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class HibernateSessionFactoryUtilTest {
     @Test
-    public void shouldGetSessionFactory() {
+    public void getSessionFactory_shouldConnect_inDatabase() {
         SessionFactory sessionFactory = HibernateSessionFactoryUtil.getSessionFactory();
         assertNotNull(sessionFactory);
     }
