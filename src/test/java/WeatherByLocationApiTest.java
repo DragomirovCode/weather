@@ -46,4 +46,18 @@ public class WeatherByLocationApiTest {
         assertNotNull(weatherData);
         assertFalse(weatherData.isEmpty());
     }
+
+    @SneakyThrows
+    HttpResponse createMockResponse(String json) {
+        HttpResponse mockResponse = mock(HttpResponse.class);
+        StatusLine mockStatusLine = mock(StatusLine.class);
+        HttpEntity mockEntity = new StringEntity(json, "UTF-8");
+
+        when(mockStatusLine.getStatusCode()).thenReturn(200);
+        when(mockResponse.getStatusLine()).thenReturn(mockStatusLine);
+        when(mockResponse.getEntity()).thenReturn(mockEntity);
+
+        return mockResponse;
+    }
+
 }
