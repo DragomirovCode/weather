@@ -44,7 +44,14 @@ public class WeatherByCoordinatesApiTest {
 
         List<WeatherByCoordinatesRequestDTO> locationWeatherData = service.getWeatherDataForLocations(Collections.singletonList(location));
 
-        assertNotNull(locationWeatherData);
-        assertFalse(locationWeatherData.isEmpty());
+        // Setting up the behavior for StatusLine
+        when(mockStatusLine.getStatusCode()).thenReturn(200);
+        when(mockResponse.getStatusLine()).thenReturn(mockStatusLine);
+
+        // setting up the behavior for HttpEntity
+        when(mockEntity.getContent()).thenReturn(new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8)));
+        when(mockResponse.getEntity()).thenReturn(mockEntity);
+
+        return mockResponse;
     }
 }
