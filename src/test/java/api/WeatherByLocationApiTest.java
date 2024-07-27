@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
+import ru.dragomirov.exception.InvalidParameterException;
 import ru.dragomirov.service.HttpClientService;
 import ru.dragomirov.service.SearchCityWeatherService;
 import ru.dragomirov.util.WeatherApiUrlBuilder;
@@ -53,6 +54,12 @@ public class WeatherByLocationApiTest {
         assertNotNull(weatherData);
         assertFalse(weatherData.isEmpty());
         assertEquals("Kurganinsk", weatherData.get(0).name);
+    }
+
+    @Test
+    @DisplayName("should throw invalid parameter exception in api")
+    void getWeatherByCity_shouldThrowInvalidParameterException_inApi() {
+        assertThrows(InvalidParameterException.class, () -> service.getWeatherByCity(""));
     }
 
     @SneakyThrows
