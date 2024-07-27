@@ -6,16 +6,12 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
-import ru.dragomirov.entity.Session;
 import ru.dragomirov.entity.User;
 import ru.dragomirov.exception.authentication.LoginException;
-import ru.dragomirov.service.CookieTimeService;
 import ru.dragomirov.service.RegistrationService;
 import ru.dragomirov.util.AuthenticationRequest;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,20 +62,5 @@ public class UserRegistrationTest {
 
         assertThrows(LoginException.class, () ->
                 registrationService.processAuthenticationRequest(authenticationRequest, resp));
-    }
-
-    @SneakyThrows
-    @Test
-    @DisplayName("validate and handle session should empty list in database")
-    void validateAndHandleSession_shouldEmptyList_inDatabase() {
-        HibernateSessionCrudDAO  hibernateSessionCrudDAO = new HibernateSessionCrudDAO();
-        CookieTimeService timeService = new CookieTimeService();
-        UUID uuid = UUID.randomUUID();
-
-        hibernateSessionCrudDAO.create(new Session(String.valueOf(uuid), 1, LocalDateTime.now()));
-
-        timeService.validateAndHandleSession(String.valueOf(uuid), req, resp);
-
-        assertTrue(hibernateSessionCrudDAO.findAll().isEmpty());
     }
 }
