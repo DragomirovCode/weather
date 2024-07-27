@@ -49,15 +49,19 @@ public class WeatherByLocationApiTest {
 
     @SneakyThrows
     HttpResponse createMockResponse(String json) {
+        // add mock
         HttpResponse mockResponse = mock(HttpResponse.class);
         StatusLine mockStatusLine = mock(StatusLine.class);
-        HttpEntity mockEntity = new StringEntity(json, "UTF-8");
+        HttpEntity mockEntity = mock(HttpEntity.class);
 
+        // Setting up the behavior for StatusLine
         when(mockStatusLine.getStatusCode()).thenReturn(200);
         when(mockResponse.getStatusLine()).thenReturn(mockStatusLine);
+
+        // setting up the behavior for HttpEntity
+        when(mockEntity.getContent()).thenReturn(new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8)));
         when(mockResponse.getEntity()).thenReturn(mockEntity);
 
         return mockResponse;
     }
-
 }
