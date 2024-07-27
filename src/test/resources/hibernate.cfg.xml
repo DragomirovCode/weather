@@ -19,7 +19,7 @@
         <property name="cookie.max_age">1</property>
 
         <!-- Custom properties -->
-        <property name="api_key">66b4f9f34b5073497f497f4d4f2be438</property>
+        <property name="api_key">1</property>
 
         <!-- Entities -->
         <mapping class="ru.dragomirov.entity.User"/>
