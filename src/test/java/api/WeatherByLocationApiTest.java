@@ -25,7 +25,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class WeatherByLocationApiTest {
-    static final String TEST_JSON_FILE = "src/test/resources/weather_city.json";
+    static final String TEST_JSON_FILE = "src/test/resources/weather_forecast_by_location.json";
     static final String API_URL = "https://api.openweathermap.org/geo/1.0/direct?q=Kurganinsk&limit=5&appid=";
     SearchCityWeatherService service;
     WeatherApiUrlBuilder weatherApiUrlBuilder;
