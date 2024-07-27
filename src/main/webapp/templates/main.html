@@ -73,10 +73,16 @@
                     <h5 class="card-title" th:text="${location.name}">Location Name</h5>
                     <span th:if="${location.main != null}">
                             <p class="card-text">
-                                <strong>Temperature Actual:</strong> <span th:text="${location.main.temperatureActual}">0.0</span><br>
-                                <strong>Temperature Feels Like:</strong> <span
-                                    th:text="${location.main.temperatureFeelsLike}">0.0</span><br>
-                                <strong>Country:</strong> <span th:text="${location.sys.country}">Country</span>
+                                <strong>Temperature Actual:</strong>
+                                <span th:text="${location.main.temperatureActual}">0.0</span><br>
+                                <strong>Temperature Feels Like:</strong>
+                                <span th:text="${location.main.temperatureFeelsLike}">0.0</span><br>
+                                <strong>Latitude:</strong>
+                                <span th:text="${location.coordinates.latitude}">0.0</span><br>
+                                <strong>Longitude:</strong>
+                                <span th:text="${location.coordinates.longitude}">0.0</span><br>
+                                <strong>Country:</strong>
+                                <span th:text="${location.sys.country}">Country</span>
                             </p>
                             <form th:action="@{/delete-location}" method="post" class="mt-3">
                                 <input type="hidden" name="_method" value="PATCH">
