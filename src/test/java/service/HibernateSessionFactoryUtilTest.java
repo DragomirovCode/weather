@@ -1,3 +1,5 @@
+package service;
+
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
 import ru.dragomirov.util.HibernateSessionFactoryUtil;
