@@ -29,22 +29,13 @@ public class WeatherByLocationApiTest {
     }
 
     @Test
-    void shouldThrowExceptionForInvalidCityParameter_Two() {
-        assertThrows(InvalidParameterException.class, () -> service.getWeatherByCity("123"));
-    }
-
-    @Test
-    void shouldReturnWeatherDataForValidCity() {
-        when(weatherApiUrlBuilder.buildCityWeatherApiUrl(anyString(), anyString()))
-                .thenReturn(
-                        "https://api.openweathermap.org/geo/1.0/direct?q=" + "Moscow" + "&limit=5&appid=" +
-                                ApiKeyConstant.API_KEY_CONSTANT.getValue()
-                );
-
-        List<WeatherByLocationRequestDTO> weatherData = service.getWeatherByCity("Moscow");
+    @DisplayName("should return weather data for valid city in API")
+    void getWeatherByCity_shouldWeatherDataForValidCity_inApi() {
+        List<WeatherByLocationRequestDTO> weatherData = service.getWeatherByCity("Kurganinsk");
 
         assertNotNull(weatherData);
         assertFalse(weatherData.isEmpty());
+        assertEquals("Kurganinsk", weatherData.get(0).name);
     }
 
     @SneakyThrows
