@@ -70,6 +70,17 @@ public class WeatherByCoordinatesApiTest {
     }
 
     @SneakyThrows
+    HttpResponse createMockResponseWithStatus(int statusCode) {
+        HttpResponse mockResponse = mock(HttpResponse.class);
+        StatusLine mockStatusLine = mock(StatusLine.class);
+
+        when(mockStatusLine.getStatusCode()).thenReturn(statusCode);
+        when(mockResponse.getStatusLine()).thenReturn(mockStatusLine);
+
+        return mockResponse;
+    }
+
+    @SneakyThrows
     HttpResponse createMockResponse(String json) {
         // add mock
         HttpResponse mockResponse = mock(HttpResponse.class);
