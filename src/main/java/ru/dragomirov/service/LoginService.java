@@ -60,6 +60,7 @@ public class LoginService {
     private void setupHttpSessionAndCookie(Session session, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession httpSession = req.getSession();
         httpSession.setAttribute("user", session.getUserId());
+        httpSession.setAttribute("myUuid", session.getId());
 
         Session sessionUpdateTime = new Session(session.getId(), session.getUserId(), session.getExpiresAt());
         hibernateSessionCrudDAO.update(sessionUpdateTime);
@@ -68,7 +69,6 @@ public class LoginService {
         cookie.setMaxAge(cookieMaxAge);
         resp.addCookie(cookie);
 
-        httpSession.getServletContext().setAttribute("myUuid", session.getId());
         resp.sendRedirect("/");
     }
 }

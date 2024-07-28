@@ -3,6 +3,7 @@ package ru.dragomirov.servlet;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.thymeleaf.context.WebContext;
 import ru.dragomirov.config.TemplateEngineConfig;
 import ru.dragomirov.dto.request.WeatherByCoordinatesRequestDTO;
@@ -28,7 +29,8 @@ public class MyLocationsServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String otherUuid = (String) getServletContext().getAttribute("myUuid");
+        HttpSession httpSession = req.getSession();
+        String otherUuid = (String) httpSession.getAttribute("myUuid");
 
         Session session = myLocationsService.getSession(otherUuid);
 

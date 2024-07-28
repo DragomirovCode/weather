@@ -3,6 +3,7 @@ package ru.dragomirov.servlet;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.thymeleaf.context.WebContext;
 import ru.dragomirov.config.TemplateEngineConfig;
 import ru.dragomirov.dto.request.WeatherByLocationRequestDTO;
@@ -27,11 +28,13 @@ public class SearchCityWeatherServlet extends BaseServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String cityName = req.getParameter("city");
-        String uuid = (String) getServletContext().getAttribute("myUuid");
+
+        HttpSession httpSession = req.getSession();
+        String otherUuid = (String) httpSession.getAttribute("myUuid");
 
         List<WeatherByLocationRequestDTO> requestDTOList = searchCityWeatherService.getWeatherByCity(cityName);
         WebContext context = TemplateEngineConfig.buildWebContext(req, resp, req.getServletContext());
-        context.setVariable("mySession", uuid);
+        context.setVariable("mySession", otherUuid);
         context.setVariable("cityList", requestDTOList);
         templateEngine.process("city-weather", context, resp.getWriter());
     }

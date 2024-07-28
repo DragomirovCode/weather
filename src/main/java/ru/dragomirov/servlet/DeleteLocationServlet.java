@@ -3,6 +3,7 @@ package ru.dragomirov.servlet;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import ru.dragomirov.service.DeleteLocationService;
 
 import java.io.IOException;
@@ -28,7 +29,9 @@ public class DeleteLocationServlet extends BaseServlet {
     }
 
     protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String otherUuid = (String) getServletContext().getAttribute("myUuid");
+        HttpSession httpSession = req.getSession();
+        String otherUuid = (String) httpSession.getAttribute("myUuid");
+
         String latitudeStr = req.getParameter("latitude");
         String longitudeStr = req.getParameter("longitude");
 

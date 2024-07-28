@@ -25,12 +25,13 @@ public class CookieTimeServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String uuid = (String) getServletContext().getAttribute("myUuid");
+        HttpSession httpSession = req.getSession();
+        String otherUuid = (String) httpSession.getAttribute("myUuid");
 
-        cookieTimeService.validateAndHandleSession(uuid, req, resp);
+        cookieTimeService.validateAndHandleSession(otherUuid, req, resp);
 
         WebContext context = TemplateEngineConfig.buildWebContext(req, resp, req.getServletContext());
-        context.setVariable("mySession", uuid);
+        context.setVariable("mySession", otherUuid);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/my");
         dispatcher.forward(req, resp);
@@ -38,7 +39,9 @@ public class CookieTimeServlet extends BaseServlet {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String uuid = (String) getServletContext().getAttribute("myUuid");
+        HttpSession httpSession = req.getSession();
+        String otherUuid = (String) httpSession.getAttribute("myUuid");
+
         String button = req.getParameter("button");
 
         switch (button) {
@@ -46,7 +49,7 @@ public class CookieTimeServlet extends BaseServlet {
                 resp.sendRedirect(WebPageConstant.MAIN_PAGE_X.getValue());
                 HttpSession exitSession = req.getSession(false);
                 exitSession.removeAttribute("user");
-                hibernateSessionCrudDAO.delete(uuid);
+                hibernateSessionCrudDAO.delete(otherUuid);
             }
             case "login" -> resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
             case "registration" -> resp.sendRedirect(WebPageConstant.REGISTRATION_PAGE_X.getValue());
