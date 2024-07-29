@@ -1,6 +1,7 @@
 package ru.dragomirov.dao;
 
 import ru.dragomirov.entity.Location;
+import ru.dragomirov.exception.SaveLocationException;
 import ru.dragomirov.util.HibernateSessionManagerUtil;
 
 import java.math.BigDecimal;
@@ -10,9 +11,13 @@ import java.util.Optional;
 public class HibernateLocationCrudDAO implements LocationDAO {
     @Override
     public void create(Location entity) {
-        HibernateSessionManagerUtil.performTransaction(session ->
-                        session.save(entity),
-                "Произошла ошибка при выполнении метода 'create'(HibernateLocationCrudDAO)");
+        try {
+            HibernateSessionManagerUtil.performTransaction(session ->
+                            session.save(entity),
+                    "Произошла ошибка при выполнении метода 'create'(HibernateLocationCrudDAO)");
+        } catch (Exception e) {
+            throw new SaveLocationException("Such a location already exists in the database");
+        }
     }
 
     @Override
