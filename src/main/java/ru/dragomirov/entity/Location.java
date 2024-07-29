@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(
         name = "Locations",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"latitude", "longitude"})
+        uniqueConstraints = @UniqueConstraint(columnNames = {"latitude", "longitude", "user_id"})
 )
 public class Location {
     @Id
