@@ -17,16 +17,16 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name")
+    @Column(name = "name", length = 100)
     private String name;
 
     @Column(name = "user_id")
     private int userId;
 
-    @Column(name = "latitude")
+    @Column(precision = 40, scale = 35)
     private BigDecimal latitude;
 
-    @Column(name = "longitude")
+    @Column(precision = 49, scale = 35)
     private BigDecimal longitude;
 
     public Location(String name, BigDecimal latitude, BigDecimal longitude, int userId) {
