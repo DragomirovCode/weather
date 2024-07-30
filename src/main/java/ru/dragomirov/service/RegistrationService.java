@@ -5,12 +5,10 @@ import ru.dragomirov.dao.HibernateSessionCrudDAO;
 import ru.dragomirov.dao.HibernateUserCrudDAO;
 import ru.dragomirov.entity.Session;
 import ru.dragomirov.entity.User;
-import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.util.constant.WebPageConstant;
 import ru.dragomirov.util.AuthenticationRequestUtil;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 public class RegistrationService {
@@ -38,12 +36,6 @@ public class RegistrationService {
     }
 
     private void handleRegistration(AuthenticationRequestUtil authenticationRequestUtil, HttpServletResponse resp) throws Exception {
-        Optional<User> user = hibernateUserCrudDAO.findByLogin(authenticationRequestUtil.getLogin());
-
-        if (user.isPresent()) {
-            throw new LoginException("User with such a login already exists");
-        }
-
         User newUser = createUser(authenticationRequestUtil);
         createSession(newUser);
         resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
