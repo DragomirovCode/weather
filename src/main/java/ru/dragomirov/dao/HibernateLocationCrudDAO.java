@@ -1,6 +1,7 @@
 package ru.dragomirov.dao;
 
 import ru.dragomirov.entity.Location;
+import ru.dragomirov.exception.EntityExistsException;
 import ru.dragomirov.exception.SaveLocationException;
 import ru.dragomirov.util.HibernateSessionManagerUtil;
 
@@ -16,7 +17,7 @@ public class HibernateLocationCrudDAO implements LocationDAO {
                             session.save(entity),
                     "Произошла ошибка при выполнении метода 'create'(HibernateLocationCrudDAO)");
         } catch (Exception e) {
-            throw new SaveLocationException("Such a location already exists in the database");
+            throw new EntityExistsException();
         }
     }
 

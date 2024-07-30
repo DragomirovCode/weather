@@ -1,6 +1,9 @@
 package ru.dragomirov.dao;
 
 import ru.dragomirov.entity.User;
+import ru.dragomirov.exception.EntityExistsException;
+import ru.dragomirov.exception.authentication.LoginException;
+import ru.dragomirov.exception.authentication.RegistrationException;
 import ru.dragomirov.util.HibernateSessionManagerUtil;
 
 import java.util.List;
@@ -9,9 +12,13 @@ import java.util.Optional;
 public class HibernateUserCrudDAO implements UserDAO {
     @Override
     public void create(User entity) {
-        HibernateSessionManagerUtil.performTransaction(session ->
-                        session.save(entity),
-                "Произошла ошибка при выполнении метода 'create'(HibernateUserCrudDAO)");
+        try {
+            HibernateSessionManagerUtil.performTransaction(session ->
+                            session.save(entity),
+                    "Произошла ошибка при выполнении метода 'create'(HibernateUserCrudDAO)");
+        } catch (Exception e) {
+            throw new RegistrationException("Parameter registration is invalid");
+        }
     }
 
     @Override
