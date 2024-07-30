@@ -37,7 +37,7 @@ public class SearchCityWeatherService {
     }
 
     private String buildApiUrl(String cityName) {
-        String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
+        String apiKey = ApiKeyConstant.WEATHER_API_KEY.getValue();
         return weatherApiUrlBuilderUtil.buildCityWeatherApiUrl(cityName, apiKey);
     }
 }

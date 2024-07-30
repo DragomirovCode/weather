@@ -87,7 +87,7 @@ public class MyLocationsService {
     }
 
     private String buildApiUrl(BigDecimal latitude, BigDecimal longitude) {
-        String apiKey = ApiKeyConstant.API_KEY_CONSTANT.getValue();
+        String apiKey = ApiKeyConstant.WEATHER_API_KEY.getValue();
         return weatherApiUrlBuilderUtil.buildLatLonCityWeatherApiUrl(latitude, longitude, apiKey);
     }
 }
