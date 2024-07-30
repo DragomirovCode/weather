@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @Table(name = "Sessions")
 public class Session {
     @Id
+    @Column(unique = true)
     private String id;
 
     @Column(name = "user_id")
