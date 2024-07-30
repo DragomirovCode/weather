@@ -10,9 +10,13 @@ import java.util.Optional;
 public class HibernateSessionCrudDAO implements SessionDAO {
     @Override
     public void create(Session entity) {
-        HibernateSessionManagerUtil.performTransaction(session ->
-                        session.save(entity),
-                "Произошла ошибка при выполнении метода 'create'(HibernateSessionCrudDAO)");
+        try {
+            HibernateSessionManagerUtil.performTransaction(session ->
+                            session.save(entity),
+                    "Произошла ошибка при выполнении метода 'create'(HibernateSessionCrudDAO)");
+        } catch (Exception e) {
+            throw new SessionExpiredException("Session has expired");
+        }
     }
 
     @Override
