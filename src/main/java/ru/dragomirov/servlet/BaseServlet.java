@@ -13,6 +13,7 @@ import ru.dragomirov.exception.*;
 import ru.dragomirov.exception.api.WeatherApiCallException;
 import ru.dragomirov.exception.authentication.LoginException;
 import ru.dragomirov.exception.authentication.PasswordException;
+import ru.dragomirov.exception.authentication.RegistrationException;
 import ru.dragomirov.util.constant.WebPageConstant;
 
 import java.io.IOException;
@@ -40,7 +41,7 @@ public class BaseServlet extends HttpServlet {
         } catch (LoginException | PasswordException e) {
             webContext.setVariable("error", e.getMessage());
             templateEngine.process("error/authentication/authentication-error", webContext, resp.getWriter());
-        } catch (EntityExistsException | ServletException e) {
+        } catch (ServletException e) {
             resp.sendRedirect(WebPageConstant.LOGIN_PAGE_X.getValue());
         } catch (InvalidParameterException e) {
             webContext.setVariable("error", e.getMessage());
@@ -51,10 +52,13 @@ public class BaseServlet extends HttpServlet {
         } catch (WeatherApiCallException e) {
             webContext.setVariable("error", e.getMessage());
             templateEngine.process("error/api-error", webContext, resp.getWriter());
-        } catch (SaveLocationException e) {
+        } catch (EntityExistsException e) {
             resp.sendRedirect(WebPageConstant.MAIN_PAGE_X.getValue());
         } catch (SessionExpiredException e) {
             templateEngine.process("main", webContext, resp.getWriter());
+        } catch (RegistrationException e) {
+            webContext.setVariable("error", e.getMessage());
+            templateEngine.process("error/authentication/registration", webContext, resp.getWriter());
         }
     }
 }
