@@ -2,7 +2,6 @@ package ru.dragomirov.dao;
 
 import ru.dragomirov.entity.Location;
 import ru.dragomirov.exception.EntityExistsException;
-import ru.dragomirov.exception.SaveLocationException;
 import ru.dragomirov.util.HibernateSessionManagerUtil;
 
 import java.math.BigDecimal;
